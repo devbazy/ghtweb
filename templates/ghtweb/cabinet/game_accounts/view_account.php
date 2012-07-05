@@ -34,14 +34,14 @@
     <?php if($characters) { ?>
         <?php foreach($characters as $row) { ?>
             <tr>
-                <td><?php echo $row['char_name'] ?><p class="desc">[<?php echo get_class_name_by_id($row['classid']) ?> <?php echo $row['level'] ?>]</p></td>
+                <td><?php echo $row['char_name'] ?><p class="desc">[<?php echo get_class_name_by_id($row['class_id']) ?> <?php echo $row['level'] ?>]</p></td>
                 <td><?php echo ($row['online'] ? '<span class="green">' . lang('online') . '</span>' : '<span class="red">' . lang('offline') . '</span>') ?></td>
                 <td><?php echo online_time($row['onlinetime']) ?></td>
                 <td>
                     <!-- ТЕЛЕПОРТ -->
                     <?php echo form_open() ?>
                         <input type="hidden" name="city_id" value="1" />
-                        <input type="hidden" name="<?php echo $char_id ?>" value="<?php echo $row[$char_id] ?>" />
+                        <input type="hidden" name="char_id" value="<?php echo $row['char_id'] ?>" />
                         <div class="btn-toolbar right">
                             <div class="btn-group">
                                 <button class="btn btn-mini btn-info" type="submit" name="submitTP">Телепорт в город</button>

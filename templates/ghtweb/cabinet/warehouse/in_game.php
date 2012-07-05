@@ -58,7 +58,7 @@
                                     <td><?php echo $account['char_name'] ?></td>
                                     <td><?php echo ($account['online'] ? '<span class="green">online</span>' : '<span class="red">offline</span>') ?></td>
                                     <td>
-                                        <input type="radio" <?php echo ($account['online'] ? 'disabled' : '') ?> name="char_id" value="<?php echo $sid . '|' . $account[$row['char_id']] ?>" />
+                                        <input type="radio" <?php echo ($account['online'] ? 'disabled' : '') ?> name="char_id" value="<?php echo $sid . '|' . $account['char_id'] ?>" />
                                     </td>
                                 </tr>
                             <?php } ?>

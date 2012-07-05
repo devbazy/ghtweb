@@ -196,13 +196,7 @@ class Game_accounts extends Controllers_Cabinet_Base
             $this->session->set_flashdata('message', Message::info('Вы можете просматривать только свои аккаунты'));
             redirect('cabinet/game_accounts');
         }
-        
-        
-        // Char id
-        $this->_data['char_id'] = $this->lineage
-            ->set_id($server_id)
-            ->set_type('servers')
-            ->get_char_id();
+
         
         // Достаю персонажей с аккаунта
         $this->_data['characters'] = $this->lineage
@@ -231,11 +225,11 @@ class Game_accounts extends Controllers_Cabinet_Base
                 $this->form_validation->set_error_delimiters('', '');
                 
                 $this->form_validation->set_rules('city_id', 'lang:Выберите город', 'required|trim|is_natural|callback__check_city');
-                $this->form_validation->set_rules($this->_data['char_id'], '', 'required|trim|integer');
+                $this->form_validation->set_rules('char_id', '', 'required|trim|integer');
 
                 if($this->form_validation->run())
                 {
-                    $char_id = (int) $this->input->post($this->_data['char_id']);
+                    $char_id = (int) $this->input->post('char_id');
                     $city_id = (int) $this->input->post('city_id');
                     
                     $character_data = array();
@@ -243,7 +237,7 @@ class Game_accounts extends Controllers_Cabinet_Base
                     // Забираю данные персонажа по его char_id
                     foreach($this->_data['characters'] as $key => $row)
                     {
-                        if($row[$this->_data['char_id']] == $char_id)
+                        if($row['char_id'] == $char_id)
                         {
                             $character_data = $this->_data['characters'][$key];
                             break;
