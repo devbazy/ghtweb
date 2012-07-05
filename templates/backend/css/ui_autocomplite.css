@@ -1,0 +1,54 @@
+/* UI */
+.ui-autocomplete /* ul */
+{
+	overflow-y: auto;
+	overflow-x: hidden;
+	max-height: 300px;
+	
+	border-radius: 4px 4px 4px 4px;
+    margin-top: 2px;
+	
+	background-clip: padding-box;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    display: none;
+    float: left;
+    left: 0;
+    list-style: none outside none;
+    margin: 1px 0 0;
+    min-width: 160px;
+    padding: 4px 0;
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+}
+
+	.ui-menu-item /* li */
+	{
+		line-height: 18px !important;
+		color: #333333;
+	}
+	
+		.ui-menu-item a /* a */
+		{
+			clear: both;
+			color: #333333;
+			display: block !important;
+			font-weight: normal;
+			line-height: 18px !important;
+			padding: 4px 15px !important;
+			white-space: nowrap;
+			cursor: pointer;
+			border-radius: 0 !important;
+		}
+		
+		.ui-menu-item a.ui-state-hover /* a */
+		{
+			margin: 0 !important;
+			background: #0088CC !important;
+			color: #FFFFFF !important;
+			text-decoration: none !important;
+			border: none !important;
+		}

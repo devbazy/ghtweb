@@ -1,0 +1,99 @@
+/* Selectmenu
+----------------------------------*/
+.selectmenu
+{
+	position: relative;
+	line-height: 25px;
+	width: 300px;
+	border-radius: 5px;
+	font-size: 12px;
+	font-family: Arial;
+	color: #333333;
+}
+	
+	.selectmenu ul,
+	.selectmenu li
+	{
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	
+	.selectmenu,
+	.selectmenu-content
+	{
+		border: 1px solid #D8D8D8;
+	}
+	
+	.selectmenu-content .selected
+	{
+		background: #F4F4F4;
+	}
+	
+	.selectmenu.drops
+	{
+		border-radius: 5px 5px 0 0;
+	}
+
+	.selectmenu-header
+	{
+		padding: 0 7px;
+		cursor: pointer;
+		background: #ffffff url(select-bg.png) repeat-x 0 0;
+		border-radius: 5px;
+		z-index: 2;
+		position: relative;
+		overflow: hidden;
+	}
+	
+	.selectmenu-content
+	{
+		left: -1px;
+		top: 25px;
+		position: absolute;
+		width: 100%;
+		display: none;
+		border-radius: 0 0 5px 5px;
+		overflow: hidden;
+		background: #fff;
+		z-index: 10;
+	}
+	
+		.selectmenu-content li
+		{
+		}
+		
+		.selectmenu-content li a
+		{
+			padding: 0 7px;
+			display: block;
+			color: #333333;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		
+		.selectmenu-content li a:hover
+		{
+			background: #F4F4F4;
+			border: none;
+		}
+		
+	.selectmenu-arrow
+	{
+		background: url(arrow.png) no-repeat 0 0;
+		cursor: pointer;
+		display: block;
+		height: 16px;
+		position: absolute;
+		right: 5px;
+		top: 5px;
+		width: 16px;
+		cursor: pointer;
+		z-index: 9;
+	}
+
+
+
+
+
+
