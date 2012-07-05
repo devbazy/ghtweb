@@ -21,7 +21,7 @@ if(!function_exists('get_castle_name'))
             return $castles[$castle_id];
         }
         
-        return 'n/a';
+        return lang('нет');
     }
 }
 

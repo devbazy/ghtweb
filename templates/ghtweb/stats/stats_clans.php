@@ -27,7 +27,7 @@
                     <td><?php echo get_castle_name($row['hasCastle']) ?></td>
                     <td><?php echo $row['ccount'] ?></td>
                     <td><?php echo number_format($row['reputation_score'], 0, '', '.') ?></td>
-                    <td><?php echo ($row['ally_name'] != '' ? $row['ally_name'] : 'n/a') ?></td>
+                    <td><?php echo ($row['ally_name'] != '' ? $row['ally_name'] : lang('нет')) ?></td>
                 </tr>
             <?php } ?>
         <?php } else { ?>
