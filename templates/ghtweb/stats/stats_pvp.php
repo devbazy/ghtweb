@@ -13,14 +13,14 @@
             <?php foreach($content as $row) { ?>
                 <tr>
                     <td width="30%"><font color="#9D6A1E"><?php echo $row['char_name'] ?></font>
-                        <p class="desc" style="font-size: 11px;"><?php echo get_class_name_by_id($row['classid']) ?> [<?php echo $row['level'] ?>]</p></td>
+                        <p class="desc" style="font-size: 11px;"><?php echo get_class_name_by_id($row['class_id']) ?> [<?php echo $row['level'] ?>]</p></td>
                     <td width="20%"><?php echo $row['pvpkills'] ?></td>
                     <td width="20%"><?php
                     $clan_link = $row['clan_name'];
                     
                     if($clan_info)
                     {
-                        $clan_link = anchor('stats/' . $server_id . '/clan_info/' . $row[$char_id], $row['clan_name']);
+                        $clan_link = anchor('stats/' . $server_id . '/clan_info/' . $row['char_id'], $row['clan_name']);
                     }
                     
                     echo ($row['clan_name'] == '' ? lang('нет клана') : $clan_link);
