@@ -1,8 +1,8 @@
 online.txt
 .idea/
 captcha/*.jpg
-*/config/development
+*/config/development/*.php
 */logs/log-*.php
 */logs/!index.html
-*/cache/*
-*/cache/!index.html
+#*/cache/*
+#*/cache/!index.html
