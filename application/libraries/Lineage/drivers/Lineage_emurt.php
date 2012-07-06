@@ -2,17 +2,15 @@
 
 class Lineage_emurt extends CI_Driver
 {
-    public $char_id      = 'charId'; // characters
-    public $access_level = 'accessLevel'; // accounts
+    private $char_id = 'charId'; // characters
 
 
 
     public function insert_account($login, $password)
     {
         $data = array(
-            'login'             => $login,
-            'password'          => $password,
-            $this->access_level => '0',
+            'login'    => $login,
+            'password' => $password,
         );
 
         if(!$this->db->insert('accounts', $data))
@@ -252,10 +250,8 @@ class Lineage_emurt extends CI_Driver
 
     public function get_count_characters_online_group_race()
     {
-        $races = range(0, 5);
-
         return $this->db->select('COUNT(0) as `count`, `race`')
-            ->where_in('race', $races)
+            ->where_in('race', range(0, 5))
             ->where('online', '1')
             ->group_by('race')
             ->get('characters')

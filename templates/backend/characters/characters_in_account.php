@@ -30,7 +30,7 @@
                         <div class="btn-group">
                             <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle"><span class="caret"></span></button>
                             <ul class="dropdown-menu" style="z-index: 999;">
-                                <li><a href="/backend/characters/<?php echo $this->_data['server_id'] ?>/items/<?php echo $row[$char_id] ?>/"><i class="icon-user"></i> Посмотреть предметы</a></li>
+                                <li><a href="/backend/characters/<?php echo $this->_data['server_id'] ?>/items/<?php echo $row['char_id'] ?>/"><i class="icon-user"></i> Посмотреть предметы</a></li>
                             </ul>
                         </div><!-- /btn-group -->
                     </div>

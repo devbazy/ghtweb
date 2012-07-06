@@ -81,8 +81,6 @@ class Warehouse extends Controllers_Cabinet_Base
 
         $this->load->model('users_on_server_model');
 
-        $this->_data['char_id'] = '';
-
 
         // Список персонажей
         $accounts_list = array();
@@ -137,10 +135,6 @@ class Warehouse extends Controllers_Cabinet_Base
 
                 $accounts_list[$server_id]['name']     = $server_name;
                 $accounts_list[$server_id]['accounts'] = $accounts;
-                $accounts_list[$server_id]['char_id']  = $this->lineage
-                    ->set_id($server_id)
-                    ->set_type('servers')
-                    ->get_char_id();;
             }
         }
 

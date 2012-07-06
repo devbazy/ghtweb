@@ -43,7 +43,7 @@ $config['race_list'] = array(
         'name' => lang('Эльфы'),
     ),
     array(
-        'name' => lang('Тёмные эльфы'),
+        'name' => lang('Тёмные Эльфы'),
     ),
     array(
         'name' => lang('Орки'),

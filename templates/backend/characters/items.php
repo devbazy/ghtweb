@@ -139,7 +139,7 @@ $(function(){
                         <div class="btn-group">
                             <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle"><span class="caret"></span></button>
                             <ul class="dropdown-menu" style="z-index: 999;">
-                                <li><a href="/backend/characters/<?php echo $server_id ?>/del_item/<?php echo $row['object_id'] ?>/char_id/<?php echo $char_data[$char_id] ?>/"><i class="icon-trash"></i> Удалить</a></li>
+                                <li><a href="/backend/characters/<?php echo $server_id ?>/del_item/<?php echo $row['object_id'] ?>/char_id/<?php echo $char_data['char_id'] ?>/"><i class="icon-trash"></i> Удалить</a></li>
                             </ul>
                         </div>
                     </div>

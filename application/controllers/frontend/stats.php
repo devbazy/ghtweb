@@ -258,7 +258,6 @@ class Stats extends Controllers_Frontend_Base
             $data['server_name'] = $this->_servers_config['name'];
             $data['clan_info']   = $this->_servers_config['stats_clan_info'];
             $data['server_id']   = $this->_server_id;
-            $data['char_id']     = $this->lineage->set_id($this->_server_id)->set_type('servers')->get_char_id();
 
 
             $data['content'] = $this->lineage
@@ -289,7 +288,6 @@ class Stats extends Controllers_Frontend_Base
             $data['server_name'] = $this->_servers_config['name'];
             $data['clan_info']   = $this->_servers_config['stats_clan_info'];
             $data['server_id']   = $this->_server_id;
-            $data['char_id']     = $this->lineage->set_id($this->_server_id)->set_type('servers')->get_char_id();
 
 
             $data['content'] = $this->lineage

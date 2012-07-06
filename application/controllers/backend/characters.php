@@ -55,9 +55,6 @@ class Characters extends Controllers_Backend_Base
                 ->set_id($server_id)
                 ->set_type('servers');
 
-
-            $this->_data['char_id'] = $this->lineage->get_char_id();
-
             $count    = $this->lineage->get_count_characters(NULL, $data_db_like);
             $page     = (int) $this->config->item('characters_per_page', 'backend');
             $per_page = (int) $this->input->get('per_page');
@@ -105,7 +102,6 @@ class Characters extends Controllers_Backend_Base
                 ->set_id($server_id)
                 ->set_type('servers');
 
-            $this->_data['char_id']   = $this->lineage->get_char_id();
             $this->_data['content']   = $this->lineage->get_characters_by_login($account_name);
             $this->_data['server_id'] = $server_id;
             $this->_data['count']     = count($this->_data['content']);
@@ -138,9 +134,6 @@ class Characters extends Controllers_Backend_Base
             $this->lineage
                 ->set_id($server_id)
                 ->set_type('servers');
-
-
-            $this->_data['char_id'] = $this->lineage->get_char_id();
 
             $count    = $this->lineage->get_count_character_items($char_id);
             $page     = (int) $this->config->item('users_items_per_page', 'backend');

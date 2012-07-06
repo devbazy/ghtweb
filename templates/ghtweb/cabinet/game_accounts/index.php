@@ -37,7 +37,7 @@
                         <tr>
                             <td><?php echo ++$key ?></td>
                             <td><?php echo anchor('cabinet/game_accounts/view_account/' . $sid . '/' . $val['login'], $val['login']) ?></td>
-                            <td><?php echo ($val['last_active'] > 0 ? date('Y-m-d H:i:s', substr($val['lastactive'], 0, 10)) : 'n/a') ?></td>
+                            <td><?php echo ($val['last_active'] > 0 ? date('Y-m-d H:i:s', substr($val['last_active'], 0, 10)) : 'n/a') ?></td>
                             <td>
                                 <div class="btn-toolbar" style="margin: 0;">
                                     <div class="btn-group">

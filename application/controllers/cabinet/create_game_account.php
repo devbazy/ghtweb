@@ -67,7 +67,9 @@ class Create_Game_Account extends Controllers_Cabinet_Base
                     }
                     else
                     {
+                        Message::$_translate = false;
                         $this->_data['message'] = Message::false($this->lineage->get_errors());
+                        Message::$_translate = true;
                     }
                 }
             }

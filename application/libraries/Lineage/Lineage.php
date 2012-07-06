@@ -791,6 +791,11 @@ class Lineage extends CI_Driver_Library
     
     public function get_errors()
     {
+        if($this->db->_error_message())
+        {
+            return $this->db->_error_message();
+        }
+
         return implode('<br />', $this->_errors);
     }
     
@@ -803,16 +808,5 @@ class Lineage extends CI_Driver_Library
         }
         
         return strtolower($this->_CI->_l2_settings[$this->_type][$this->_id]['version']);
-    }
-    
-    /**
-     * Возвращает название поля char_id
-     * 
-     * @return string
-     */
-    public function get_char_id()
-    {
-        if(!($version = $this->get_version())) return false;
-        return $this->{$version}->char_id;
     }
 }
