@@ -175,7 +175,7 @@ class Lineage_rt extends CI_Driver
 		return $this->db->update('characters', $data, array($this->char_id => $char_id), 1);
 	}
 
-	public function insert_item($item_id, $count, $char_id, $enchant, $loc)
+	public function insert_item($item_id, $count, $char_id, $enchant = 0, $loc = 'INVENTORY')
 	{
 		$this->db->select_max('object_id', 'max_id');
 		$max_id = $this->db->get('items', 1)->row_array();

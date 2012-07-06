@@ -1,6 +1,6 @@
 <?php
 
-class Lineage_emurt extends CI_Driver
+class Lineage_l2jserver extends CI_Driver
 {
     private $char_id = 'charId'; // characters
 
@@ -128,16 +128,15 @@ class Lineage_emurt extends CI_Driver
             $this->db->where_in($where_in_field, $where_in);
         }
 
-        $this->db->select('characters.account_name,characters.charId AS char_id,characters.char_name,characters.`level`,characters.maxHp,characters.curHp,characters.maxCp,characters.curCp,
-            characters.maxMp,characters.curMp,characters.sex,characters.x,characters.y,characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,
-            characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.title,characters.`online`,characters.onlinetime,clan_data.clan_name,clan_data.clan_level,
-            clan_data.hasCastle,clan_data.hasFort,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,clan_data.reputation_score');
+        $this->db->select('characters.account_name,characters.charId AS char_id,characters.char_name,characters.`level`,characters.maxHp,characters.curHp,characters.maxCp,characters.curCp,characters.maxMp,characters.curMp,characters.sex,characters.x,characters.y,
+            characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.title,characters.`online`,characters.onlinetime,
+            clan_data.clan_name,clan_data.clan_level,clan_data.reputation_score,clan_data.hasCastle,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id');
 
         $this->db->join('clan_data', 'characters.clanid = clan_data.clan_id', 'left');
 
         if($limit == 1)
         {
-            return $this->db->get('characters')->row_array();
+            return $this->db->get('cha racters')->row_array();
         }
 
         return $this->db->get('characters')->result_array();
@@ -314,11 +313,9 @@ class Lineage_emurt extends CI_Driver
 
     public function get_top_clans($limit = NULL)
     {
-        return $this->db->select('characters.account_name,characters.charId AS char_id,characters.char_name,characters.`level`,characters.maxHp,characters.curHp,characters.maxCp,characters.curCp,
-            characters.maxMp,characters.curMp,characters.sex,characters.x,characters.y,characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,
-            characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.title,characters.`online`,characters.onlinetime,clan_data.clan_name,clan_data.clan_level,
-            clan_data.hasCastle,clan_data.hasFort,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,
-            clan_data.reputation_score,(SELECT COUNT(0) FROM `characters` WHERE clanid = `clan_data`.`clan_id`) AS ccount')
+        return $this->db->select('clan_data.clan_id,clan_data.clan_name,clan_data.clan_level,clan_data.reputation_score,clan_data.hasCastle,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,characters.account_name,
+            characters.charId AS char_id,characters.char_name,characters.`level`,characters.maxHp,characters.curHp,characters.maxCp,characters.curCp,characters.maxMp,characters.curMp,characters.sex,characters.x,characters.z,characters.y,characters.exp,
+            characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.title,characters.`online`,characters.onlinetime,(SELECT COUNT(0) FROM `characters` WHERE clanid = `clan_data`.`clan_id`) AS ccount')
 
             ->join('characters', 'clan_data.leader_id = characters.' . $this->char_id, 'left')
 
@@ -360,10 +357,10 @@ class Lineage_emurt extends CI_Driver
 
     public function get_castles()
     {
-        $this->db->select('castle.id,castle.`name`,castle.taxPercent,castle.siegeDate,clan_data.clan_id,clan_data.clan_name,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFort,
-            clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,clan_data.reputation_score');
+        $this->db->select('castle.id,castle.`name`,castle.taxPercent,castle.siegeDate,clan_data.clan_id,clan_data.clan_name,clan_data.clan_level,clan_data.reputation_score,clan_data.hasCastle,clan_data.ally_id,
+            clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id');
 
-        $this->db->join('clan_data', 'clan_data.hasCastle = castle.id', 'left');
+        $this->db->join('clan_data', 'castle.id = clan_data.hasCastle', 'left');
         $this->db->order_by('castle.id');
 
         return $this->db->get('castle')
@@ -372,8 +369,8 @@ class Lineage_emurt extends CI_Driver
 
     public function get_siege()
     {
-        $this->db->select('siege_clans.castle_id,siege_clans.clan_id,siege_clans.type,siege_clans.castle_owner,clan_data.clan_id,clan_data.clan_name,clan_data.clan_level,clan_data.hasCastle,
-            clan_data.hasFort,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,clan_data.reputation_score');
+        $this->db->select('siege_clans.castle_id,siege_clans.clan_id,siege_clans.type,siege_clans.castle_owner,clan_data.clan_id,clan_data.clan_name,clan_data.clan_level,clan_data.reputation_score,clan_data.hasCastle,
+            clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id');
 
         $this->db->where_in('castle_id', range(1, 9));
         $this->db->join('clan_data', 'clan_data.clan_id = siege_clans.clan_id', 'left');
@@ -384,7 +381,7 @@ class Lineage_emurt extends CI_Driver
 
     public function get_clan_by_id($clan_id)
     {
-        $this->db->select('clan_id,clan_name,clan_level,hasCastle,hasFort,leader_id,crest_id,crest_large_id,reputation_score');
+        $this->db->select('clan_name,clan_level,reputation_score,hasCastle,leader_id,crest_id,crest_large_id,clan_id');
         $this->db->where('clan_id', $clan_id);
 
         return $this->db->get('clan_data')
