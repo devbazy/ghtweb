@@ -62,7 +62,7 @@ class GW_Controller extends CI_Controller
         // Profiler
         if(ENVIRONMENT == 'development' && !$this->input->is_ajax_request())
         {
-            //$this->output->enable_profiler(TRUE);
+            $this->output->enable_profiler(TRUE);
         }
     }
     
