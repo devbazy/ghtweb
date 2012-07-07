@@ -142,7 +142,9 @@ class Game_accounts extends Controllers_Cabinet_Base
                         else
                         {
                             log_message('error', 'Не удалось записать новый пароль от игрового аккаута в БД логин сервера, ' . __LINE__ . ', ' . __FILE__);
+                            Message::$_translate = false;
                             $this->_data['message'] = Message::false($this->lineage->get_errors());
+                            Message::$_translate = true;
                         }
                     }
                     else
@@ -345,6 +347,13 @@ class Game_accounts extends Controllers_Cabinet_Base
                                         ':char' => '<b>' . $character_data['char_name'] . '</b>',
                                         ':city' => '<b>' . $city['name'] . '</b>',
                                     ));
+                                }
+                                elseif($res === false && $this->lineage->get_errors())
+                                {
+                                    log_message('error', 'Не удалось записать новые координаты для телепорта персонажа в БД, ' . __LINE__ . ', ' . __FILE__);
+                                    Message::$_translate = false;
+                                    $this->_data['message'] = Message::false($this->lineage->get_errors());
+                                    Message::$_translate = true;
                                 }
                                 else
                                 {

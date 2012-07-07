@@ -5,13 +5,18 @@ class Main extends Controllers_Cabinet_Base
 {
 	public function index()
 	{
-        $this->load->model('users_on_server_model');
+        $user_id = $this->auth->get('user_id');
 
-        $data_db_where = array(
-            'user_id' => $this->auth->get('user_id'),
-        );
-        
-        $this->_data['count_game_accounts'] = $this->users_on_server_model->get_count($data_db_where);
+        if(!($data = $this->cache->get('cabinet/main_' . $user_id)))
+        {
+            $this->load->model('users_on_server_model');
+
+            $data = $this->users_on_server_model->get_count_accounts($user_id);
+
+            $this->cache->save('cabinet/main_' . $user_id, $data, 300);
+        }
+
+        $this->_data['count_game_accounts'] = $data;
         
 		$this->tpl(__CLASS__ . '/' . __FUNCTION__);
 	}

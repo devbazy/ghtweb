@@ -22,8 +22,8 @@
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th width="51%"><?php echo lang('Имя') ?></th>
-            <th width="10%"><?php echo lang('Статус') ?></th>
+            <th width="48%"><?php echo lang('Имя') ?></th>
+            <th width="13%"><?php echo lang('Статус') ?></th>
             <th width="17%"><?php echo lang('Время в игре') ?></th>
             <th width="22%"></th>
         </tr>
@@ -34,7 +34,7 @@
     <?php if($characters) { ?>
         <?php foreach($characters as $row) { ?>
             <tr>
-                <td><?php echo $row['char_name'] ?><p class="desc">[<?php echo get_class_name_by_id($row['class_id']) ?> <?php echo $row['level'] ?>]</p></td>
+                <td><?php echo $row['char_name'] ?><img src="/templates/<?php echo $this->config->item('template') ?>/images/<?php echo $row['sex'] ?>.png" alt="" style="margin: -3px 0 0 2px;"><p class="desc">[<?php echo get_class_name_by_id($row['class_id']) ?> <?php echo $row['level'] ?>]</p></td>
                 <td><?php echo ($row['online'] ? '<span class="green">' . lang('online') . '</span>' : '<span class="red">' . lang('offline') . '</span>') ?></td>
                 <td><?php echo online_time($row['onlinetime']) ?></td>
                 <td>

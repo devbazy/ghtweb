@@ -247,16 +247,6 @@ class Lineage_l2jserver extends CI_Driver
         return $res['online'];
     }
 
-    public function get_count_characters_online_group_race()
-    {
-        return $this->db->select('COUNT(0) as `count`, `race`')
-            ->where_in('race', range(0, 5))
-            ->where('online', '1')
-            ->group_by('race')
-            ->get('characters')
-            ->result_array();
-    }
-
     public function get_count_online()
     {
         return $this->get_count_row(array('online' => '1'), NULL, 'characters');
@@ -294,7 +284,7 @@ class Lineage_l2jserver extends CI_Driver
 
     public function get_count_races_group_race()
     {
-        $this->db->select('COUNT(0) as `count`,`race`,`online`');
+        $this->db->select('race,SUM(characters.`online`) as `online`,COUNT(race) as `count`');
         $this->db->where_in('race', range(0, 5));
         $this->db->group_by('race');
         return $this->db->get('characters')

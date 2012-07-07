@@ -141,20 +141,23 @@ class Stats extends Controllers_Frontend_Base
             $race_list_res = $this->lineage->get_count_races_group_race();
             $race_list     = array();
 
-            foreach($race_list_res as $row)
+            if(is_array($race_list_res))
             {
-                if($row['online'])
+                foreach($race_list_res as $row)
                 {
-                    $race_list[] = array(
-                        'count' => $row['count'],
-                        'race'  => $row['race'],
-                    );
+                    if($row['online'])
+                    {
+                        $race_list[] = array(
+                            'count' => $row['online'],
+                            'race'  => $row['race'],
+                        );
+                    }
                 }
             }
 
             $data['race_list'] = $race_list;
 
-            unset($race_list_res, $race_list);
+            unset($race_list);
 
             // Рейты
             $data['rates'] = array(
@@ -191,12 +194,14 @@ class Stats extends Controllers_Frontend_Base
             }
 
             // Расы на сервере
-            $races_res = $this->lineage->get_count_races_group_race();
-            $races     = array();
+            $races = array();
 
-            foreach($races_res as $race_info)
+            if(is_array($race_list_res))
             {
-                $races[$race_info['race']] = $race_info['count'];
+                foreach($race_list_res as $race_info)
+                {
+                    $races[$race_info['race']] = $race_info['count'];
+                }
             }
 
             for($i = 0; $i < 6; $i++)
@@ -214,7 +219,7 @@ class Stats extends Controllers_Frontend_Base
             $dwarf    = (int) $races[4];
             $kamael   = (int) $races[5];
 
-            unset($races_res, $races);
+            unset($race_list_res, $races);
 
             $data['race'] = array(
                 'percent' => array(

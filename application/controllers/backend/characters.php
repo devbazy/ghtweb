@@ -56,8 +56,8 @@ class Characters extends Controllers_Backend_Base
                 ->set_type('servers');
 
             $count    = $this->lineage->get_count_characters(NULL, $data_db_like);
-            $page     = (int) $this->config->item('characters_per_page', 'backend');
-            $per_page = (int) $this->input->get('per_page');
+            $per_page = (int) $this->config->item('characters_per_page', 'backend');
+            $page     = (int) $this->input->get('per_page');
             
             // Пагинация
             $this->load->library('pagination');
@@ -68,7 +68,7 @@ class Characters extends Controllers_Backend_Base
             )); 
             
             $this->_data['pagination'] = $this->pagination->create_links();
-            $this->_data['content']    = $this->lineage->get_characters($page, $per_page, NULL, 'level', 'desc', $data_db_like);
+            $this->_data['content']    = $this->lineage->get_characters($per_page, $page, NULL, 'level', 'desc', $data_db_like);
             $this->_data['server_id']  = $server_id;
             $this->_data['count']      = $count;
         }
@@ -136,8 +136,8 @@ class Characters extends Controllers_Backend_Base
                 ->set_type('servers');
 
             $count    = $this->lineage->get_count_character_items($char_id);
-            $page     = (int) $this->config->item('users_items_per_page', 'backend');
-            $per_page = (int) $this->input->get('per_page');
+            $per_page = (int) $this->config->item('users_items_per_page', 'backend');
+            $page     = (int) $this->input->get('per_page');
 
             // Пагинация
             $this->load->library('pagination');
@@ -148,7 +148,7 @@ class Characters extends Controllers_Backend_Base
             ));
 
             $this->_data['pagination'] = $this->pagination->create_links();
-            $this->_data['content']    = $this->lineage->get_character_items($page, $per_page, array('owner_id' => $char_id), 'count', 'desc');
+            $this->_data['content']    = $this->lineage->get_character_items($per_page, $page, array('owner_id' => $char_id), 'count', 'desc');
             $this->_data['char_data']  = $this->lineage->get_character_by_char_id($char_id);
 
             if($this->_data['content'])
@@ -243,6 +243,10 @@ class Characters extends Controllers_Backend_Base
                     {
                         $this->session->set_flashdata('message', Message::true('Предмет добавлен'));
                     }
+                    elseif($res === false && $this->lineage->get_errors())
+                    {
+                        $this->session->set_flashdata('message', Message::false($this->lineage->get_errors()));
+                    }
                     else
                     {
                         $this->session->set_flashdata('message', Message::false('Ошибка! Не удалось записать данные в БД'));
@@ -278,6 +282,10 @@ class Characters extends Controllers_Backend_Base
                     if($msg_status)
                     {
                         $this->session->set_flashdata('message', Message::true('Предмет добавлен'));
+                    }
+                    elseif($res === false && $this->lineage->get_errors())
+                    {
+                        $this->session->set_flashdata('message', Message::false($this->lineage->get_errors()));
                     }
                     else
                     {
@@ -327,13 +335,17 @@ class Characters extends Controllers_Backend_Base
             {
                 $this->session->set_flashdata('message', Message::true('Предметы удалены'));
             }
+            elseif($this->lineage->get_errors())
+            {
+                $this->session->set_flashdata('message', Message::false($this->lineage->get_errors()));
+            }
             else
             {
                 $this->session->set_flashdata('message', Message::false('Ошибка! Не удалось удалить данные в БД'));
             }
         }
 
-        redirect_back();
+        redirect('backend/characters/' . $server_id . '/items/' . $char_id);
     }
 
     /**
@@ -367,11 +379,15 @@ class Characters extends Controllers_Backend_Base
         {
             $this->session->set_flashdata('message', Message::true('Предмет удалён'));
         }
+        elseif($this->lineage->get_errors())
+        {
+            $this->session->set_flashdata('message', Message::false($this->lineage->get_errors()));
+        }
         else
         {
             $this->session->set_flashdata('message', Message::false('Ошибка! Не удалось удалить данные в БД'));
         }
 
-        redirect_back();
+        redirect('backend/characters/' . $server_id . '/items/' . $char_id);
     }
 }

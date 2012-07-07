@@ -64,8 +64,8 @@ class Accounts extends Controllers_Backend_Base
             
 
             $count    = $this->lineage->get_count_accounts(NULL, $data_db_like);
-            $page     = (int) $this->config->item('accounts_per_page', 'backend');
-            $per_page = (int) $this->input->get('per_page');
+            $per_page = (int) $this->config->item('accounts_per_page', 'backend');
+            $page     = (int) $this->input->get('per_page');
             
             // Пагинация
             $this->load->library('pagination');
@@ -76,7 +76,7 @@ class Accounts extends Controllers_Backend_Base
             )); 
             
             $this->_data['pagination'] = $this->pagination->create_links();
-            $this->_data['content']    = $this->lineage->get_accounts($page, $per_page, array(), 'login', NULL, $data_db_like);
+            $this->_data['content']    = $this->lineage->get_accounts($per_page, $page, NULL, 'login', NULL, $data_db_like);
             $this->_data['server_id']  = $server_id;
             $this->_data['count']      = $count;
         }

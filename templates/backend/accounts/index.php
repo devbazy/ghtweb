@@ -33,7 +33,7 @@
             <tr>
                 <td><?php echo $oO ?></td>
             	<td><?php echo $row['login'] ?></td>
-                <td><?php echo lastactive($row['lastactive']) ?></td>
+                <td><?php echo lastactive($row['last_active']) ?></td>
                 <td>
                     <div class="btn-toolbar">
                         <div class="btn-group">

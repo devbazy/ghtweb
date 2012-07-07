@@ -54,4 +54,28 @@ class Users_on_server_model extends Crud
         return $this->db->get($this->_table)
             ->result_array();
     }
+
+    /**
+     * Возвращает кол-во аккаунтов пользователя, учитывается вкл или выкл сервер
+     *
+     * @param array $where
+     *
+     * @return integer
+     */
+    public function get_count_accounts($user_id)
+    {
+        $this->db->select('id,(SELECT COUNT(0) FROM `users_on_server` WHERE `user_id` = ' . (int) $user_id . ' AND server_id = servers.id) as count');
+        $this->db->where('allow', '1');
+        $res = $this->db->get('servers')
+            ->result_array();
+
+        $count = 0;
+
+        foreach($res as $row)
+        {
+            $count += $row['count'];
+        }
+
+        return $count;
+    }
 }

@@ -19,7 +19,7 @@
     	<td><b>karma:</b> <?php echo $char_data['karma'] ?></td>
     	<td><b>pvpkills:</b> <?php echo $char_data['pvpkills'] ?></td>
     	<td><b>pkkills:</b> <?php echo $char_data['pkkills'] ?></td>
-    	<td><b>classid:</b> <?php echo get_class_name_by_id($char_data['classid']) ?></td>
+    	<td><b>classid:</b> <?php echo get_class_name_by_id($char_data['class_id']) ?></td>
     </tr>
     <tr>
     	<td><b>title:</b> <?php echo ($char_data['title'] == '' ? 'нет' : $char_data['title']) ?></td>
@@ -129,8 +129,8 @@ $(function(){
     <?php if($content) { ?>
         <?php foreach($content as $row) { ?>
             <tr>
-                <td><img src="<?php echo (file_exists(FCPATH . 'resources/images/items/' . $row['item_id'] . '.gif') ? '/resources/images/items/' . $row['item_id'] . '.gif' : '/resources/images/items/blank.gif') ?>" alt="" title="<?php echo $row['item_name'] ?>" /></td>
-            	<td><?php echo $row['item_name'] ?> (<?php echo $row['item_id'] ?>)</td>
+                <td><img src="<?php echo (file_exists(FCPATH . 'resources/images/items/' . $row['item_id'] . '.gif') ? '/resources/images/items/' . $row['item_id'] . '.gif' : '/resources/images/items/blank.gif') ?>" alt="" title="<?php echo (!isset($row['item_name']) ? 'Название не найдено' : $row['item_name']) ?>" /></td>
+            	<td><?php echo (!isset($row['item_name']) ? 'Название не найдено' : $row['item_name']) ?> (<?php echo $row['item_id'] ?>)</td>
                 <td><?php echo number_format($row['count'], 0, '', '.') ?></td>
             	<td><?php echo $row['loc'] ?></td>
             	<td><?php echo ($row['enchant_level'] > 0 ? '<font color="' . definition_enchant_color($row['enchant_level']) . '">' . $row['enchant_level'] . '</font>' : $row['enchant_level']) ?></td>
