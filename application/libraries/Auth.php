@@ -60,7 +60,7 @@ class Auth
                     'last_access' => db_date(),
                 );
 
-                $this->_ci->input->set_cookie('last_access', time(), time() + 86400);
+                $this->_ci->input->set_cookie('last_access', time(), 86400);
                 $this->_ci->db->update($this->_table, $data_db, $data_db_where, 1);
             }
         }
@@ -153,9 +153,9 @@ class Auth
         
         $cookie_hash = md5($ip . random_string('alnum', 10));
         
-        $this->_ci->input->set_cookie('user_id', $user_id, time() + $this->_cookie_time * 86400);
-        $this->_ci->input->set_cookie('cookie_hash', $cookie_hash, time() + $this->_cookie_time * 86400);
-        $this->_ci->input->set_cookie('last_access', time(), time() + $this->_cookie_time * 86400);
+        $this->_ci->input->set_cookie('user_id', $user_id, $this->_cookie_time * 86400);
+        $this->_ci->input->set_cookie('cookie_hash', $cookie_hash, $this->_cookie_time * 86400);
+        $this->_ci->input->set_cookie('last_access', time(), $this->_cookie_time * 86400);
         
         $data_db = array(
             'cookie_hash' => $cookie_hash,
@@ -193,11 +193,9 @@ class Auth
         );
         
         $this->_ci->db->update($this->_table, $data_db, $data_db_where, 1);
-        
-        $prefix = $this->_ci->config->item('cookie_prefix');
-        
-        $this->_ci->input->set_cookie($prefix . 'user_id', '');
-        $this->_ci->input->set_cookie($prefix . 'cookie_hash', '');
-        $this->_ci->input->set_cookie($prefix . 'last_access', '');
+
+        $this->_ci->input->set_cookie('user_id', '');
+        $this->_ci->input->set_cookie('cookie_hash', '');
+        $this->_ci->input->set_cookie('last_access', '');
     }
 }
