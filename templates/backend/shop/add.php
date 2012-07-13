@@ -58,14 +58,14 @@ $(function(){
 
 <?php echo form_open('', 'class="form-horizontal"') ?>
     <fieldset>
-        <div class="control-group<?php echo (form_error('item_id') ? ' error' : '') ?>">
+        <div class="control-group<?php echo (form_error('item_name') ? ' error' : '') ?>">
             <label for="item_name" class="control-label">Название предмета</label>
             <div class="controls">
                 <input type="hidden" name="item_id" value="<?php echo set_value('item_id') ?>" />
-                <input type="text" name="item_name" id="item_name" value="<?php echo (isset($_POST['item_name']) ? $_POST['item_name'] : '') ?>" class="span10" placeholder="Введите название предмета" />
+                <input type="text" name="item_name" id="item_name" value="<?php echo set_value('item_name') ?>" class="span10" placeholder="Введите название предмета" />
                 <p class="help-block">Начните вводить название, если в базе найдутся совпадения то они появятся</p>
-                <?php if(form_error('item_id')) { ?>
-                    <p class="help-block"><?php echo form_error('item_id') ?></p>
+                <?php if(form_error('item_name')) { ?>
+                    <p class="help-block"><?php echo form_error('item_name') ?></p>
                 <?php } ?>
             </div>
         </div>
@@ -84,6 +84,15 @@ $(function(){
                 <input type="text" name="count" id="count" value="<?php echo set_value('count') ?>" class="span10" placeholder="Введите Кол-во единиц которые входят в цену выше" />
                 <?php if(form_error('count')) { ?>
                     <p class="help-block"><?php echo form_error('count') ?></p>
+                <?php } ?>
+            </div>
+        </div>
+        <div class="control-group<?php echo (form_error('enchant_level') ? ' error' : '') ?>">
+            <label for="enchant_level" class="control-label">Заточка</label>
+            <div class="controls">
+                <input type="text" name="enchant_level" id="enchant_level" value="<?php echo set_value('enchant_level') ?>" class="span10" placeholder="Введите Уровень заточки" />
+                <?php if(form_error('enchant_level')) { ?>
+                    <p class="help-block"><?php echo form_error('enchant_level') ?></p>
                 <?php } ?>
             </div>
         </div>
@@ -122,6 +131,16 @@ $(function(){
                 <?php echo form_dropdown('category_id', $categories, set_value('category_id')) ?>
                 <?php if(form_error('category_id')) { ?>
                     <p class="help-block"><?php echo form_error('category_id') ?></p>
+                <?php } ?>
+            </div>
+        </div>
+        <div class="control-group<?php echo (form_error('item_type') ? ' error' : '') ?>">
+            <label for="item_type" class="control-label">Тип предмета</label>
+            <div class="controls">
+                <?php echo form_dropdown('item_type', array_combine($item_type, $item_type), set_value('item_type')) ?>
+                <p class="help-block"><b>stock</b> - добавится к существующему, <b>no_stock</b> - добавиться отдельно</p>
+                <?php if(form_error('item_type')) { ?>
+                    <p class="help-block"><?php echo form_error('item_type') ?></p>
                 <?php } ?>
             </div>
         </div>

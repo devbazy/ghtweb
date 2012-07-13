@@ -230,7 +230,11 @@ if(!function_exists('definition_enchant_color'))
     {
         $color = 'black';
 
-        if($enchant_level < 10)
+        if($enchant_level == 0)
+        {
+            $color = 'black';
+        }
+        elseif($enchant_level < 10)
         {
             $color = '#6AA3FF';
         }

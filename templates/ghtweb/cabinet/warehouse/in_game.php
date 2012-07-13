@@ -55,7 +55,7 @@
                             <?php foreach($accounts as $i => $account) { ?>
                                 <tr>
                                     <td><?php echo ++$i ?></td>
-                                    <td><?php echo $account['char_name'] ?></td>
+                                    <td><span class="label label-warning"><?php echo $account['char_name'] ?></span> <span class="label"><?php echo get_class_name_by_id($account['class_id']) ?></span> <span class="label label-info"><?php echo $account['level'] ?></span></td>
                                     <td><?php echo ($account['online'] ? '<span class="green">online</span>' : '<span class="red">offline</span>') ?></td>
                                     <td>
                                         <input type="radio" <?php echo ($account['online'] ? 'disabled' : '') ?> name="char_id" value="<?php echo $sid . '|' . $account['char_id'] ?>" />

@@ -6,8 +6,8 @@ class Shop_products_model extends Crud
     public $_table = 'shop_products';
     
     private $_fields = array(
-        'item_id', 'price', 'count', 'date_start',
-        'date_stop', 'description', 'category_id', 'allow');
+        'item_id', 'price', 'count', 'enchant_level', 'date_start',
+        'date_stop', 'description', 'category_id', 'allow', 'item_type');
     
     
     
@@ -41,7 +41,7 @@ class Shop_products_model extends Crud
             $this->db->where('date_stop >', db_date());
         }
         
-        $res = $this->db->select('all_items.`name`,shop_products.id,shop_products.item_id,shop_products.price,shop_products.count,shop_products.date_start,shop_products.date_stop,shop_products.description,shop_categories.`name` AS categories_name')
+        $res = $this->db->select('all_items.`name`,shop_products.id,shop_products.item_id,shop_products.price,shop_products.count,shop_products.item_type,shop_products.date_start,shop_products.date_stop,shop_products.description,shop_categories.`name` AS categories_name,shop_products.enchant_level')
             ->where('shop_products.allow', '1')
             ->where('shop_categories.allow', '1')
             ->order_by('shop_products.created', 'DESC')
@@ -98,7 +98,7 @@ class Shop_products_model extends Crud
             $this->db->like($like);
         }
         
-        $this->db->select('shop_products.id,shop_products.item_id,shop_products.price,shop_products.count,shop_products.description,shop_products.created,shop_products.allow,(SELECT COUNT(id) FROM `' . $this->db->dbprefix . 'shop_product_payments` WHERE `' . $this->db->dbprefix . 'shop_product_payments`.`item_id` = ' . $this->db->dbprefix . 'shop_products.item_id) AS count_sold,shop_products.date_start,shop_products.date_stop,all_items.`name`');
+        $this->db->select('shop_products.id,shop_products.item_id,shop_products.price,shop_products.count,shop_products.description,shop_products.created,shop_products.allow,(SELECT COUNT(id) FROM `' . $this->db->dbprefix . 'shop_product_payments` WHERE `' . $this->db->dbprefix . 'shop_product_payments`.`item_id` = ' . $this->db->dbprefix . 'shop_products.item_id) AS count_sold,shop_products.date_start,shop_products.date_stop,all_items.`name`,shop_products.enchant_level');
         
         $this->db->join('all_items', 'shop_products.item_id = all_items.item_id', 'left');
         

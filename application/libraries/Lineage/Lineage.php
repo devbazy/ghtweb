@@ -668,6 +668,22 @@ class Lineage extends CI_Driver_Library
     }
 
     /**
+     * Возвращает список предметов персонажа
+     *
+     * @param integer $char_id
+     *
+     * @return array
+     */
+    public function get_character_items_by_char_id($char_id)
+    {
+        if(!($version = $this->get_version())) return false;
+
+        if($this->_connect() == false) return false;
+
+        return $this->{$version}->{__FUNCTION__}($char_id);
+    }
+
+    /**
      * Возвращает предметы персонажа
      *
      * @param integer $limit

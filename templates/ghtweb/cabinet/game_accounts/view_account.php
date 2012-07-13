@@ -22,10 +22,10 @@
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th width="48%"><?php echo lang('Имя') ?></th>
+            <th width="43%"><?php echo lang('Имя') ?></th>
             <th width="13%"><?php echo lang('Статус') ?></th>
             <th width="17%"><?php echo lang('Время в игре') ?></th>
-            <th width="22%"></th>
+            <th width="27%"></th>
         </tr>
     </thead>
     <tbody>
@@ -39,7 +39,7 @@
                 <td><?php echo online_time($row['onlinetime']) ?></td>
                 <td>
                     <!-- ТЕЛЕПОРТ -->
-                    <?php echo form_open() ?>
+                    <?php echo form_open('', 'class="left" style="margin-bottom: 0;"') ?>
                         <input type="hidden" name="city_id" value="1" />
                         <input type="hidden" name="char_id" value="<?php echo $row['char_id'] ?>" />
                         <div class="btn-toolbar right">
@@ -54,6 +54,14 @@
                             </div><!-- /btn-group -->
                         </div>
                     <?php echo form_close() ?>
+                    <div class="btn-toolbar right">
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle"><span class="caret"></span></button>
+                            <ul class="dropdown-menu" style="z-index: 999;">
+                                <li><?php echo anchor('cabinet/character_info/' . get_segment_uri(4) . '/' . $row['char_id'], '<i class="icon-briefcase"></i> ' . lang('Инвентарь')) ?></li>
+                            </ul>
+                        </div><!-- /btn-group -->
+                    </div>
                 </td>
             </tr>
         <?php } ?>

@@ -17,8 +17,9 @@
     <table class="table table-striped table-bordered">
         <tr>
             <th width="8%"></th>
-            <th width="53%"><?php echo lang('Название') ?></th>
+            <th width="40%"><?php echo lang('Название') ?></th>
             <th width="20%"><?php echo lang('От кого') ?></th>
+            <th width="13%"><?php echo lang('Заточка') ?></th>
             <th width="13%"><?php echo lang('Кол-во') ?></th>
             <th width="6%"></th>
         </tr>
@@ -27,6 +28,7 @@
                 <td><img src="<?php echo (file_exists(FCPATH . 'resources/images/items/' . $gift['item_id'] . '.gif') ? '/resources/images/items/' . $gift['item_id'] . '.gif' : '/resources/images/items/blank.gif') ?>" alt="" title="<?php echo $gift['name'] ?>" /></td>
                 <td><?php echo $gift['name'] ?> <span class="gift-ico"></span></td>
                 <td><?php echo $gift['login'] ?></td>
+                <td><?php echo $gift['enchant_level'] ?></td>
                 <td><?php echo number_format($gift['count'], 0, '', '.') ?></td>
                 <td>
                     <div class="btn-toolbar" style="margin: 0;">
@@ -49,16 +51,18 @@
 <table class="table table-striped table-bordered">
     <tr>
         <th width="8%"></th>
-        <th width="73%"><?php echo lang('Название') ?></th>
+        <th width="60%"><?php echo lang('Название') ?></th>
         <th width="13%"><?php echo lang('Кол-во') ?></th>
+        <th width="13%"><?php echo lang('Заточка') ?></th>
         <th width="6%"></th>
     </tr>
     <?php if($content) { ?>
-        <?php foreach($content as $row) { ?>
+        <?php foreach($content as $row) { prt($row) ?>
             <tr>
                 <td><img src="<?php echo (file_exists(FCPATH . 'resources/images/items/' . $row['item_id'] . '.gif') ? '/resources/images/items/' . $row['item_id'] . '.gif' : '/resources/images/items/blank.gif') ?>" alt="" title="<?php echo $row['name'] ?>" /></td>
                 <td><?php echo $row['name'] ?></td>
                 <td><?php echo number_format($row['count'], 0, '', '.') ?></td>
+                <td><?php echo $row['enchant_level'] ?></td>
                 <td>
                     <div class="btn-toolbar" style="margin: 0;">
                         <div class="btn-group">

@@ -395,6 +395,11 @@ $config = array(
             'rules' => 'trim|required|integer'
         ),
         array(
+            'field' => 'item_name',
+            'label' => 'Название предмета',
+            'rules' => 'trim|required'
+        ),
+        array(
             'field' => 'price',
             'label' => 'Цена',
             'rules' => 'trim|required|regex_match[~[0-9\.\,]+~siu]|greater_than[0]'
@@ -402,7 +407,12 @@ $config = array(
         array(
             'field' => 'count',
             'label' => 'Кол-во',
-            'rules' => 'trim|required|integer'
+            'rules' => 'trim|required|is_natural'
+        ),
+        array(
+            'field' => 'enchant_level',
+            'label' => 'Заточка',
+            'rules' => 'trim|required|is_natural'
         ),
         array(
             'field' => 'date_start',
@@ -423,6 +433,11 @@ $config = array(
             'field' => 'category_id',
             'label' => 'Категория',
             'rules' => 'required|trim|integer|callback__check_categories'
+        ),
+        array(
+            'field' => 'item_type',
+            'label' => 'Тип предмета',
+            'rules' => 'required|trim||callback__check_item_type'
         ),
         array(
             'field' => 'allow',

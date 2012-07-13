@@ -61,6 +61,7 @@ $route['([a-z]{2}/)?cabinet'] = 'cabinet/main';
 $route['([a-z]{2}/)?cabinet/account/(:any)/(:num)'] = 'cabinet/account';
 $route['([a-z]{2}/)?cabinet/shop/(:num)'] = 'cabinet/shop';
 $route['([a-z]{2}/)?cabinet/shop/(:any)'] = 'cabinet/shop/$2';
+$route['([a-z]{2}/)?cabinet/character_info/(:num)/(:num)'] = 'cabinet/character_info';
 $route['([a-z]{2}/)?cabinet/(:any)/(:num)'] = 'cabinet/$2';
 $route['([a-z]{2}/)?cabinet/(:any)'] = 'cabinet/$2';
 

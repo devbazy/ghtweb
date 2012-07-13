@@ -391,6 +391,11 @@ class Lineage_lucer extends CI_Driver
         return $this->get_count_row(array('owner_id' => $char_id), NULL, 'items');
     }
 
+    public function get_character_items_by_char_id($char_id)
+    {
+        return $this->get_character_items(NULL, NULL, array('owner_id' => $char_id), 'count', 'desc');
+    }
+
     public function get_character_items($limit = NULL, $offset = NULL, array $where = NULL, $order_by = NULL, $order_type = 'asc', array $like = NULL, array $group_by = NULL, $where_in_field = NULL, array $where_in = NULL)
     {
         if(is_numeric($limit))

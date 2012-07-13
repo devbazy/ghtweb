@@ -51,7 +51,7 @@ class Shop extends Controllers_Cabinet_Base
         if($items)
         {
             $items_data = $this->shop_products_model->get_all_products($items);
-            
+
             if($items_data)
             {
                 $data_db = array();
@@ -62,16 +62,18 @@ class Shop extends Controllers_Cabinet_Base
                 
                 $data_db_stats = array();
                 
-                foreach($items_data as $category => $products)
+                foreach($items_data as $products)
                 {
                     foreach($products as $product)
                     {
                         $data_db[] = array(
-                            'user_id'   => $user_id,
-                            'item_id'   => $product['item_id'],
-                            'count'     => $product['count'],
-                            'price'     => $product['price'],
-                            'date'      => db_date(),
+                            'user_id'       => $user_id,
+                            'item_id'       => $product['item_id'],
+                            'count'         => $product['count'],
+                            'price'         => $product['price'],
+                            'item_type'     => $product['item_type'],
+                            'enchant_level' => $product['enchant_level'],
+                            'date'          => db_date(),
                         );
                         
                         // Данные для статистики

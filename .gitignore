@@ -1,0 +1,7 @@
+.idea
+online.txt
+*/logs/log-*.php
+*/logs/!index.html
+*/cache/*
+*/cache/!index.html
+captcha/*.jpg

@@ -26,7 +26,8 @@
             <table class="table table-striped table-bordered">
                 <tr>
                     <th width="8%"></th>
-                    <th width="62%"><?php echo lang('Название') ?></th>
+                    <th width="49%"><?php echo lang('Название') ?></th>
+                    <th width="13%"><?php echo lang('Заточка') ?></th>
                     <th width="13%"><?php echo lang('Цена') ?> (<?php echo $this->config->item('shop_money_name') ?>)</th>
                     <th width="13%"><?php echo lang('Кол-во') ?></th>
                     <th width="4%"></th>
@@ -38,6 +39,7 @@
                             <?php echo $row['name'] ?>
                             <i data-original-title="<?php echo lang('Информация о товаре') ?>" data-content="<?php echo lang('Дата окончания продаж') ?>: <i><?php echo $row['date_stop'] ?></i><br /><?php echo lang('Описание товара') ?>: <i><?php echo ($row['description'] == '' ? lang('Описания нет') : $row['description']) ?></i>" rel="popover" class="icon-info-sign right"></i>
                         </td>
+                        <td><?php echo $row['enchant_level'] ?></td>
                         <td><?php echo number_format($row['price'], 0, '', '.') ?></td>
                         <td><?php echo number_format($row['count'], 0, '', '.') ?></td>
                         <td>

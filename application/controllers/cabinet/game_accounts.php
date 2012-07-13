@@ -14,6 +14,8 @@ class Game_accounts extends Controllers_Cabinet_Base
     
     public function index()
     {
+        $this->set_meta_title(lang('Игровые аккаунты'));
+
         $accounts_list = array();
 
         if($this->_data['server_list'])
@@ -86,6 +88,9 @@ class Game_accounts extends Controllers_Cabinet_Base
         {
             redirect('cabinet/game_accounts');
         }
+
+        $this->set_meta_title(lang('Смена пароля от аккаунта') . ' ' . $login);
+
 
         // Проверка сервера
         if(!isset($this->_l2_settings['servers'][$server_id]))
@@ -178,6 +183,8 @@ class Game_accounts extends Controllers_Cabinet_Base
         {
             redirect('cabinet/game_accounts');
         }
+
+        $this->set_meta_title(lang('Просмотр аккаунта') . ' ' . $login);
         
         $user_id  = $this->auth->get('user_id');
         $config   = $this->_l2_settings['servers'][$server_id];

@@ -4,22 +4,21 @@
 class Users_warehouse_model extends Crud
 {
     public $_table = 'users_warehouse';
-    
+
     private $_fields = array('user_id', 'item_id', 'count', 'price');
-    
-    
-    
+
+
+
     public function get_fields()
     {
         return $this->_fields;
     }
-    
-    
+
     public function insert(array $data_db)
     {
         return $this->db->insert_batch($this->_table, $data_db);
     }
-    
+
     public function get_list($limit = 0, $offset = 0, array $where = NULL, $order_by = NULL, $order_type = 'ASC')
     {
         // Limit
@@ -58,7 +57,7 @@ class Users_warehouse_model extends Crud
         return $this->db->get($this->_table, 1)
             ->row_array();
     }
-    
+
     public function get_count($where)
     {
         $this->db->where($where);

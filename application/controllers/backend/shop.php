@@ -123,7 +123,10 @@ class Shop extends Controllers_Backend_Base
         
         
         $this->_data['categories'] = $this->get_shop_categories();
-        
+
+        // Тип предмета
+        $this->_data['item_type'] = array('stock', 'no_stock');
+
         // Save
         if(isset($_POST['submit']))
         {
@@ -156,6 +159,9 @@ class Shop extends Controllers_Backend_Base
     {
         // Категории
         $this->_data['categories'] = $this->get_shop_categories();
+
+        // Тип предмета
+        $this->_data['item_type'] = array('stock', 'no_stock');
         
         
         // Save
@@ -254,6 +260,22 @@ class Shop extends Controllers_Backend_Base
         }
         
         return $categories;
+    }
+
+    /**
+     * Проверка типа предмета
+     *
+     * @return boolean
+     */
+    public function _check_item_type()
+    {
+        if($this->input->post('item_type') != 'stock' && $this->input->post('item_type') != 'no_stock')
+        {
+            $this->form_validation->set_message('_check_item_type', 'Тип предмета выбран не верно');
+            return false;
+        }
+
+        return true;
     }
     
     /**

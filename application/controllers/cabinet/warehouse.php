@@ -180,11 +180,11 @@ class Warehouse extends Controllers_Cabinet_Base
 
                     if($item_info)
                     {
+                        $this->lineage->set_id($server_id)->set_type('servers');
+
+
                         // Проверка online
-                        $res = $this->lineage
-                            ->set_id($server_id)
-                            ->set_type('servers')
-                            ->get_online_status($char_id);
+                        $res = $this->lineage->get_online_status($char_id);
 
                         if($res > 0)
                         {
@@ -192,10 +192,23 @@ class Warehouse extends Controllers_Cabinet_Base
                         }
                         else
                         {
-                            $res = $this->lineage
-                                ->set_id($server_id)
-                                ->set_type('servers')
-                                ->insert_item($item_info['item_id'], $item_info['count'], $char_id);
+                            if($item_info['item_type'] == 'stock')
+                            {
+                                $item_info = $this->lineage->get_character_item_by_item_id($char_id, $data_db_where['id']);
+
+                                if($item_info)
+                                {
+                                    $res = $this->lineage->edit_item();
+                                }
+                                else
+                                {
+                                    //$res = $this->lineage->insert_item($item_info['item_id'], $item_info['count'], $char_id);
+                                }
+                            }
+                            else
+                            {
+                                $res = $this->lineage->insert_item($item_info['item_id'], $item_info['count'], $char_id);
+                            }
 
                             if($res)
                             {

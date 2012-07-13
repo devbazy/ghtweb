@@ -11,15 +11,35 @@ class Login extends Controllers_Frontend_Base
         {
             redirect('cabinet');
         }
+
+        $this->load->model('login_attempts_model');
     }
     
 	public function index()
 	{
         $this->set_meta_title(lang('Вход в личный кабинет'));
-        
+
         $this->load->library('captcha');
-        
-        if(isset($_POST['submit']))
+
+        $auth = true;
+
+        $login_attempts_data = $this->login_attempts_model->get_data();
+
+        if(isset($login_attempts_data['count']) && $login_attempts_data['count'] >= $this->config->item('count_failed_login_attempts'))
+        {
+            $auth = false;
+            $this->_data['message'] = Message::info('Для Вас вход в личный кабинет заблокирован за попытку перебора пароля');
+        }
+
+        // Праверяю время блокировки
+        if($auth === false && (time() > strtotime($login_attempts_data['date']) + (int) $this->config->item('time_blocked_login_attempts') * 60))
+        {
+            $this->login_attempts_model->clear();
+            $auth = true;
+            $this->_data['message'] = '';
+        }
+
+        if($auth === true && isset($_POST['submit']))
         {
             $this->load->library('form_validation');
             
@@ -65,6 +85,8 @@ class Login extends Controllers_Frontend_Base
                     else
                     {
                         $this->_data['message'] = Message::false('Пароль от аккаунта введен неверно');
+
+                        $this->login_attempts_model->add_false_attempt();
                     }
                 }
                 else
