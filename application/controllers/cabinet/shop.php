@@ -85,12 +85,10 @@ class Shop extends Controllers_Cabinet_Base
 
                 // Данные для статистики
                 $data_db_stats[] = array(
-                    'user_id'   => $user_id,
-                    'item_id'   => $product['item_id'],
-                    'count'     => $product['count'],
-                    'price'     => $product['price'],
-                    'user_ip'   => $this->input->ip_address(),
-                    'date'      => db_date(),
+                    'user_id'      => $user_id,
+                    'shop_item_id' => $product['id'],
+                    'user_ip'      => $this->input->ip_address(),
+                    'date'         => db_date(),
                 );
 
                 $amount += $product['price'];

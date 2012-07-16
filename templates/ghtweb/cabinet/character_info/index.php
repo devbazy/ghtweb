@@ -29,7 +29,7 @@
         <td><b><?php echo lang('Карма') ?>:</b> <?php echo $character_data['karma'] ?></td>
         <td><b><?php echo lang('ПВП/ПК') ?>:</b> <?php echo $character_data['pvpkills'] ?>/<?php echo $character_data['pkkills'] ?></td>
         <td><b><?php echo lang('Время в игре') ?>:</b> <?php echo online_time($character_data['onlinetime']) ?></td>
-        <td><b><?php echo lang('Клан') ?>:</b> <?php echo ($this->_l2_settings['servers'][get_segment_uri(3)]['stats_clan_info'] ? anchor('stats/' . get_segment_uri(3) . '/clan_info/' . $character_data['clan_id'], ($character_data['clan_name'] != '' ? $character_data['clan_name'] : lang('нет')), 'target="_blank"') : ($character_data['clan_name'] != '' ? $character_data['clan_name'] : lang('нет'))) ?></td>
+        <td><b><?php echo lang('Клан') ?>:</b> <?php echo $character_data['clan_name'] ?></td>
     </tr>
     <tr>
         <td><b>Exp:</b> <?php echo $character_data['exp'] ?></td>

@@ -8,7 +8,6 @@ class Warehouse extends Controllers_Cabinet_Base
         parent::__construct();
         
         $this->load->model('users_warehouse_model');
-        $this->load->model('users_gifts_model');
     }
     
 	public function index()
@@ -21,6 +20,7 @@ class Warehouse extends Controllers_Cabinet_Base
         $data_db_where = array(
             'user_id'       => $user_id,
             'moved_to_game' => '0',
+            'sent_gift_to'  => $user_id,
         );
 
 
@@ -40,7 +40,7 @@ class Warehouse extends Controllers_Cabinet_Base
         $this->_data['pagination'] = $this->pagination->create_links();
         $this->_data['content']    = $this->users_warehouse_model->get_list($page, $per_page, $data_db_where, 'shop_products.created', 'DESC');
         $this->_data['count']      = $count;
-        
+        prt($this->_data['content']);
         // Подарки
         //$this->_data['gifts'] = $this->users_gifts_model->get_list();
         
@@ -206,9 +206,6 @@ class Warehouse extends Controllers_Cabinet_Base
                             }
                             else
                             {
-                                prt($item_info);
-                                prt($l2_item_info);die;
-
                                 // Предмет не найден, делаю INSERT
                                 $res = $this->lineage->insert_item($item_info['item_id'], $item_info['count'], $char_id, $item_info['enchant_level']);
                             }
@@ -362,14 +359,16 @@ class Warehouse extends Controllers_Cabinet_Base
         if($item_id < 1 || mb_strlen($login) < 4)
         {
             $this->_ajax_data['message'] = Message::false('Необходимо ввести логин');
-            die(json_encode($this->_ajax_data));
+            echo json_encode($this->_ajax_data);
+            return;
         }
         
         // Что бы не отсылали сами себе =)
         if($login == $this->auth->get('login'))
         {
             $this->_ajax_data['message'] = Message::info('Нельзя дарить самому себе');
-            die(json_encode($this->_ajax_data));
+            echo json_encode($this->_ajax_data);
+            return;
         }
         
         // Ищю друга
@@ -382,42 +381,33 @@ class Warehouse extends Controllers_Cabinet_Base
         if(!$friend_info)
         {
             $this->_ajax_data['message'] = Message::false('Пользователь не найден');
-            die(json_encode($this->_ajax_data));
+            echo json_encode($this->_ajax_data);
+            return;
         }
         
-        // Проверка принадлежит ли товар пользователю
+        // Проверка принадлежит ли предмет пользователю
         $data_db_where = array(
             'user_id' => $this->auth->get('user_id'),
             'id'      => $item_id,
         );
-        
-        $item_info = $this->users_warehouse_model->get_row($data_db_where);
-        
+
+        $item_info = $this->users_warehouse_model->get_count($data_db_where);
+
         if(!$item_info)
         {
             $this->_ajax_data['message'] = Message::false('Товар на складе не найден');
-            die(json_encode($this->_ajax_data));
+            echo json_encode($this->_ajax_data);
+            return;
         }
-        
-        $this->db->trans_start();
-        
-            // Забираю товар
-            $this->users_warehouse_model->del($data_db_where);
-            
-            $data_db = array(
-                'from'    => $this->auth->get('user_id'),
-                'to'      => $friend_info['user_id'],
-                'item_id' => $item_info['item_id'],
-                'count'   => $item_info['count'],
-                'price'   => $item_info['price'],
-                'date'    => db_date(),
-            );
-            
-            $this->users_gifts_model->add($data_db);
-        
-        $this->db->trans_complete();
-        
-        if($this->db->trans_status() !== FALSE)
+
+        //Меняю статус предмена на отправленный
+        $data_db = array(
+            'sent_gift'      => '1',
+            'sent_gift_to'   => $friend_info['user_id'],
+            'sent_gift_date' => db_date(),
+        );
+
+        if($this->users_warehouse_model->edit($data_db, $data_db_where))
         {
             $this->_ajax_data['status'] = true;
             $this->_ajax_data['message'] = Message::true('Ваш подарок отправлен');
@@ -426,7 +416,7 @@ class Warehouse extends Controllers_Cabinet_Base
         {
             $this->_ajax_data['message'] = Message::false('Ошибка! Обратитесь к Администратору');
         }
-        
-        die(json_encode($this->_ajax_data));
+
+        echo json_encode($this->_ajax_data);
     }
 }

@@ -111,7 +111,8 @@ class Shop extends Controllers_Backend_Base
         
         $this->tpl(__CLASS__ . '/' . __FUNCTION__);
     }
-    
+
+    /*
     public function edit()
     {
         $id = (int) get_segment_uri(4);
@@ -157,7 +158,7 @@ class Shop extends Controllers_Backend_Base
         $this->_data['content'] = $this->{$this->_model}->get_product($data_db_where);
         
         $this->tpl(__CLASS__ . '/' . __FUNCTION__);
-    }
+    }*/
     
     public function add()
     {

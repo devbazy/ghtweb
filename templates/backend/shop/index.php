@@ -30,7 +30,7 @@
                         <div class="btn-group">
                             <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle"><span class="caret"></span></button>
                             <ul class="dropdown-menu" style="z-index: 999;">
-                                <li><a href="/backend/shop/edit/<?php echo $row['id'] ?>/"><i class="icon-pencil"></i> Редактировать</a></li>
+<!--                                <li><a href="/backend/shop/edit/--><?php //echo $row['id'] ?><!--/"><i class="icon-pencil"></i> Редактировать</a></li>-->
                                 <li><a href="/backend/shop/stop/<?php echo $row['id'] ?>/<?php echo ($row['allow'] ? 'off' : 'on') ?>/"><?php echo ($row['allow'] ? '<i class="icon-remove-sign"></i> Отключить' : '<i class="icon-ok-sign"></i> Включить') ?></a></li>
                                 <li><a href="/backend/shop/del/<?php echo $row['id'] ?>/" class="delete"><i class="icon-trash"></i> Удалить</a></li>
                             </ul>

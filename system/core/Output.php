@@ -431,10 +431,14 @@ class CI_Output {
 				$output .= $CI->profiler->run();
 			}
 		}
-        
-        $output .= base64_decode('DQo8IS0tIEdIVFdFQiB2') . VERSION . " -->";
 
-		// --------------------------------------------------------------------
+        if(!$CI->input->is_ajax_request())
+        {
+            $output .= base64_decode('DQo8IS0tIEdIVFdFQiB2') . VERSION . " -->";
+        }
+
+
+        // --------------------------------------------------------------------
 
 		// Does the controller contain a function named _output()?
 		// If so send the output there.  Otherwise, echo it.

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2012-07-15 22:55:47
+Date: 2012-07-16 23:35:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -10700,29 +10700,20 @@ DROP TABLE IF EXISTS `shop_product_payments`;
 CREATE TABLE `shop_product_payments` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
-  `item_id` int(10) NOT NULL,
-  `count` int(10) NOT NULL,
-  `price` float NOT NULL,
+  `shop_item_id` int(10) NOT NULL,
   `user_ip` varchar(20) NOT NULL,
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of shop_product_payments
 -- ----------------------------
-INSERT INTO `shop_product_payments` VALUES ('1', '1', '7575', '1', '15', '127.0.0.1', '2012-07-13 17:06:57');
-INSERT INTO `shop_product_payments` VALUES ('2', '1', '6381', '1', '10', '127.0.0.1', '2012-07-13 17:06:57');
-INSERT INTO `shop_product_payments` VALUES ('3', '1', '57', '500000', '1', '127.0.0.1', '2012-07-13 17:06:57');
-INSERT INTO `shop_product_payments` VALUES ('4', '1', '7575', '1', '15', '127.0.0.1', '2012-07-13 17:07:02');
-INSERT INTO `shop_product_payments` VALUES ('5', '1', '6381', '1', '10', '127.0.0.1', '2012-07-13 17:07:02');
-INSERT INTO `shop_product_payments` VALUES ('6', '1', '57', '500000', '1', '127.0.0.1', '2012-07-13 17:07:02');
-INSERT INTO `shop_product_payments` VALUES ('7', '1', '7575', '1', '15', '127.0.0.1', '2012-07-13 17:07:08');
-INSERT INTO `shop_product_payments` VALUES ('8', '1', '6381', '1', '10', '127.0.0.1', '2012-07-13 17:07:08');
-INSERT INTO `shop_product_payments` VALUES ('9', '1', '57', '500000', '1', '127.0.0.1', '2012-07-13 17:07:08');
-INSERT INTO `shop_product_payments` VALUES ('10', '1', '4037', '1', '3', '127.0.0.1', '2012-07-13 17:11:43');
-INSERT INTO `shop_product_payments` VALUES ('11', '1', '6358', '1', '4', '127.0.0.1', '2012-07-13 17:22:54');
-INSERT INTO `shop_product_payments` VALUES ('12', '1', '4037', '1', '3', '127.0.0.1', '2012-07-13 17:34:06');
+INSERT INTO `shop_product_payments` VALUES ('1', '1', '4', '127.0.0.1', '2012-07-16 23:57:15');
+INSERT INTO `shop_product_payments` VALUES ('2', '1', '6', '127.0.0.1', '2012-07-16 23:57:54');
+INSERT INTO `shop_product_payments` VALUES ('3', '1', '4', '127.0.0.1', '2012-07-16 23:57:54');
+INSERT INTO `shop_product_payments` VALUES ('4', '1', '6', '127.0.0.1', '2012-07-16 23:58:09');
+INSERT INTO `shop_product_payments` VALUES ('5', '1', '4', '127.0.0.1', '2012-07-17 00:24:17');
 
 -- ----------------------------
 -- Table structure for `teleports`
@@ -10777,27 +10768,8 @@ CREATE TABLE `users` (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'admin', 'd93a5def7511da3d0f2d171d9c344e91', 'admin1@admin.ru', '1', null, null, '8f81bf56dfb59a3d83a70600a7dcaf23', 'sxkfyZazyNtcIBW', '458', '0', null, '0', null, '', '127.0.0.1', '2012-07-15 00:09:31', '2012-07-14 23:54:17', null, '2012-05-27 01:34:05', '1');
-INSERT INTO `users` VALUES ('2', 'test777', 'd93a5def7511da3d0f2d171d9c344e91', 'ghostik1@mail.ru', '1', null, null, 'd71faf2cbe4b96879cc5b04298556c27', 'zD4r3iaqaJarbl3', '0', '0', null, '0', null, null, '127.0.0.1', '2012-07-13 11:28:11', '2012-07-13 11:28:11', null, '2012-07-13 11:27:09', '2');
-
--- ----------------------------
--- Table structure for `users_gifts`
--- ----------------------------
-DROP TABLE IF EXISTS `users_gifts`;
-CREATE TABLE `users_gifts` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `from` int(10) unsigned NOT NULL COMMENT 'От кого (user_id)',
-  `to` int(10) unsigned NOT NULL COMMENT 'Кому (user_id)',
-  `product_id` int(10) unsigned NOT NULL COMMENT 'ID товара',
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '2 - товар не принят, 1 - товар принят, 0 - действия не было',
-  `date` datetime NOT NULL,
-  `date_status` datetime NOT NULL COMMENT 'Дата обновления поля status',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of users_gifts
--- ----------------------------
+INSERT INTO `users` VALUES ('1', 'admin', 'd93a5def7511da3d0f2d171d9c344e91', 'admin1@admin.ru', '1', null, null, '8f81bf56dfb59a3d83a70600a7dcaf23', 'sxkfyZazyNtcIBW', '413', '0', null, '0', null, '', '127.0.0.1', '2012-07-17 00:24:22', '2012-07-14 23:54:17', null, '2012-05-27 01:34:05', '1');
+INSERT INTO `users` VALUES ('2', 'test777', 'd93a5def7511da3d0f2d171d9c344e91', 'ghostik1@mail.ru', '1', null, null, 'f926341963a8feab38cb4756b9f049f9', 'zD4r3iaqaJarbl3', '0', '0', null, '0', null, null, '127.0.0.1', '2012-07-17 00:27:57', '2012-07-17 00:27:57', null, '2012-07-13 11:27:09', '2');
 
 -- ----------------------------
 -- Table structure for `users_on_server`
@@ -10812,7 +10784,7 @@ CREATE TABLE `users_on_server` (
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `ixUser_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users_on_server
@@ -10822,6 +10794,7 @@ INSERT INTO `users_on_server` VALUES ('2', '1', '1', '1', '123456', '2012-07-06 
 INSERT INTO `users_on_server` VALUES ('3', '1', '3', '3', 'c321c21', '2012-07-06 15:39:03');
 INSERT INTO `users_on_server` VALUES ('4', '1', '3', '3', '123456', '2012-07-06 15:39:11');
 INSERT INTO `users_on_server` VALUES ('5', '1', '2', '2', '123456', '2012-07-11 17:37:31');
+INSERT INTO `users_on_server` VALUES ('6', '1', '1', '1', 'ghostik32', '2012-07-16 23:27:55');
 
 -- ----------------------------
 -- Table structure for `users_warehouse`
@@ -10831,30 +10804,20 @@ CREATE TABLE `users_warehouse` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `product_id` int(10) unsigned NOT NULL,
+  `sent_gift` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `sent_gift_to` int(10) unsigned DEFAULT NULL COMMENT 'ID Кому отправлен подарок',
+  `sent_gift_status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '2 - товар не принят, 1 - товар принят, 0 - действия не было',
+  `sent_gift_date` datetime DEFAULT NULL COMMENT 'Дата действия с подарком',
   `moved_to_game` smallint(1) NOT NULL DEFAULT '0' COMMENT 'Передано в игру 0 - нет, 1 - да',
   `moved_to_game_date` datetime DEFAULT NULL,
   `date_payment` datetime NOT NULL COMMENT 'Дата покупки',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users_warehouse
 -- ----------------------------
-INSERT INTO `users_warehouse` VALUES ('1', '1', '3', '0', null, '2012-07-13 12:29:24');
-INSERT INTO `users_warehouse` VALUES ('2', '1', '2', '0', null, '2012-07-13 12:29:24');
-INSERT INTO `users_warehouse` VALUES ('3', '1', '1', '1', '2012-07-13 17:41:53', '2012-07-13 12:29:24');
-INSERT INTO `users_warehouse` VALUES ('4', '1', '3', '0', null, '2012-07-13 17:06:57');
-INSERT INTO `users_warehouse` VALUES ('5', '1', '2', '0', null, '2012-07-13 17:06:57');
-INSERT INTO `users_warehouse` VALUES ('6', '1', '1', '1', '2012-07-13 17:42:45', '2012-07-13 17:06:57');
-INSERT INTO `users_warehouse` VALUES ('7', '1', '3', '0', null, '2012-07-13 17:07:02');
-INSERT INTO `users_warehouse` VALUES ('8', '1', '2', '0', null, '2012-07-13 17:07:02');
-INSERT INTO `users_warehouse` VALUES ('9', '1', '1', '0', null, '2012-07-13 17:07:02');
-INSERT INTO `users_warehouse` VALUES ('10', '1', '3', '0', null, '2012-07-13 17:07:08');
-INSERT INTO `users_warehouse` VALUES ('11', '1', '2', '1', '2012-07-13 17:43:47', '2012-07-13 17:07:08');
-INSERT INTO `users_warehouse` VALUES ('12', '1', '1', '0', null, '2012-07-13 17:07:08');
-INSERT INTO `users_warehouse` VALUES ('13', '1', '4', '1', '2012-07-13 17:33:31', '2012-07-13 17:11:43');
-INSERT INTO `users_warehouse` VALUES ('14', '1', '6', '1', '2012-07-13 17:47:54', '2012-07-13 17:22:54');
-INSERT INTO `users_warehouse` VALUES ('15', '1', '4', '1', '2012-07-13 17:34:22', '2012-07-13 17:34:06');
+INSERT INTO `users_warehouse` VALUES ('1', '1', '4', '1', '2', '0', '2012-07-17 00:25:07', '0', null, '2012-07-17 00:24:17');
 
 -- ----------------------------
 -- Table structure for `user_groups`

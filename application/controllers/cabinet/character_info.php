@@ -47,6 +47,18 @@ class Character_info extends Controllers_Cabinet_Base
                     redirect('cabinet/game_accounts');
                 }
 
+
+                // Клан инфо
+                if($this->_l2_settings['servers'][$server_id]['stats_clan_info'] && $character_data['clan_name'] != '')
+                {
+                    $character_data['clan_name'] = anchor('stats/' . $server_id . '/clan_info/' . $character_data['clan_id'], $character_data['clan_name'], 'target="_blank"');
+                }
+                elseif($character_data['clan_name'] == '')
+                {
+                    $character_data['clan_name'] = lang('нет');
+                }
+
+
                 // Проверка, принадлежит ли аккаунт данному пользователю
                 $check_account = $this->users_on_server_model->get_row(array(
                     'user_id'             => $user_id,
@@ -94,7 +106,7 @@ class Character_info extends Controllers_Cabinet_Base
                     // Добавляю имена
                     if($names_items)
                     {
-                        foreach($items_res as $key => $row)
+                        foreach($items_res as $row)
                         {
                             $grade = isset($names_items[$row['item_id']]['crystal_type']) ? $names_items[$row['item_id']]['crystal_type'] : '';
                             $grade = ($grade == 'none' ? '' : $grade);
@@ -105,8 +117,6 @@ class Character_info extends Controllers_Cabinet_Base
                             $row['grade']       = $grade;
                             $content['items'][] = $row;
                         }
-
-                        prt($content);
                     }
 
                     unset($items_res);

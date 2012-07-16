@@ -5,7 +5,7 @@ class Shop_product_payments_model extends Crud
 {
     public $_table = 'shop_product_payments';
     
-    private $_fields = array('user_id', 'item_id', 'count', 'price', 'user_ip');
+    private $_fields = array('user_id', 'shop_item_id', 'user_ip');
     
     
     
