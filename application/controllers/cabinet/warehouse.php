@@ -38,11 +38,11 @@ class Warehouse extends Controllers_Cabinet_Base
         
         
         $this->_data['pagination'] = $this->pagination->create_links();
-        $this->_data['content']    = $this->users_warehouse_model->get_list($page, $per_page, $data_db_where, 'date', 'DESC');
+        $this->_data['content']    = $this->users_warehouse_model->get_list($page, $per_page, $data_db_where, 'shop_products.created', 'DESC');
         $this->_data['count']      = $count;
         
         // Подарки
-        $this->_data['gifts'] = $this->users_gifts_model->get_list();
+        //$this->_data['gifts'] = $this->users_gifts_model->get_list();
         
 		$this->tpl(__CLASS__ . '/' . __FUNCTION__);
 	}
@@ -63,13 +63,13 @@ class Warehouse extends Controllers_Cabinet_Base
         
         // Принадлежит ли предмет юзеру
         $data_db_where = array(
-            'user_id'       => $user_id,
-            'id'            => $item_id,
-            'moved_to_game' => '0'
+            'user_id'            => $user_id,
+            'users_warehouse.id' => $item_id,
+            'moved_to_game'      => '0',
         );
-        
+
         $item_info = $this->users_warehouse_model->get_row($data_db_where);
-        
+
         if(!$item_info)
         {
             redirect('cabinet/warehouse');
@@ -149,105 +149,112 @@ class Warehouse extends Controllers_Cabinet_Base
      */
     public function in_game_submit()
     {
-        if(isset($_POST))
+        if(!isset($_POST))
         {
-            $this->load->library('form_validation');
+            redirect_back();
+        }
 
-            $this->form_validation->set_error_delimiters('', '');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_error_delimiters('', '');
 
 
-            $this->form_validation->set_rules('item_id', 'lang:Выберите предмет', 'required|trim|is_natural_no_zero');
+        $this->form_validation->set_rules('item_id', 'lang:Выберите предмет', 'required|trim|is_natural_no_zero');
 
-            $this->form_validation->set_message('required', lang('Выберите персонажа'));
-            $this->form_validation->set_rules('char_id', 'lang:Персонаж', 'required|trim|regex_match[#^[0-9|]+$#siu]');
-            $this->form_validation->set_rules('item_id', null, 'required|trim|is_natural_no_zero');
+        $this->form_validation->set_message('required', lang('Выберите персонажа'));
+        $this->form_validation->set_rules('char_id', 'lang:Персонаж', 'required|trim|regex_match[#^[0-9|]+$#siu]');
+        $this->form_validation->set_rules('item_id', null, 'required|trim|is_natural_no_zero');
 
-            if($this->form_validation->run())
+        if($this->form_validation->run())
+        {
+            list($server_id, $char_id) = explode('|', $this->input->post('char_id'));
+
+            // Проверка сервера
+            if(isset($this->_data['server_list'][$server_id]))
             {
-                list($server_id, $char_id) = explode('|', $this->input->post('char_id'));
+                // Проверка предмета
+                $data_db_where = array(
+                    'user_id'            => $this->auth->get('user_id'),
+                    'users_warehouse.id' => (int) $this->input->post('item_id'),
+                    'moved_to_game'      => '0',
+                );
 
-                // Проверка сервера
-                if(isset($this->_data['server_list'][$server_id]))
+                $item_info = $this->users_warehouse_model->get_row($data_db_where);
+
+                if($item_info)
                 {
-                    // Проверка предмета
-                    $data_db_where = array(
-                        'user_id'       => $this->auth->get('user_id'),
-                        'id'            => (int) $this->input->post('item_id'),
-                        'moved_to_game' => '0'
-                    );
+                    $this->lineage->set_id($server_id)->set_type('servers');
 
-                    $item_info = $this->users_warehouse_model->get_row($data_db_where);
 
-                    if($item_info)
+                    // Проверка online
+                    $res = $this->lineage->get_online_status($char_id);
+
+                    if($res > 0)
                     {
-                        $this->lineage->set_id($server_id)->set_type('servers');
-
-
-                        // Проверка online
-                        $res = $this->lineage->get_online_status($char_id);
-
-                        if($res > 0)
-                        {
-                            $this->session->set_flashdata('message', Message::false('Персонаж в игре'));
-                        }
-                        else
-                        {
-                            if($item_info['item_type'] == 'stock')
-                            {
-                                $item_info = $this->lineage->get_character_item_by_item_id($char_id, $data_db_where['id']);
-
-                                if($item_info)
-                                {
-                                    $res = $this->lineage->edit_item();
-                                }
-                                else
-                                {
-                                    //$res = $this->lineage->insert_item($item_info['item_id'], $item_info['count'], $char_id);
-                                }
-                            }
-                            else
-                            {
-                                $res = $this->lineage->insert_item($item_info['item_id'], $item_info['count'], $char_id);
-                            }
-
-                            if($res)
-                            {
-                                // Меняю статус предмета на отправлен
-                                $data_db = array(
-                                    'moved_to_game'      => '1',
-                                    'moved_to_game_date' => db_date(),
-                                );
-
-                                $this->users_warehouse_model->edit($data_db, $data_db_where);
-
-                                $this->session->set_flashdata('message', Message::true('Предмет отправлен в игру'));
-
-                                redirect('cabinet/warehouse');
-                            }
-                            else
-                            {
-                                $this->session->set_flashdata('message', Message::false('Ошибка! Обратитесь к Администрации сайта'));
-                            }
-                        }
+                        $this->session->set_flashdata('message', Message::false('Персонаж в игре'));
                     }
                     else
                     {
-                        $this->session->set_flashdata('message', Message::false('Предмет не найден'));
+                        if($item_info['item_type'] == 'stock')
+                        {
+                            $l2_item_info = $this->lineage->get_character_item_by_item_id($char_id, $item_info['item_id']);
+
+                            if($l2_item_info)
+                            {
+                                // Предмет найден, делаю UPDATE
+                                $res = $this->lineage->edit_item($l2_item_info['object_id'], $l2_item_info['count'] + $item_info['count'], $char_id, $item_info['enchant_level']);
+                            }
+                            else
+                            {
+                                prt($item_info);
+                                prt($l2_item_info);die;
+
+                                // Предмет не найден, делаю INSERT
+                                $res = $this->lineage->insert_item($item_info['item_id'], $item_info['count'], $char_id, $item_info['enchant_level']);
+                            }
+                        }
+                        else
+                        {
+                            $res = $this->lineage->insert_item($item_info['item_id'], $item_info['count'], $char_id, $item_info['enchant_level']);
+                        }
+
+                        if($res)
+                        {
+                            // Меняю статус предмета на отправлен
+                            $data_db = array(
+                                'moved_to_game'      => '1',
+                                'moved_to_game_date' => db_date(),
+                            );
+
+                            $this->users_warehouse_model->edit($data_db, $data_db_where);
+
+                            $this->session->set_flashdata('message', Message::true('Предмет отправлен в игру'));
+
+                            redirect('cabinet/warehouse');
+                        }
+                        else
+                        {
+                            $this->session->set_flashdata('message', Message::false('Ошибка! Обратитесь к Администрации сайта'));
+                        }
                     }
                 }
                 else
                 {
-                    $this->session->set_flashdata('message', Message::false('Попробуйте ещё раз'));
+                    $this->session->set_flashdata('message', Message::false('Предмет не найден'));
                 }
             }
-
-
-            if(validation_errors())
+            else
             {
-                Message::$_translate = false;
-                $this->session->set_flashdata('message', Message::false(validation_errors()));
-                Message::$_translate = true;
+                $this->session->set_flashdata('message', Message::false('Попробуйте ещё раз'));
             }
+        }
+
+
+        if(validation_errors())
+        {
+            Message::$_translate = false;
+            $this->session->set_flashdata('message', Message::false(validation_errors()));
+            Message::$_translate = true;
         }
 
         redirect_back();
@@ -335,10 +342,10 @@ class Warehouse extends Controllers_Cabinet_Base
         {
             $this->session->set_flashdata('message', Message::false('Подарок не найден'));
         }
-        
+
         redirect('cabinet/warehouse');
     }
-    
+
     /**
      * Подарить другу, AJAX
      */

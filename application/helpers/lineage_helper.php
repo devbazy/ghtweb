@@ -226,7 +226,7 @@ if(!function_exists('lastactive'))
  */
 if(!function_exists('definition_enchant_color'))
 {
-    function definition_enchant_color($enchant_level)
+    function definition_enchant_color($enchant_level = 0)
     {
         $color = 'black';
 
@@ -242,7 +242,7 @@ if(!function_exists('definition_enchant_color'))
         {
             $color = '#0058EA';
         }
-        elseif($enchant_level > 16)
+        elseif($enchant_level >= 16)
         {
             $color = 'red';
         }

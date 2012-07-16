@@ -29,7 +29,7 @@
         <td><b><?php echo lang('Карма') ?>:</b> <?php echo $character_data['karma'] ?></td>
         <td><b><?php echo lang('ПВП/ПК') ?>:</b> <?php echo $character_data['pvpkills'] ?>/<?php echo $character_data['pkkills'] ?></td>
         <td><b><?php echo lang('Время в игре') ?>:</b> <?php echo online_time($character_data['onlinetime']) ?></td>
-        <td><b><?php echo lang('Клан') ?>:</b> <?php echo ($this->_l2_settings['servers'][get_segment_uri(3)]['stats_clan_info'] ? anchor('stats/' . get_segment_uri(3) . '/clan_info/' . $character_data['clan_id'], $character_data['clan_name'], 'target="_blank"') : $character_data['clan_name']) ?></td>
+        <td><b><?php echo lang('Клан') ?>:</b> <?php echo ($this->_l2_settings['servers'][get_segment_uri(3)]['stats_clan_info'] ? anchor('stats/' . get_segment_uri(3) . '/clan_info/' . $character_data['clan_id'], ($character_data['clan_name'] != '' ? $character_data['clan_name'] : lang('нет')), 'target="_blank"') : ($character_data['clan_name'] != '' ? $character_data['clan_name'] : lang('нет'))) ?></td>
     </tr>
     <tr>
         <td><b>Exp:</b> <?php echo $character_data['exp'] ?></td>
@@ -53,7 +53,7 @@
         <?php foreach($items as $item) { ?>
             <tr>
                 <td><?php echo (file_exists(FCPATH . 'resources/images/items/' . $item['item_id'] . '.gif') ? '<img src="/resources/images/items/' . $item['item_id'] . '.gif" width="32" height="32" />' : '<img src="/resources/images/items/blank.gif" width="32" height="32" />') ?></td>
-                <td><?php echo $item['name'] ?></td>
+                <td><?php echo $item['name'] ?> <?php echo ($item['grade'] != 'none' ? '<img src="/resources/images/grade/grade_' . $item['grade'] . '.gif" style="margin: 0 0 0 5px;" />' : '') ?></td>
                 <td><?php echo number_format($item['count'], 0, '', '.') ?></td>
                 <td><?php echo '<font color="' . definition_enchant_color($item['enchant_level']) . '">' . $item['enchant_level'] . '</font>' ?></td>
             </tr>

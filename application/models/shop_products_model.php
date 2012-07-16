@@ -5,9 +5,7 @@ class Shop_products_model extends Crud
 {
     public $_table = 'shop_products';
     
-    private $_fields = array(
-        'item_id', 'price', 'count', 'enchant_level', 'date_start',
-        'date_stop', 'description', 'category_id', 'allow', 'item_type');
+    private $_fields = array('item_id', 'price', 'count', 'date_start', 'date_stop', 'description', 'category_id', 'allow', 'item_type', 'enchant_level', 'item_type', 'deleted');
     
     
     
@@ -41,8 +39,9 @@ class Shop_products_model extends Crud
             $this->db->where('date_stop >', db_date());
         }
         
-        $res = $this->db->select('all_items.`name`,shop_products.id,shop_products.item_id,shop_products.price,shop_products.count,shop_products.item_type,shop_products.date_start,shop_products.date_stop,shop_products.description,shop_categories.`name` AS categories_name,shop_products.enchant_level')
+        $res = $this->db->select('all_items.`name`,shop_products.id,shop_products.item_id,shop_products.price,shop_products.count,shop_products.item_type,shop_products.date_start,shop_products.date_stop,shop_products.description,shop_categories.`name` AS categories_name,shop_products.enchant_level,all_items.crystal_type as grade')
             ->where('shop_products.allow', '1')
+            ->where('shop_products.deleted', '0')
             ->where('shop_categories.allow', '1')
             ->order_by('shop_products.created', 'DESC')
             ->join('shop_categories', 'shop_products.category_id = shop_categories.id', 'LEFT')

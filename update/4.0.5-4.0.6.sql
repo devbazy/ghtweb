@@ -18,3 +18,4 @@ CREATE TABLE `login_attempts` (
 ALTER TABLE shop_products ADD `enchant_level` smallint(6) unsigned NOT NULL DEFAULT '0'
 ALTER TABLE shop_products ADD `item_type` enum('no_stock','stock') NOT NULL DEFAULT 'stock',
 ALTER TABLE users_warehouse ADD `enchant_level` smallint(6) NOT NULL,
+ALTER TABLE shop_products ADD `deleted` tinyint(1) unsigned NOT NULL,

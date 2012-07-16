@@ -6,7 +6,7 @@ class Character_info extends Controllers_Cabinet_Base
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->load->model('users_on_server_model');
 
         $this->set_meta_title(lang('Информация о персонаже'));
@@ -75,32 +75,42 @@ class Character_info extends Controllers_Cabinet_Base
                 $items_ids = array_unique($items_ids);
 
 
-
-                // Забираю названия предметов
-                $this->db->where_in('item_id', $items_ids);
-                $names_items_res = $this->db->get('all_items')->result_array();
-
-                $names_items = array();
-
-                foreach($names_items_res as $row)
+                if($items_ids)
                 {
-                    $names_items[$row['item_id']] = $row['name'];
-                }
+                    // Забираю названия предметов
+                    $this->db->where_in('item_id', $items_ids);
+                    $names_items_res = $this->db->get('all_items')->result_array();
 
-                unset($items_ids, $names_items_res);
+                    $names_items = array();
 
-
-                // Добавляю имена
-                if($names_items)
-                {
-                    foreach($items_res as $key => $row)
+                    foreach($names_items_res as $row)
                     {
-                        $row['name'] = (isset($names_items[$row['item_id']]) ? $names_items[$row['item_id']] : 'n/a');
-                        $content['items'][] = $row;
+                        $names_items[$row['item_id']] = $row;
                     }
-                }
 
-                unset($items_res);
+                    unset($items_ids, $names_items_res);
+
+
+                    // Добавляю имена
+                    if($names_items)
+                    {
+                        foreach($items_res as $key => $row)
+                        {
+                            $grade = isset($names_items[$row['item_id']]['crystal_type']) ? $names_items[$row['item_id']]['crystal_type'] : '';
+                            $grade = ($grade == 'none' ? '' : $grade);
+
+                            $name = (isset($names_items[$row['item_id']]['name']) ? $names_items[$row['item_id']]['name'] : 'n/a');
+
+                            $row['name']        = $name;
+                            $row['grade']       = $grade;
+                            $content['items'][] = $row;
+                        }
+
+                        prt($content);
+                    }
+
+                    unset($items_res);
+                }
 
                 $content['character_data'] = $character_data;
 
@@ -115,7 +125,7 @@ class Character_info extends Controllers_Cabinet_Base
         {
             $this->_data['message'] = Message::info('Сервер(а) в данный момент не доступны');
         }
-        
+
         $this->tpl(__CLASS__ . '/' . __FUNCTION__);
     }
 }

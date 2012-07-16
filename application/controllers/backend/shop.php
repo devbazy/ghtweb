@@ -33,9 +33,13 @@ class Shop extends Controllers_Backend_Base
         ));
         
         $this->_data['pagination'] = $this->pagination->create_links();
+
+
+        $data_db_where = array(
+            'deleted' => '0',
+        );
         
-        
-        $this->_data['content']  = $this->{$this->_model}->get_list($page, $per_page, NULL, 'created', 'DESC');
+        $this->_data['content']  = $this->{$this->_model}->get_list($page, $per_page, $data_db_where, 'created', 'DESC');
         $this->_data['count']    = $count;
         $this->_data['per_page'] = $per_page;
         
@@ -177,7 +181,8 @@ class Shop extends Controllers_Backend_Base
                 
                 $data_db['price']   = (float) $data_db['price'];
                 $data_db['created'] = db_date();
-                
+                $data_db['deleted'] = '0';
+
                 if($this->{$this->_model}->add($data_db))
                 {
                     $this->_data['message'] = Message::true('Товар добавлен');
@@ -201,12 +206,16 @@ class Shop extends Controllers_Backend_Base
         {
             redirect('backend/' . $this->_view);
         }
-        
+
+        $data_db = array(
+            'deleted' => '1',
+        );
+
         $data_db_where = array(
             'id' => $id
         );
         
-        $this->{$this->_model}->del($data_db_where, 1);
+        $this->{$this->_model}->edit($data_db, $data_db_where, 1);
         
         $this->session->set_flashdata('message', Message::true('Товар удален'));
         redirect('backend/' . $this->_view);

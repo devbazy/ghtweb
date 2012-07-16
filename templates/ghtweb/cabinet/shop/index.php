@@ -36,10 +36,10 @@
                     <tr>
                         <td><img src="<?php echo (file_exists(FCPATH . 'resources/images/items/' . $row['item_id'] . '.gif') ? '/resources/images/items/' . $row['item_id'] . '.gif' : '/resources/images/items/blank.gif') ?>" alt="" title="<?php echo $row['name'] ?>" /></td>
                         <td>
-                            <?php echo $row['name'] ?>
+                            <?php echo $row['name'] ?> <?php echo ($row['grade'] != 'none' ? '<img src="/resources/images/grade/grade_' . $row['grade'] . '.gif" style="margin: 0 0 0 5px;" />' : '') ?>
                             <i data-original-title="<?php echo lang('Информация о товаре') ?>" data-content="<?php echo lang('Дата окончания продаж') ?>: <i><?php echo $row['date_stop'] ?></i><br /><?php echo lang('Описание товара') ?>: <i><?php echo ($row['description'] == '' ? lang('Описания нет') : $row['description']) ?></i>" rel="popover" class="icon-info-sign right"></i>
                         </td>
-                        <td><?php echo $row['enchant_level'] ?></td>
+                        <td><font color="<?php echo definition_enchant_color($row['enchant_level']) ?>"><?php echo $row['enchant_level'] ?></font></td>
                         <td><?php echo number_format($row['price'], 0, '', '.') ?></td>
                         <td><?php echo number_format($row['count'], 0, '', '.') ?></td>
                         <td>

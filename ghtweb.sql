@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : denwer
+Source Server         : openserver
 Source Server Version : 50525
 Source Host           : localhost:3306
 Source Database       : ghtweb_v4.0.6
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2012-07-12 17:22:49
+Date: 2012-07-15 22:55:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -10372,7 +10372,7 @@ CREATE TABLE `logins` (
 -- ----------------------------
 -- Records of logins
 -- ----------------------------
-INSERT INTO `logins` VALUES ('1', 'acis_ls', '127.0.0.1', '2106', '127.0.0.1', '3306', 'root', '', 'acis_ls', '', '', '', 'acis', '0', 'sha1', '2012-07-02 13:52:26');
+INSERT INTO `logins` VALUES ('1', 'acis_ls', '127.0.0.1', '2106', '127.0.0.1', '3306', 'root', '', 'acis_ls', '', '', '', 'acis', '1', 'sha1', '2012-07-02 13:52:26');
 INSERT INTO `logins` VALUES ('2', 'emurt_ls', '127.0.0.1', '2106', '127.0.0.1', '3306', 'root', '', 'emurt_ls', '', '', '', 'emurt', '1', 'sha1', '2012-07-02 13:56:02');
 INSERT INTO `logins` VALUES ('3', 'rt_ls', '127.0.0.1', '2106', '127.0.0.1', '3306', 'root', '', 'rt_ls', '', '', '', 'rt', '0', 'sha1', '2012-07-06 15:37:28');
 INSERT INTO `logins` VALUES ('4', 'l2jserver_ls', '127.0.0.1', '2107', '127.0.0.1', '3306', 'root', '', 'l2jserver_ls', '', '', '', 'l2jserver', '0', 'sha1', '2012-07-06 17:37:21');
@@ -10391,19 +10391,6 @@ CREATE TABLE `login_attempts` (
 -- ----------------------------
 -- Records of login_attempts
 -- ----------------------------
-
--- ----------------------------
--- Table structure for `migrations`
--- ----------------------------
-DROP TABLE IF EXISTS `migrations`;
-CREATE TABLE `migrations` (
-  `version` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of migrations
--- ----------------------------
-INSERT INTO `migrations` VALUES ('1');
 
 -- ----------------------------
 -- Table structure for `news`
@@ -10534,7 +10521,7 @@ CREATE TABLE `servers` (
 -- ----------------------------
 -- Records of servers
 -- ----------------------------
-INSERT INTO `servers` VALUES ('1', 'acis_gs', '127.0.0.1', '7777', '127.0.0.1', '3306', 'root', '', 'acis_gs', '', '', '', '1', 'acis', '0', '0', '1', '30', '1', '15', '1', '1', '1', '1', '1', '1', '1', '1', '1', '20', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2012-07-02 13:53:00');
+INSERT INTO `servers` VALUES ('1', 'acis_gs', '127.0.0.1', '7777', '127.0.0.1', '3306', 'root', '', 'acis_gs', '', '', '', '1', 'acis', '1', '0', '1', '30', '1', '15', '1', '1', '1', '1', '1', '1', '1', '1', '1', '20', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2012-07-02 13:53:00');
 INSERT INTO `servers` VALUES ('2', 'emurt_gs', '127.0.0.1', '7777', '127.0.0.1', '3306', 'root', '', 'emurt_gs', '', '', '', '2', 'emurt', '1', '0', '1', '30', '1', '15', '1', '1', '1', '1', '1', '1', '1', '1', '1', '20', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2012-07-02 13:56:26');
 INSERT INTO `servers` VALUES ('3', 'rt_gs', '127.0.0.1', '7777', '127.0.0.1', '3306', 'root', '', 'rt_gs', '', '', '', '3', 'rt', '0', '0', '1', '30', '1', '15', '1', '1', '1', '1', '1', '1', '1', '1', '1', '20', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2012-07-06 15:37:55');
 INSERT INTO `servers` VALUES ('4', 'l2jserver_gs', '127.0.0.1', '7777', '127.0.0.1', '3306', 'root', '', 'l2jserver_gs', '', '', '', '4', 'l2jserver', '0', '0', '1', '30', '1', '15', '1', '1', '1', '1', '1', '1', '1', '1', '1', '20', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2012-07-06 17:38:00');
@@ -10661,7 +10648,7 @@ INSERT INTO `settings_group` VALUES ('21', 'robokassa', 'Модуль попол
 -- ----------------------------
 DROP TABLE IF EXISTS `shop_categories`;
 CREATE TABLE `shop_categories` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `allow` enum('0','1') NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
@@ -10687,19 +10674,24 @@ CREATE TABLE `shop_products` (
   `date_start` datetime DEFAULT NULL,
   `date_stop` datetime DEFAULT NULL,
   `description` text,
-  `category_id` int(11) NOT NULL,
+  `category_id` smallint(6) NOT NULL,
   `created` datetime NOT NULL,
-  `allow` enum('0','1') NOT NULL DEFAULT '1',
+  `allow` tinyint(1) NOT NULL DEFAULT '1',
   `enchant_level` smallint(6) unsigned NOT NULL DEFAULT '0',
   `item_type` enum('no_stock','stock') NOT NULL DEFAULT 'stock',
+  `deleted` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of shop_products
 -- ----------------------------
-INSERT INTO `shop_products` VALUES ('1', '4037', '2', '1', '2012-07-12 14:50:06', '2013-08-12 00:00:00', '', '3', '2012-07-12 15:50:26', '1', '0', 'stock');
-INSERT INTO `shop_products` VALUES ('2', '7575', '20', '1', '2012-07-12 14:51:42', '2013-01-12 00:00:00', '', '1', '2012-07-12 15:51:51', '1', '16', 'no_stock');
+INSERT INTO `shop_products` VALUES ('1', '57', '1', '500000', '2012-07-13 10:51:33', '2013-01-13 00:00:00', 'Монеты Адена', '3', '2012-07-13 11:52:20', '1', '0', 'stock', '0');
+INSERT INTO `shop_products` VALUES ('2', '6381', '10', '1', '2012-07-13 10:55:39', '2013-04-13 00:00:00', 'Драконик боты', '1', '2012-07-13 11:55:53', '1', '0', 'no_stock', '0');
+INSERT INTO `shop_products` VALUES ('3', '7575', '15', '1', '2012-07-13 11:11:20', '2013-05-13 00:00:00', 'Дракони лук +16', '1', '2012-07-13 12:11:37', '1', '16', 'no_stock', '0');
+INSERT INTO `shop_products` VALUES ('4', '4037', '3', '1', '2012-07-13 16:11:25', '2012-11-13 00:00:00', '', '3', '2012-07-13 17:11:35', '1', '0', 'stock', '0');
+INSERT INTO `shop_products` VALUES ('5', '10', '4', '1', '2012-07-13 16:17:17', '2013-03-14 00:00:00', '', '1', '2012-07-13 17:17:29', '1', '0', 'no_stock', '0');
+INSERT INTO `shop_products` VALUES ('6', '6358', '4', '1', '2012-07-13 16:17:17', '2013-03-14 00:00:00', '', '1', '2012-07-13 17:22:42', '1', '0', 'no_stock', '0');
 
 -- ----------------------------
 -- Table structure for `shop_product_payments`
@@ -10719,18 +10711,18 @@ CREATE TABLE `shop_product_payments` (
 -- ----------------------------
 -- Records of shop_product_payments
 -- ----------------------------
-INSERT INTO `shop_product_payments` VALUES ('1', '1', '57', '500000', '5', '127.0.0.1', '2012-07-12 15:50:50');
-INSERT INTO `shop_product_payments` VALUES ('2', '1', '4037', '1', '2', '127.0.0.1', '2012-07-12 16:00:40');
-INSERT INTO `shop_product_payments` VALUES ('3', '1', '4037', '1', '2', '127.0.0.1', '2012-07-12 16:27:39');
-INSERT INTO `shop_product_payments` VALUES ('4', '1', '4037', '1', '2', '127.0.0.1', '2012-07-12 16:29:47');
-INSERT INTO `shop_product_payments` VALUES ('5', '1', '4037', '1', '2', '127.0.0.1', '2012-07-12 16:30:22');
-INSERT INTO `shop_product_payments` VALUES ('6', '1', '4037', '1', '2', '127.0.0.1', '2012-07-12 16:41:48');
-INSERT INTO `shop_product_payments` VALUES ('7', '1', '4037', '1', '2', '127.0.0.1', '2012-07-12 16:42:06');
-INSERT INTO `shop_product_payments` VALUES ('8', '1', '4037', '1', '2', '127.0.0.1', '2012-07-12 16:42:42');
-INSERT INTO `shop_product_payments` VALUES ('9', '1', '4037', '1', '2', '127.0.0.1', '2012-07-12 16:43:08');
-INSERT INTO `shop_product_payments` VALUES ('10', '1', '4037', '1', '2', '127.0.0.1', '2012-07-12 16:45:32');
-INSERT INTO `shop_product_payments` VALUES ('11', '1', '4037', '1', '2', '127.0.0.1', '2012-07-12 16:59:35');
-INSERT INTO `shop_product_payments` VALUES ('12', '1', '7575', '1', '20', '127.0.0.1', '2012-07-12 16:59:50');
+INSERT INTO `shop_product_payments` VALUES ('1', '1', '7575', '1', '15', '127.0.0.1', '2012-07-13 17:06:57');
+INSERT INTO `shop_product_payments` VALUES ('2', '1', '6381', '1', '10', '127.0.0.1', '2012-07-13 17:06:57');
+INSERT INTO `shop_product_payments` VALUES ('3', '1', '57', '500000', '1', '127.0.0.1', '2012-07-13 17:06:57');
+INSERT INTO `shop_product_payments` VALUES ('4', '1', '7575', '1', '15', '127.0.0.1', '2012-07-13 17:07:02');
+INSERT INTO `shop_product_payments` VALUES ('5', '1', '6381', '1', '10', '127.0.0.1', '2012-07-13 17:07:02');
+INSERT INTO `shop_product_payments` VALUES ('6', '1', '57', '500000', '1', '127.0.0.1', '2012-07-13 17:07:02');
+INSERT INTO `shop_product_payments` VALUES ('7', '1', '7575', '1', '15', '127.0.0.1', '2012-07-13 17:07:08');
+INSERT INTO `shop_product_payments` VALUES ('8', '1', '6381', '1', '10', '127.0.0.1', '2012-07-13 17:07:08');
+INSERT INTO `shop_product_payments` VALUES ('9', '1', '57', '500000', '1', '127.0.0.1', '2012-07-13 17:07:08');
+INSERT INTO `shop_product_payments` VALUES ('10', '1', '4037', '1', '3', '127.0.0.1', '2012-07-13 17:11:43');
+INSERT INTO `shop_product_payments` VALUES ('11', '1', '6358', '1', '4', '127.0.0.1', '2012-07-13 17:22:54');
+INSERT INTO `shop_product_payments` VALUES ('12', '1', '4037', '1', '3', '127.0.0.1', '2012-07-13 17:34:06');
 
 -- ----------------------------
 -- Table structure for `teleports`
@@ -10780,12 +10772,13 @@ CREATE TABLE `users` (
   KEY `ixUser_id` (`user_id`),
   KEY `ixLogin` (`login`),
   KEY `ixCookie_hash` (`cookie_hash`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'admin', 'd93a5def7511da3d0f2d171d9c344e91', 'admin1@admin.ru', '1', null, null, '8e8f91805504d3247e29e5650074cb4e', 'sxkfyZazyNtcIBW', '647', '0', null, '0', null, '', '127.0.0.1', '2012-07-12 16:59:35', '2012-07-12 12:29:11', null, '2012-05-27 01:34:05', '1');
+INSERT INTO `users` VALUES ('1', 'admin', 'd93a5def7511da3d0f2d171d9c344e91', 'admin1@admin.ru', '1', null, null, '8f81bf56dfb59a3d83a70600a7dcaf23', 'sxkfyZazyNtcIBW', '458', '0', null, '0', null, '', '127.0.0.1', '2012-07-15 00:09:31', '2012-07-14 23:54:17', null, '2012-05-27 01:34:05', '1');
+INSERT INTO `users` VALUES ('2', 'test777', 'd93a5def7511da3d0f2d171d9c344e91', 'ghostik1@mail.ru', '1', null, null, 'd71faf2cbe4b96879cc5b04298556c27', 'zD4r3iaqaJarbl3', '0', '0', null, '0', null, null, '127.0.0.1', '2012-07-13 11:28:11', '2012-07-13 11:28:11', null, '2012-07-13 11:27:09', '2');
 
 -- ----------------------------
 -- Table structure for `users_gifts`
@@ -10795,10 +10788,8 @@ CREATE TABLE `users_gifts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `from` int(10) unsigned NOT NULL COMMENT 'От кого (user_id)',
   `to` int(10) unsigned NOT NULL COMMENT 'Кому (user_id)',
-  `item_id` int(10) unsigned NOT NULL,
-  `count` int(10) unsigned NOT NULL,
-  `price` float NOT NULL,
-  `status` enum('2','1','0') NOT NULL DEFAULT '0' COMMENT '2 - товар не принят, 1 - товар принят, 0 - действия не было',
+  `product_id` int(10) unsigned NOT NULL COMMENT 'ID товара',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '2 - товар не принят, 1 - товар принят, 0 - действия не было',
   `date` datetime NOT NULL,
   `date_status` datetime NOT NULL COMMENT 'Дата обновления поля status',
   PRIMARY KEY (`id`)
@@ -10839,22 +10830,31 @@ DROP TABLE IF EXISTS `users_warehouse`;
 CREATE TABLE `users_warehouse` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
-  `item_id` int(10) unsigned NOT NULL,
-  `item_type` enum('no_stock','stock') DEFAULT 'stock',
-  `count` int(10) unsigned NOT NULL,
-  `price` float NOT NULL,
-  `enchant_level` smallint(6) NOT NULL,
-  `moved_to_game` enum('0','1') NOT NULL DEFAULT '0' COMMENT 'Передано в игру',
+  `product_id` int(10) unsigned NOT NULL,
+  `moved_to_game` smallint(1) NOT NULL DEFAULT '0' COMMENT 'Передано в игру 0 - нет, 1 - да',
   `moved_to_game_date` datetime DEFAULT NULL,
-  `date` datetime NOT NULL,
+  `date_payment` datetime NOT NULL COMMENT 'Дата покупки',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users_warehouse
 -- ----------------------------
-INSERT INTO `users_warehouse` VALUES ('1', '1', '4037', 'stock', '1', '2', '0', '0', null, '2012-07-12 16:59:35');
-INSERT INTO `users_warehouse` VALUES ('2', '1', '7575', 'no_stock', '1', '20', '16', '0', null, '2012-07-12 16:59:50');
+INSERT INTO `users_warehouse` VALUES ('1', '1', '3', '0', null, '2012-07-13 12:29:24');
+INSERT INTO `users_warehouse` VALUES ('2', '1', '2', '0', null, '2012-07-13 12:29:24');
+INSERT INTO `users_warehouse` VALUES ('3', '1', '1', '1', '2012-07-13 17:41:53', '2012-07-13 12:29:24');
+INSERT INTO `users_warehouse` VALUES ('4', '1', '3', '0', null, '2012-07-13 17:06:57');
+INSERT INTO `users_warehouse` VALUES ('5', '1', '2', '0', null, '2012-07-13 17:06:57');
+INSERT INTO `users_warehouse` VALUES ('6', '1', '1', '1', '2012-07-13 17:42:45', '2012-07-13 17:06:57');
+INSERT INTO `users_warehouse` VALUES ('7', '1', '3', '0', null, '2012-07-13 17:07:02');
+INSERT INTO `users_warehouse` VALUES ('8', '1', '2', '0', null, '2012-07-13 17:07:02');
+INSERT INTO `users_warehouse` VALUES ('9', '1', '1', '0', null, '2012-07-13 17:07:02');
+INSERT INTO `users_warehouse` VALUES ('10', '1', '3', '0', null, '2012-07-13 17:07:08');
+INSERT INTO `users_warehouse` VALUES ('11', '1', '2', '1', '2012-07-13 17:43:47', '2012-07-13 17:07:08');
+INSERT INTO `users_warehouse` VALUES ('12', '1', '1', '0', null, '2012-07-13 17:07:08');
+INSERT INTO `users_warehouse` VALUES ('13', '1', '4', '1', '2012-07-13 17:33:31', '2012-07-13 17:11:43');
+INSERT INTO `users_warehouse` VALUES ('14', '1', '6', '1', '2012-07-13 17:47:54', '2012-07-13 17:22:54');
+INSERT INTO `users_warehouse` VALUES ('15', '1', '4', '1', '2012-07-13 17:34:22', '2012-07-13 17:34:06');
 
 -- ----------------------------
 -- Table structure for `user_groups`

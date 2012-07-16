@@ -19,7 +19,7 @@
     <?php echo Message::info('Персонаж должен быть OFFLINE') ?>
     
     <?php echo Message::info('Передача предмета: :item_name в кол-ве: :item_count на сервер', array(
-        ':item_name'  => '<b>' . $item_info['name'] . '</b>',
+        ':item_name'  => '<b>' . $item_info['item_name'] . '</b>',
         ':item_count' => '<b>' . $item_info['count'] . '</b>',
     )) ?>
     

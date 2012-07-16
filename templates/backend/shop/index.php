@@ -12,8 +12,7 @@
     	<th width="39%">Название</th>
     	<th width="7%">Кол-во</th>
     	<th width="7%">Продано</th>
-    	<th width="15%">Дата старта</th>
-    	<th width="15%">Дата окончания</th>
+    	<th width="30%">Даты старта / окончания продаж</th>
     	<th width="8%">Статус</th>
     	<th width="4%"></th>
     </tr>
@@ -24,8 +23,7 @@
             	<td><?php echo $row['name'] ?> (<?php echo $row['item_id'] ?>) &nbsp;<i data-original-title="Описание" data-content="<?php echo ($row['description'] == '' ? lang('Описания нет') : $row['description']) ?>" rel="popover" class="icon-info-sign right"></i></td>
             	<td><?php echo $row['count'] ?></td>
             	<td><?php echo $row['count_sold'] ?></td>
-            	<td><?php echo ($row['date_start'] == '0000-00-00 00:00:00' ? 'не установлена' : $row['date_start']) ?></td>
-            	<td><?php echo ($row['date_stop'] == '0000-00-00 00:00:00' ? 'не установлена' : (db_date() > $row['date_stop'] ? '<span class="red">' . $row['date_stop'] . '</span>' : $row['date_stop'])) ?></td>
+            	<td><?php echo ($row['date_start'] == '0000-00-00 00:00:00' ? 'не установлена' : $row['date_start']) ?> / <?php echo ($row['date_stop'] == '0000-00-00 00:00:00' ? 'не установлена' : (db_date() > $row['date_stop'] ? '<span class="red">' . $row['date_stop'] . '</span>' : $row['date_stop'])) ?></td>
             	<td><?php echo ($row['allow'] ? '<span class="label label-success">Вкл</span>' : '<span class="label label-important">Выкл</span>') ?></td>
             	<td>
                     <div class="btn-toolbar">
