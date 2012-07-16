@@ -99,7 +99,8 @@ class Pages extends Controllers_Backend_Base
                     $page_data = $this->{$this->_model}->get_row($data_db_where);
                     
                     $this->cache->delete('pages/' . $page_data['page'] . '_' . $page_data['lang']);
-                    
+                    $this->cache->delete('page_in_menu');
+
                     $this->_data['message'] = Message::true('Страница сохранена');
                 }
                 else
@@ -133,6 +134,7 @@ class Pages extends Controllers_Backend_Base
                 if($this->{$this->_model}->add($data_db))
                 {
                     $this->_data['message'] = Message::true('Страница добавлена');
+                    $this->cache->delete('page_in_menu');
                 }
                 else
                 {
@@ -165,6 +167,7 @@ class Pages extends Controllers_Backend_Base
             $this->{$this->_model}->del($data_db_where, 1);
             
             $this->cache->delete('pages/' . $page_data['page'] . '_' . $page_data['lang']);
+            $this->cache->delete('page_in_menu');
         }
         
         $this->session->set_flashdata('message', Message::true('Страница удалена'));
@@ -198,6 +201,7 @@ class Pages extends Controllers_Backend_Base
             $this->{$this->_model}->edit($data_db, $data_db_where);
             
             $this->cache->delete('pages/' . $page_data['page'] . '_' . $page_data['lang']);
+            $this->cache->delete('page_in_menu');
         }
         
         $this->session->set_flashdata('message', Message::true('Страница ' . ($allow == 1 ? 'включена' : 'отключена')));
