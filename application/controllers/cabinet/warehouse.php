@@ -8,26 +8,25 @@ class Warehouse extends Controllers_Cabinet_Base
         parent::__construct();
         
         $this->load->model('users_warehouse_model');
+        $this->load->model('users_gifts_model');
     }
     
 	public function index()
 	{
         $per_page = (int) $this->config->item('warehouse_per_page');
         $page     = (int) get_segment_uri(3);
-        
+
         $user_id = $this->auth->get('user_id');
 
         $data_db_where = array(
             'user_id'       => $user_id,
             'moved_to_game' => '0',
-            'sent_gift_to'  => $user_id,
         );
 
-
         $count = $this->users_warehouse_model->get_count($data_db_where);
-        
+
         $this->load->library('pagination');
-        
+
         $this->pagination->initialize(array(
             'base_url'          => '/' . $this->language->get_lang() . 'cabinet/warehouse',
             'total_rows'        => $count,
@@ -35,15 +34,12 @@ class Warehouse extends Controllers_Cabinet_Base
             'page_query_string' => false,
             'uri_segment'       => uri_segment(3),
         ));
-        
-        
+
+        $this->_data['content']    = $this->users_warehouse_model->get_list($page, $per_page, $data_db_where);
         $this->_data['pagination'] = $this->pagination->create_links();
-        $this->_data['content']    = $this->users_warehouse_model->get_list($page, $per_page, $data_db_where, 'shop_products.created', 'DESC');
         $this->_data['count']      = $count;
-        prt($this->_data['content']);
-        // Подарки
-        //$this->_data['gifts'] = $this->users_gifts_model->get_list();
-        
+        $this->_data['gifts']      = $this->users_gifts_model->get_list(0, 0, array('users_gifts.to' => $user_id, 'users_gifts.status' => '0'));
+
 		$this->tpl(__CLASS__ . '/' . __FUNCTION__);
 	}
     
@@ -323,11 +319,8 @@ class Warehouse extends Controllers_Cabinet_Base
                 
                 
                 $data_db = array(
-                    'user_id' => $user_id,
-                    'item_id' => $gift_info['item_id'],
-                    'count'   => $gift_info['count'],
-                    'price'   => $gift_info['price'],
-                    'date'    => db_date(),
+                    'user_id'    => $user_id,
+                    'product_id' => $gift_info['shop_item_id'],
                 );
                 
                 $this->users_warehouse_model->add($data_db);
@@ -387,11 +380,11 @@ class Warehouse extends Controllers_Cabinet_Base
         
         // Проверка принадлежит ли предмет пользователю
         $data_db_where = array(
-            'user_id' => $this->auth->get('user_id'),
-            'id'      => $item_id,
+            'users_warehouse.user_id' => $this->auth->get('user_id'),
+            'users_warehouse.id'      => $item_id,
         );
 
-        $item_info = $this->users_warehouse_model->get_count($data_db_where);
+        $item_info = $this->users_warehouse_model->get_row($data_db_where);
 
         if(!$item_info)
         {
@@ -400,22 +393,21 @@ class Warehouse extends Controllers_Cabinet_Base
             return;
         }
 
-        //Меняю статус предмена на отправленный
+        // Удаляю предмен
+        $this->users_warehouse_model->del($data_db_where);
+
+        // Добавляю в подарки
         $data_db = array(
-            'sent_gift'      => '1',
-            'sent_gift_to'   => $friend_info['user_id'],
-            'sent_gift_date' => db_date(),
+            'to'           => $friend_info['user_id'],
+            'from'         => $this->auth->get('user_id'),
+            'date'         => db_date(),
+            'shop_item_id' => $item_info['product_id'],
         );
 
-        if($this->users_warehouse_model->edit($data_db, $data_db_where))
-        {
-            $this->_ajax_data['status'] = true;
-            $this->_ajax_data['message'] = Message::true('Ваш подарок отправлен');
-        }
-        else
-        {
-            $this->_ajax_data['message'] = Message::false('Ошибка! Обратитесь к Администратору');
-        }
+        $this->users_gifts_model->add($data_db, $data_db_where);
+
+        $this->_ajax_data['status'] = true;
+        $this->_ajax_data['message'] = Message::true('Ваш подарок отправлен');
 
         echo json_encode($this->_ajax_data);
     }

@@ -26,7 +26,7 @@
         <?php foreach($gifts as $gift) { ?>
             <tr>
                 <td><img src="<?php echo (file_exists(FCPATH . 'resources/images/items/' . $gift['item_id'] . '.gif') ? '/resources/images/items/' . $gift['item_id'] . '.gif' : '/resources/images/items/blank.gif') ?>" alt="" title="<?php echo $gift['name'] ?>" /></td>
-                <td><?php echo $gift['name'] ?> <span class="gift-ico"></span></td>
+                <td><?php echo $gift['name'] ?> <?php echo ($gift['grade'] != 'none' ? '<img src="/resources/images/grade/grade_' . $gift['grade'] . '.gif" style="margin: 0 0 0 5px;" />' : '') ?></td>
                 <td><?php echo $gift['login'] ?></td>
                 <td><font color="<?php echo definition_enchant_color($gift['enchant_level']) ?>"><?php echo $gift['enchant_level'] ?></font></td>
                 <td><?php echo number_format($gift['count'], 0, '', '.') ?></td>
@@ -78,7 +78,7 @@
         <?php } ?>
     <?php } else { ?>
         <tr>
-        	<td colspan="4"><?php echo lang('На складе пусто') ?></td>
+        	<td colspan="5"><?php echo lang('На складе пусто') ?></td>
         </tr>
     <?php } ?>
 </table>
