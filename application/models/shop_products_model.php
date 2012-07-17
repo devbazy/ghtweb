@@ -97,7 +97,7 @@ class Shop_products_model extends Crud
             $this->db->like($like);
         }
         
-        $this->db->select('shop_products.id,shop_products.item_id,shop_products.price,shop_products.count,shop_products.description,shop_products.created,shop_products.allow,(SELECT COUNT(id) FROM `' . $this->db->dbprefix . 'shop_product_payments` WHERE `' . $this->db->dbprefix . 'shop_product_payments`.`item_id` = ' . $this->db->dbprefix . 'shop_products.item_id) AS count_sold,shop_products.date_start,shop_products.date_stop,all_items.`name`,shop_products.enchant_level');
+        $this->db->select('shop_products.id,shop_products.item_id,shop_products.price,shop_products.count,shop_products.date_start,shop_products.date_stop,shop_products.description,shop_products.category_id,shop_products.created,shop_products.allow,shop_products.enchant_level,shop_products.item_type,all_items.`name`,all_items.crystal_type as grade,(SELECT COUNT(0) FROM `shop_product_payments` WHERE shop_item_id = shop_products.id) as count_sold');
         
         $this->db->join('all_items', 'shop_products.item_id = all_items.item_id', 'left');
         

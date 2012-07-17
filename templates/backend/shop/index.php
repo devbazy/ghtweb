@@ -20,10 +20,10 @@
         <?php foreach($content as $row) { ?>
             <tr>
                 <td><img src="<?php echo (file_exists(FCPATH . 'resources/images/items/' . $row['item_id'] . '.gif') ? '/resources/images/items/' . $row['item_id'] . '.gif' : '/resources/images/items/blank.gif') ?>" alt="" title="<?php echo $row['name'] ?>" /></td>
-            	<td><?php echo $row['name'] ?> (<?php echo $row['item_id'] ?>) &nbsp;<i data-original-title="Описание" data-content="<?php echo ($row['description'] == '' ? lang('Описания нет') : $row['description']) ?>" rel="popover" class="icon-info-sign right"></i></td>
+            	<td><?php echo $row['name'] ?> (<?php echo $row['item_id'] ?>) <?php echo ($row['grade'] != 'none' ? '<img src="/resources/images/grade/grade_' . $row['grade'] . '.gif" style="margin: 0 0 0 5px;" />' : '') ?> &nbsp;<i data-original-title="Описание" data-content="<?php echo ($row['description'] == '' ? lang('Описания нет') : $row['description']) ?>" rel="popover" class="icon-info-sign right"></i></td>
             	<td><?php echo $row['count'] ?></td>
             	<td><?php echo $row['count_sold'] ?></td>
-            	<td><?php echo ($row['date_start'] == '0000-00-00 00:00:00' ? 'не установлена' : $row['date_start']) ?> / <?php echo ($row['date_stop'] == '0000-00-00 00:00:00' ? 'не установлена' : (db_date() > $row['date_stop'] ? '<span class="red">' . $row['date_stop'] . '</span>' : $row['date_stop'])) ?></td>
+            	<td><?php echo ($row['date_start'] == '0000-00-00 00:00:00' ? 'не установлена' : '<span class="label">' . $row['date_start']) ?></span> / <?php echo ($row['date_stop'] == '0000-00-00 00:00:00' ? 'не установлена' : (db_date() > $row['date_stop'] ? '<span class="label label-important">' . $row['date_stop'] . '</span>' : '<span class="label label-success">' . $row['date_stop'] . '</span>')) ?></td>
             	<td><?php echo ($row['allow'] ? '<span class="label label-success">Вкл</span>' : '<span class="label label-important">Выкл</span>') ?></td>
             	<td>
                     <div class="btn-toolbar">

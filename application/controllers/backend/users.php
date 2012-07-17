@@ -101,7 +101,7 @@ class Users extends Controllers_Backend_Base
         )); 
         
         $this->_data['pagination'] = $this->pagination->create_links();
-        $this->_data['content']    = $this->users_warehouse_model->get_list($page, $per_page, array('user_id' => $user_id), 'date', 'DESC');
+        $this->_data['content']    = $this->users_warehouse_model->get_list($page, $per_page, array('user_id' => $user_id), 'date_payment', 'DESC');
         $this->_data['count']      = $count;
         
         $this->_data['user_data'] = $this->users_model->get_row(array('user_id' => $user_id));
@@ -120,31 +120,49 @@ class Users extends Controllers_Backend_Base
             
             $this->form_validation->set_error_delimiters('', '<br />');
             
-            $this->form_validation->set_rules('user_id', '', 'required|integer');
-            $this->form_validation->set_rules('item_id', 'Название предмета', 'required|integer');
-            $this->form_validation->set_rules('count', 'Кол-во', 'required|integer');
-            
+            $this->form_validation->set_rules('user_id', '', 'required|is_natural_no_zero');
+            $this->form_validation->set_rules('item_id', 'Название предмета', 'required|is_natural_no_zero');
+            $this->form_validation->set_rules('count', 'Кол-во', 'required|is_natural_no_zero');
+            $this->form_validation->set_rules('enchant_level', 'Заточка', 'required|is_natural');
+            $this->form_validation->set_rules('item_type', 'Тип предмета', 'required|callback__check_item_type');
+
             if($this->form_validation->run())
             {
-                $item_id = (int) $this->input->post('item_id');
-                $count   = (int) $this->input->post('count');
-                $user_id = (int) $this->input->post('user_id');
-                
+                $item_id       = (int) $this->input->post('item_id');
+                $count         = (int) $this->input->post('count');
+                $user_id       = (int) $this->input->post('user_id');
+                $enchant_level = (int) $this->input->post('enchant_level');
+                $item_type     = (int) $this->input->post('item_type');
+
+                // Добавляю предмет
+                $data_db = array(
+                    'item_id'       => $item_id,
+                    'price'         => '0',
+                    'count'         => $count,
+                    'category_id'   => '0',
+                    'created'       => db_date(),
+                    'allow'         => '0',
+                    'enchant_level' => $enchant_level,
+                    'item_type'     => $item_type,
+                    'deleted'       => '1',
+                );
+
+                $this->load->model('shop_products_model');
+
+                $product_id = $this->shop_products_model->add($data_db);
+
+                // Добавляю предмет пользователю
+                $data_db = array(
+                    'user_id'      => $user_id,
+                    'product_id'   => $product_id,
+                    'date_payment' => db_date(),
+                );
+
                 $this->load->model('users_warehouse_model');
-                
-                $data_db = elements($this->users_warehouse_model->get_fields(), $this->input->post(), NULL);
-                
-                $data_db['date'] = db_date();
-                $data_db['price'] = '0';
-                
-                if($this->users_warehouse_model->add($data_db))
-                {
-                    $this->session->set_flashdata('message', Message::true('Предмет <b>' . $this->input->post('item_name') . '</b> добавлен'));
-                }
-                else
-                {
-                    $this->session->set_flashdata('message', Message::false('Ошибка! Не удалось записать данные в БД'));
-                }
+
+                $this->users_warehouse_model->add($data_db);
+
+                $this->session->set_flashdata('message', Message::true('Предмет <b>' . $this->input->post('item_name') . '</b> добавлен'));
             }
             
             if(validation_errors())
@@ -178,7 +196,7 @@ class Users extends Controllers_Backend_Base
         
         if($this->users_warehouse_model->del($data_db_where, 1))
         {
-            $this->session->set_flashdata('message', Message::true('Товар удален'));
+            $this->session->set_flashdata('message', Message::true('Предмет удален'));
         }
         else
         {

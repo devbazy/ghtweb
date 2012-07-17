@@ -58,6 +58,8 @@ $(function(){
                 <input type="hidden" name="user_id" value="<?php echo (int) get_segment_uri(4) ?>" />
                 <input type="text" name="item_name" id="item_name" class="" placeholder="Название предмета" />
                 <input type="text" name="count" class="span2" placeholder="Кол-во" />
+                <input type="text" name="enchant_level" class="span2" placeholder="Заточка" />
+                <?php echo form_dropdown('item_type', array_combine(array('stock', 'no_stock'), array('stock', 'no_stock')), set_value('item_type'), 'style="width: 100px"') ?>
                 <button class="btn btn-primary" type="submit" name="submit">Добавить предмет</button>
         </div>
     </fieldset>
@@ -66,26 +68,28 @@ $(function(){
 <table class="table table-striped table-bordered">
     <tr>
         <th width="5%"></th>
-        <th width="58%">Название</th>
+        <th width="48%">Название</th>
         <th width="12%">Находится</th>
         <th width="10%">Кол-во</th>
+        <th width="10%">Заточка</th>
         <th width="10%">Цена покупки</th>
         <th width="6%"></th>
     </tr>
     <?php if($content) { ?>
         <?php foreach($content as $row) { ?>
             <tr>
-                <td><img src="<?php echo (file_exists(FCPATH . 'resources/images/items/' . $row['item_id'] . '.gif') ? '/resources/images/items/' . $row['item_id'] . '.gif' : '/resources/images/items/blank.gif') ?>" alt="" title="<?php echo $row['name'] ?>" /></td>
-                <td><?php echo $row['name'] ?></td>
+                <td><img src="<?php echo (file_exists(FCPATH . 'resources/images/items/' . $row['item_id'] . '.gif') ? '/resources/images/items/' . $row['item_id'] . '.gif' : '/resources/images/items/blank.gif') ?>" alt="" title="<?php echo $row['item_name'] ?>" /></td>
+                <td><?php echo $row['item_name'] ?> <?php echo ($row['grade'] != 'none' ? '<img src="/resources/images/grade/grade_' . $row['grade'] . '.gif" style="margin: 0 0 0 5px;" />' : '') ?></td>
                 <td><?php echo ($row['moved_to_game'] ? '<span class="green">В игре <i class="icon-info-sign right" rel="popover" data-content="' . $row['moved_to_game_date'] . '" data-original-title="Когда перенес в игру"></i></span>' : 'На складе') ?></td>
                 <td><?php echo number_format($row['count'], 0, '', '.') ?></td>
+                <td><font color="<?php echo definition_enchant_color($row['enchant_level']) ?>"><?php echo $row['enchant_level'] ?></font></td>
                 <td><?php echo number_format($row['price'], 0, '', '.') ?></td>
                 <td>
                     <div class="btn-toolbar" style="margin: 0;">
                         <div class="btn-group">
                             <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle"><span class="caret"></span></button>
                             <ul class="dropdown-menu">
-                                <li><a href="/backend/users/del_warehouse_item/<?php echo (int) get_segment_uri(4) ?>/<?php echo $row['id'] ?>/" class="delete"><i class="icon-trash"></i> Удалить</a></li>
+                                <li><a href="/backend/users/del_warehouse_item/<?php echo (int) get_segment_uri(4) ?>/<?php echo $row['id'] ?>/" class="delete"><i class="icon-trash"></i> Удалить из склада</a></li>
                             </ul>
                         </div><!-- /btn-group -->
                     </div>
@@ -94,7 +98,7 @@ $(function(){
         <?php } ?>
     <?php } else { ?>
         <tr>
-        	<td colspan="4"><?php echo lang('На складе пусто') ?></td>
+        	<td colspan="7"><?php echo lang('На складе пусто') ?></td>
         </tr>
     <?php } ?>
 </table>

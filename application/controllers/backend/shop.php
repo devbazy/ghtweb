@@ -60,17 +60,17 @@ class Shop extends Controllers_Backend_Base
         
         $data_db_like = array();
         
-        $search_fields = array('item_id' => 'shop_product_payments.item_id', 'login' => 'users.login', 'price' => 'shop_product_payments.price');
-        
+        $search_fields = array('item_id' => 'shop_products.item_id', 'login' => 'users.login', 'price' => 'shop_products.price');
+
         // Поиск
         if($this->input->get())
         {
             $get = $this->input->get();
-            
+
             foreach($get as $key => $val)
             {
                 $val = trim($val);
-                
+
                 if(isset($search_fields[$key]) && $val != '')
                 {
                     $key = ($search_fields[$key] != '' ? $search_fields[$key] : $key);
@@ -78,8 +78,12 @@ class Shop extends Controllers_Backend_Base
                 }
             }
         }
+
+        $data_db_where = array(
+            'deleted' => '0',
+        );
         
-        $count = $this->shop_product_payments_model->get_count(NULL, $data_db_like);
+        $count = $this->shop_product_payments_model->get_count($data_db_where, $data_db_like);
         
         // Пагинация
         $this->load->library('pagination');
@@ -92,7 +96,7 @@ class Shop extends Controllers_Backend_Base
         $this->_data['pagination'] = $this->pagination->create_links();
         
         
-        $this->_data['content']  = $this->shop_product_payments_model->get_list($page, $per_page, NULL, 'date', 'DESC', $data_db_like);
+        $this->_data['content']  = $this->shop_product_payments_model->get_list($page, $per_page, $data_db_where, 'date', 'DESC', $data_db_like);
         $this->_data['count']    = $count;
         $this->_data['per_page'] = $per_page;
         
@@ -270,22 +274,6 @@ class Shop extends Controllers_Backend_Base
         }
         
         return $categories;
-    }
-
-    /**
-     * Проверка типа предмета
-     *
-     * @return boolean
-     */
-    public function _check_item_type()
-    {
-        if($this->input->post('item_type') != 'stock' && $this->input->post('item_type') != 'no_stock')
-        {
-            $this->form_validation->set_message('_check_item_type', 'Тип предмета выбран не верно');
-            return false;
-        }
-
-        return true;
     }
     
     /**

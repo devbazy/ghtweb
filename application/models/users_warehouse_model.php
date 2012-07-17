@@ -50,7 +50,7 @@ class Users_warehouse_model extends Crud
         }
 
         $this->db->select('users_warehouse.product_id,shop_products.item_id,shop_products.price,shop_products.count,shop_products.date_start,shop_products.date_stop,shop_products.description,shop_products.category_id,shop_products.created,shop_products.enchant_level,
-            shop_products.item_type,shop_categories.`name` AS category_name,all_items.`name` AS item_name,all_items.crystal_type AS grade,users_warehouse.id', false);
+            shop_products.item_type,shop_categories.`name` AS category_name,all_items.`name` AS item_name,all_items.crystal_type AS grade,users_warehouse.id,users_warehouse.moved_to_game,users_warehouse.moved_to_game_date', false);
 
 
         $this->db->join('shop_products', 'users_warehouse.product_id = shop_products.id', 'left');
@@ -68,7 +68,7 @@ class Users_warehouse_model extends Crud
             $this->db->where($where);
         }
 
-        $this->db->select('users_warehouse.product_id,shop_products.item_id,shop_products.price,shop_products.count,shop_products.date_start,shop_products.date_stop,shop_products.description,shop_products.category_id,shop_categories.`name` AS category_name,
+        $this->db->select('users_warehouse.id,users_warehouse.product_id,shop_products.item_id,shop_products.price,shop_products.count,shop_products.date_start,shop_products.date_stop,shop_products.description,shop_products.category_id,shop_categories.`name` AS category_name,
             shop_products.enchant_level,shop_products.item_type,all_items.`name` AS item_name,all_items.crystal_type AS grade');
 
         $this->db->join('shop_products', 'users_warehouse.product_id = shop_products.id', 'left');

@@ -116,4 +116,20 @@ class Controllers_Backend_Base extends GW_Controller
         
         return true;
     }
+
+    /**
+     * Проверка типа предмета
+     *
+     * @return boolean
+     */
+    public function _check_item_type()
+    {
+        if($this->input->post('item_type') != 'stock' && $this->input->post('item_type') != 'no_stock')
+        {
+            $this->form_validation->set_message('_check_item_type', 'Тип предмета выбран не верно');
+            return false;
+        }
+
+        return true;
+    }
 }

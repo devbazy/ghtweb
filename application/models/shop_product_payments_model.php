@@ -27,9 +27,11 @@ class Shop_product_payments_model extends Crud
         {
             $this->db->like($like);
         }
-        
-        $this->db->join('all_items', '' . $this->_table . '.item_id = all_items.item_id', 'left');
-        $this->db->join('users', 'users.user_id = ' . $this->_table . '.user_id', 'left');
+
+        $this->db->join('shop_products', 'shop_product_payments.shop_item_id = shop_products.id', 'left');
+        $this->db->join('shop_categories', 'shop_products.category_id = shop_categories.id', 'left');
+        $this->db->join('all_items', 'shop_products.item_id = all_items.item_id', 'left');
+        $this->db->join('users', 'shop_product_payments.user_id = users.user_id', 'left');
         
         return $this->db->count_all_results($this->_table);
     }
@@ -60,10 +62,14 @@ class Shop_product_payments_model extends Crud
             $this->db->like($like);
         }
         
-        $this->db->select('shop_product_payments.item_id,shop_product_payments.price,shop_product_payments.user_id,all_items.`name`,shop_product_payments.date,shop_product_payments.count,users.login');
-        $this->db->join('all_items', '' . $this->_table . '.item_id = all_items.item_id', 'left');
-        $this->db->join('users', 'users.user_id = ' . $this->_table . '.user_id', 'left');
-        
+        $this->db->select('shop_product_payments.id,shop_products.item_id,shop_products.price,shop_products.count,shop_products.date_start,shop_products.date_stop,shop_products.description,shop_products.category_id,users.login,shop_product_payments.user_id,
+            shop_categories.`name` AS category_name,shop_products.created,shop_products.enchant_level,shop_products.item_type,shop_product_payments.user_ip,shop_product_payments.date,all_items.`name` AS item_name,all_items.crystal_type AS grade');
+
+        $this->db->join('shop_products', 'shop_product_payments.shop_item_id = shop_products.id', 'left');
+        $this->db->join('shop_categories', 'shop_products.category_id = shop_categories.id', 'left');
+        $this->db->join('all_items', 'shop_products.item_id = all_items.item_id', 'left');
+        $this->db->join('users', 'shop_product_payments.user_id = users.user_id', 'left');
+
         return $this->db->get($this->_table)
             ->result_array();
     }
@@ -81,9 +87,10 @@ class Shop_product_payments_model extends Crud
      */
     public function get_sales_products()
     {
-        return $this->db->select('shop_product_payments.item_id,Sum(' . $this->db->dbprefix . 'shop_product_payments.count) as sum,all_items.`name`')
-            ->join('all_items', 'shop_product_payments.item_id = all_items.item_id', 'left')
-            ->group_by('shop_product_payments.item_id')
+        return $this->db->select('shop_product_payments.date,shop_products.item_id,all_items.`name` AS item_name,Sum(shop_products.count) AS count,Sum(shop_products.price) AS sum')
+            ->join('shop_products', 'shop_product_payments.shop_item_id = shop_products.id', 'left')
+            ->join('all_items', 'shop_products.item_id = all_items.item_id', 'left')
+            ->group_by('shop_products.item_id')
             ->get($this->_table)
             ->result_array();
     }
@@ -91,6 +98,8 @@ class Shop_product_payments_model extends Crud
     /**
      * Список проданных товаров
      * Формирует данные для графика
+     *
+     * @return array
      */
     public function get_sales_products_for_graph()
     {
@@ -102,8 +111,9 @@ class Shop_product_payments_model extends Crud
         {
             foreach($data as $row)
             {
-                $result['name'][]    = $row['name'];
+                $result['name'][]    = $row['item_name'];
                 $result['item_id'][] = $row['item_id'];
+                $result['count'][]   = $row['count'];
                 $result['sum'][]     = $row['sum'];
             }
         }
