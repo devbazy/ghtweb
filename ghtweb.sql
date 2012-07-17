@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : openserver
+Source Server         : denwer
 Source Server Version : 50525
 Source Host           : localhost:3306
 Source Database       : ghtweb_v4.0.6
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2012-07-16 23:35:46
+Date: 2012-07-17 16:43:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -10367,15 +10367,11 @@ CREATE TABLE `logins` (
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `ixId` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of logins
 -- ----------------------------
-INSERT INTO `logins` VALUES ('1', 'acis_ls', '127.0.0.1', '2106', '127.0.0.1', '3306', 'root', '', 'acis_ls', '', '', '', 'acis', '1', 'sha1', '2012-07-02 13:52:26');
-INSERT INTO `logins` VALUES ('2', 'emurt_ls', '127.0.0.1', '2106', '127.0.0.1', '3306', 'root', '', 'emurt_ls', '', '', '', 'emurt', '1', 'sha1', '2012-07-02 13:56:02');
-INSERT INTO `logins` VALUES ('3', 'rt_ls', '127.0.0.1', '2106', '127.0.0.1', '3306', 'root', '', 'rt_ls', '', '', '', 'rt', '0', 'sha1', '2012-07-06 15:37:28');
-INSERT INTO `logins` VALUES ('4', 'l2jserver_ls', '127.0.0.1', '2107', '127.0.0.1', '3306', 'root', '', 'l2jserver_ls', '', '', '', 'l2jserver', '0', 'sha1', '2012-07-06 17:37:21');
 
 -- ----------------------------
 -- Table structure for `login_attempts`
@@ -10516,15 +10512,11 @@ CREATE TABLE `servers` (
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `ixId` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of servers
 -- ----------------------------
-INSERT INTO `servers` VALUES ('1', 'acis_gs', '127.0.0.1', '7777', '127.0.0.1', '3306', 'root', '', 'acis_gs', '', '', '', '1', 'acis', '1', '0', '1', '30', '1', '15', '1', '1', '1', '1', '1', '1', '1', '1', '1', '20', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2012-07-02 13:53:00');
-INSERT INTO `servers` VALUES ('2', 'emurt_gs', '127.0.0.1', '7777', '127.0.0.1', '3306', 'root', '', 'emurt_gs', '', '', '', '2', 'emurt', '1', '0', '1', '30', '1', '15', '1', '1', '1', '1', '1', '1', '1', '1', '1', '20', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2012-07-02 13:56:26');
-INSERT INTO `servers` VALUES ('3', 'rt_gs', '127.0.0.1', '7777', '127.0.0.1', '3306', 'root', '', 'rt_gs', '', '', '', '3', 'rt', '0', '0', '1', '30', '1', '15', '1', '1', '1', '1', '1', '1', '1', '1', '1', '20', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2012-07-06 15:37:55');
-INSERT INTO `servers` VALUES ('4', 'l2jserver_gs', '127.0.0.1', '7777', '127.0.0.1', '3306', 'root', '', 'l2jserver_gs', '', '', '', '4', 'l2jserver', '0', '0', '1', '30', '1', '15', '1', '1', '1', '1', '1', '1', '1', '1', '1', '20', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2012-07-06 17:38:00');
 
 -- ----------------------------
 -- Table structure for `settings`
@@ -10603,7 +10595,6 @@ INSERT INTO `settings` VALUES ('60', 'robokassa_allow', '0', 'Статус', nul
 INSERT INTO `settings` VALUES ('61', 'shop_items_sum', '10', 'Стоймость предмета', 'Сумма за единицу товара при пополнении баланса, в рублях', '19', 'input', null);
 INSERT INTO `settings` VALUES ('62', 'home_page_type', 'page', 'Контент главной', 'page - выводится любая из статических страниц, new - выводятся новости', '1', 'dropdown', 'page,news');
 INSERT INTO `settings` VALUES ('63', 'forgotten_password_re_time', '15', 'Повторное восстановление', 'Через сколько пользователь сможет повторно посстановить пароль если уже пытался восстановить. В минутах', '5', 'input', null);
-INSERT INTO `settings` VALUES ('70', 'lineage_sab_or_base_class', 'class_id', 'Какой класс', 'Выводить в статистике название класса персонажа: class_id - саб класс, base_class - базовый класс', '10', 'dropdown', 'class_id,base_class');
 INSERT INTO `settings` VALUES ('71', 'count_failed_login_attempts', '3', 'Кол-во неудачных попыток', 'Введите ко-во неудачных попыток входа в личный кабинет после которых пользователь будет заблокирован по IP', '1', 'input', null);
 INSERT INTO `settings` VALUES ('72', 'time_blocked_login_attempts', '15', 'Время блокировки', 'На сколько в минутах пользователь будет заблокирован', '1', 'input', null);
 
@@ -10681,17 +10672,11 @@ CREATE TABLE `shop_products` (
   `item_type` enum('no_stock','stock') NOT NULL DEFAULT 'stock',
   `deleted` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of shop_products
 -- ----------------------------
-INSERT INTO `shop_products` VALUES ('1', '57', '1', '500000', '2012-07-13 10:51:33', '2013-01-13 00:00:00', 'Монеты Адена', '3', '2012-07-13 11:52:20', '1', '0', 'stock', '0');
-INSERT INTO `shop_products` VALUES ('2', '6381', '10', '1', '2012-07-13 10:55:39', '2013-04-13 00:00:00', 'Драконик боты', '1', '2012-07-13 11:55:53', '1', '0', 'no_stock', '0');
-INSERT INTO `shop_products` VALUES ('3', '7575', '15', '1', '2012-07-13 11:11:20', '2013-05-13 00:00:00', 'Дракони лук +16', '1', '2012-07-13 12:11:37', '1', '16', 'no_stock', '0');
-INSERT INTO `shop_products` VALUES ('4', '4037', '3', '1', '2012-07-13 16:11:25', '2012-11-13 00:00:00', '', '3', '2012-07-13 17:11:35', '1', '0', 'stock', '0');
-INSERT INTO `shop_products` VALUES ('5', '10', '4', '1', '2012-07-13 16:17:17', '2013-03-14 00:00:00', '', '1', '2012-07-13 17:17:29', '1', '0', 'no_stock', '0');
-INSERT INTO `shop_products` VALUES ('6', '6358', '4', '1', '2012-07-13 16:17:17', '2013-03-14 00:00:00', '', '1', '2012-07-13 17:22:42', '1', '0', 'no_stock', '0');
 
 -- ----------------------------
 -- Table structure for `shop_product_payments`
@@ -10704,16 +10689,11 @@ CREATE TABLE `shop_product_payments` (
   `user_ip` varchar(20) NOT NULL,
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of shop_product_payments
 -- ----------------------------
-INSERT INTO `shop_product_payments` VALUES ('1', '1', '4', '127.0.0.1', '2012-07-16 23:57:15');
-INSERT INTO `shop_product_payments` VALUES ('2', '1', '6', '127.0.0.1', '2012-07-16 23:57:54');
-INSERT INTO `shop_product_payments` VALUES ('3', '1', '4', '127.0.0.1', '2012-07-16 23:57:54');
-INSERT INTO `shop_product_payments` VALUES ('4', '1', '6', '127.0.0.1', '2012-07-16 23:58:09');
-INSERT INTO `shop_product_payments` VALUES ('5', '1', '4', '127.0.0.1', '2012-07-17 00:24:17');
 
 -- ----------------------------
 -- Table structure for `teleports`
@@ -10763,13 +10743,31 @@ CREATE TABLE `users` (
   KEY `ixUser_id` (`user_id`),
   KEY `ixLogin` (`login`),
   KEY `ixCookie_hash` (`cookie_hash`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'admin', 'd93a5def7511da3d0f2d171d9c344e91', 'admin1@admin.ru', '1', null, null, '8f81bf56dfb59a3d83a70600a7dcaf23', 'sxkfyZazyNtcIBW', '413', '0', null, '0', null, '', '127.0.0.1', '2012-07-17 00:24:22', '2012-07-14 23:54:17', null, '2012-05-27 01:34:05', '1');
-INSERT INTO `users` VALUES ('2', 'test777', 'd93a5def7511da3d0f2d171d9c344e91', 'ghostik1@mail.ru', '1', null, null, 'f926341963a8feab38cb4756b9f049f9', 'zD4r3iaqaJarbl3', '0', '0', null, '0', null, null, '127.0.0.1', '2012-07-17 00:27:57', '2012-07-17 00:27:57', null, '2012-07-13 11:27:09', '2');
+INSERT INTO `users` VALUES ('1', 'admin', 'd93a5def7511da3d0f2d171d9c344e91', 'admin1@admin.ru', '1', null, null, '069e2f3e893160fd85befcba2a4ec999', 'sxkfyZazyNtcIBW', '1000', '0', null, '0', null, '', '127.0.0.1', '2012-07-17 17:25:55', '2012-07-17 17:25:55', null, '2012-05-27 01:34:05', '1');
+
+-- ----------------------------
+-- Table structure for `users_gifts`
+-- ----------------------------
+DROP TABLE IF EXISTS `users_gifts`;
+CREATE TABLE `users_gifts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `to` int(10) unsigned NOT NULL COMMENT 'ID Кому',
+  `from` int(10) unsigned NOT NULL COMMENT 'ID От кого',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '2 - товар не принят, 1 - товар принят, 0 - действия не было',
+  `date_status` datetime DEFAULT NULL COMMENT 'Дата действия с подарком',
+  `date` datetime NOT NULL,
+  `shop_item_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of users_gifts
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `users_on_server`
@@ -10784,17 +10782,11 @@ CREATE TABLE `users_on_server` (
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `ixUser_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users_on_server
 -- ----------------------------
-INSERT INTO `users_on_server` VALUES ('1', '1', '1', '1', 'c31c321', '2012-07-06 13:58:29');
-INSERT INTO `users_on_server` VALUES ('2', '1', '1', '1', '123456', '2012-07-06 13:59:57');
-INSERT INTO `users_on_server` VALUES ('3', '1', '3', '3', 'c321c21', '2012-07-06 15:39:03');
-INSERT INTO `users_on_server` VALUES ('4', '1', '3', '3', '123456', '2012-07-06 15:39:11');
-INSERT INTO `users_on_server` VALUES ('5', '1', '2', '2', '123456', '2012-07-11 17:37:31');
-INSERT INTO `users_on_server` VALUES ('6', '1', '1', '1', 'ghostik32', '2012-07-16 23:27:55');
 
 -- ----------------------------
 -- Table structure for `users_warehouse`
@@ -10804,20 +10796,15 @@ CREATE TABLE `users_warehouse` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `product_id` int(10) unsigned NOT NULL,
-  `sent_gift` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `sent_gift_to` int(10) unsigned DEFAULT NULL COMMENT 'ID Кому отправлен подарок',
-  `sent_gift_status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '2 - товар не принят, 1 - товар принят, 0 - действия не было',
-  `sent_gift_date` datetime DEFAULT NULL COMMENT 'Дата действия с подарком',
   `moved_to_game` smallint(1) NOT NULL DEFAULT '0' COMMENT 'Передано в игру 0 - нет, 1 - да',
   `moved_to_game_date` datetime DEFAULT NULL,
-  `date_payment` datetime NOT NULL COMMENT 'Дата покупки',
+  `date_payment` datetime DEFAULT NULL COMMENT 'Дата покупки',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users_warehouse
 -- ----------------------------
-INSERT INTO `users_warehouse` VALUES ('1', '1', '4', '1', '2', '0', '2012-07-17 00:25:07', '0', null, '2012-07-17 00:24:17');
 
 -- ----------------------------
 -- Table structure for `user_groups`
