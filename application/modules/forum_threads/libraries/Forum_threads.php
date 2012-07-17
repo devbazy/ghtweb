@@ -19,45 +19,45 @@ class Forum_threads
 
     public function __construct()
     {
-        static::$_CI =& get_instance();
+        self::$_CI =& get_instance();
     }
 
     public static function get()
     {
-        if(!static::$_CI->config->item('forum_threads_allow'))
+        if(!self::$_CI->config->item('forum_threads_allow'))
         {
             return lang('Модуль отключён');
         }
 
         // Cache
-        if(!($content = static::$_CI->cache->get('forum_threads')))
+        if(!($content = self::$_CI->cache->get('forum_threads')))
         {
-            static::$_CI->load->add_package_path(APPPATH . 'modules/forum_threads', true);
+            self::$_CI->load->add_package_path(APPPATH . 'modules/forum_threads', true);
 
             // Language
-            static::$_CI->lang->load('forum_threads');
+            self::$_CI->lang->load('forum_threads');
 
             // Config
-            static::init_config();
+            self::init_config();
 
             // Helper
-            static::$_CI->load->helper('text');
+            self::$_CI->load->helper('text');
 
 
-            if(!isset(static::$_types[static::$_config['forum_type']]))
+            if(!isset(self::$_types[self::$_config['forum_type']]))
             {
                 $content = lang('Тип форума не поддерживается');
             }
-            elseif(static::connect_db())
+            elseif(self::connect_db())
             {
-                $method = 'forum_' . static::$_config['forum_type'];
-                $content = static::$method();
+                $method = 'forum_' . self::$_config['forum_type'];
+                $content = self::$method();
 
                 foreach($content as $key => $row)
                 {
-                    $content[$key]['user_link']  = static::get_starter_link($row['starter_id'], $row['starter_name']);
-                    $content[$key]['theme_link'] = static::get_forum_link($row['id_topic'], $row['title'], $row['id_forum']);
-                    $content[$key]['start_date'] = date(static::$_config['forum_date_format'], $row['start_date']);
+                    $content[$key]['user_link']  = self::get_starter_link($row['starter_id'], $row['starter_name']);
+                    $content[$key]['theme_link'] = self::get_forum_link($row['id_topic'], $row['title'], $row['id_forum']);
+                    $content[$key]['start_date'] = date(self::$_config['forum_date_format'], $row['start_date']);
                 }
             }
             else
@@ -67,16 +67,16 @@ class Forum_threads
 
             $data_view = array(
                 'content'               => $content,
-                'forum_character_limit' => static::$_config['forum_character_limit'],
+                'forum_character_limit' => self::$_config['forum_character_limit'],
             );
 
-            $content = static::$_CI->load->view('forum_threads', $data_view, true);
+            $content = self::$_CI->load->view('forum_threads', $data_view, true);
 
-            static::$_CI->load->remove_package_path(APPPATH . 'modules/forum_threads', true);
+            self::$_CI->load->remove_package_path(APPPATH . 'modules/forum_threads', true);
 
-            if((int) static::$_CI->config->item('forum_cache_time'))
+            if((int) self::$_CI->config->item('forum_cache_time'))
             {
-                static::$_CI->cache->save('forum_threads', $content, static::$_CI->config->item('forum_cache_time') * 60);
+                self::$_CI->cache->save('forum_threads', $content, static::$_CI->config->item('forum_cache_time') * 60);
             }
         }
 
@@ -85,32 +85,32 @@ class Forum_threads
 
     private static function init_config()
     {
-        static::$_config = array(
-            'forum_per_page'        => (int) static::$_CI->config->item('forum_per_page'),        // Кол-во тем
-            'forum_host'            => static::$_CI->config->item('forum_host'),                  // Хост БД
-            'forum_user'            => static::$_CI->config->item('forum_user'),                  // Юзер БД
-            'forum_pass'            => static::$_CI->config->item('forum_pass'),                  // Пароль от БД
-            'forum_database'        => static::$_CI->config->item('forum_database'),              // Название БД
-            'forum_type'            => static::$_CI->config->item('forum_type'),                  // Тип форума
-            'forum_prefix'          => static::$_CI->config->item('forum_prefix'),                // Префикс таблиц
-            'forum_date_format'     => static::$_CI->config->item('forum_date_format'),           // Формат даты
-            'forum_link'            => static::$_CI->config->item('forum_link'),                  // Ссылка на форум
-            'forum_cache_time'      => (int) static::$_CI->config->item('forum_cache_time'),      // Время кэширования
-            'forum_character_limit' => (int) static::$_CI->config->item('forum_character_limit'), // Кол-во символов в названии темы
+        self::$_config = array(
+            'forum_per_page'        => (int) self::$_CI->config->item('forum_per_page'),        // Кол-во тем
+            'forum_host'            => self::$_CI->config->item('forum_host'),                  // Хост БД
+            'forum_user'            => self::$_CI->config->item('forum_user'),                  // Юзер БД
+            'forum_pass'            => self::$_CI->config->item('forum_pass'),                  // Пароль от БД
+            'forum_database'        => self::$_CI->config->item('forum_database'),              // Название БД
+            'forum_type'            => self::$_CI->config->item('forum_type'),                  // Тип форума
+            'forum_prefix'          => self::$_CI->config->item('forum_prefix'),                // Префикс таблиц
+            'forum_date_format'     => self::$_CI->config->item('forum_date_format'),           // Формат даты
+            'forum_link'            => self::$_CI->config->item('forum_link'),                  // Ссылка на форум
+            'forum_cache_time'      => (int) self::$_CI->config->item('forum_cache_time'),      // Время кэширования
+            'forum_character_limit' => (int) self::$_CI->config->item('forum_character_limit'), // Кол-во символов в названии темы
         );
 
-        static::$_config['forum_per_page'] = (static::$_config['forum_per_page'] > 0 ? static::$_config['forum_per_page'] : 5);
+        self::$_config['forum_per_page'] = (self::$_config['forum_per_page'] > 0 ? self::$_config['forum_per_page'] : 5);
     }
 
     private static function  connect_db()
     {
         $config = array(
-            'hostname' => static::$_config['forum_host'],
-            'username' => static::$_config['forum_user'],
-            'password' => static::$_config['forum_pass'],
-            'database' => static::$_config['forum_database'],
+            'hostname' => self::$_config['forum_host'],
+            'username' => self::$_config['forum_user'],
+            'password' => self::$_config['forum_pass'],
+            'database' => self::$_config['forum_database'],
             'dbdriver' => 'mysqli',
-            'dbprefix' => static::$_config['forum_prefix'],
+            'dbprefix' => self::$_config['forum_prefix'],
             'pconnect' => FALSE,
             'db_debug' => FALSE,
             'cache_on' => FALSE,
@@ -119,15 +119,15 @@ class Forum_threads
             'dbcollat' => 'utf8_general_ci',
         );
 
-        if(!(static::$_db = static::$_CI->load->database($config, true)))
+        if(!(self::$_db = self::$_CI->load->database($config, true)))
         {
-            static::set_error(lang('Не удалось подключиться к БД'));
+            self::set_error(lang('Не удалось подключиться к БД'));
             return false;
         }
 
-        if(!is_object(static::$_db->conn_id))
+        if(!is_object(self::$_db->conn_id))
         {
-            static::set_error(lang('Не удалось подключиться к БД'));
+            self::set_error(lang('Не удалось подключиться к БД'));
             return false;
         }
 
@@ -136,12 +136,12 @@ class Forum_threads
 
     private static function get_error()
     {
-        return static::$_error;
+        return self::$_error;
     }
 
     private static function set_error($text)
     {
-        static::$_error = $text;
+        self::$_error = $text;
     }
 
 
@@ -156,50 +156,50 @@ class Forum_threads
     */
     private static function forum_ipb()
     {
-        return static::$_db->select('tid AS id_topic,start_date,starter_name,starter_id,forum_id AS id_forum,title')
+        return self::$_db->select('tid AS id_topic,start_date,starter_name,starter_id,forum_id AS id_forum,title')
             ->from('topics')
             ->order_by('start_date', 'DESC')
-            ->limit(static::$_config['forum_per_page'])
+            ->limit(self::$_config['forum_per_page'])
             ->get()
             ->result_array();
     }
 
     private static function forum_phpbb()
     {
-        return static::$_db->select('topic_id AS id_topic,topic_time AS start_date,topic_first_poster_name AS starter_name,topic_poster AS starter_id,forum_id AS id_forum,topic_title AS title')
+        return self::$_db->select('topic_id AS id_topic,topic_time AS start_date,topic_first_poster_name AS starter_name,topic_poster AS starter_id,forum_id AS id_forum,topic_title AS title')
             ->from('topics')
             ->order_by('start_date', 'DESC')
-            ->limit(static::$_config['forum_per_page'])
+            ->limit(self::$_config['forum_per_page'])
             ->get()
             ->result_array();
     }
 
     private static function forum_smf()
     {
-        return static::$_db->select('id_topic,id_board AS id_forum,`subject` AS title,poster_time AS start_date,poster_name AS starter_name,id_member AS starter_id')
+        return self::$_db->select('id_topic,id_board AS id_forum,`subject` AS title,poster_time AS start_date,poster_name AS starter_name,id_member AS starter_id')
             ->from('messages')
             ->order_by('poster_time', 'DESC')
-            ->limit(static::$_config['forum_per_page'])
+            ->limit(self::$_config['forum_per_page'])
             ->get()
             ->result_array();
     }
     private static function forum_vanilla()
     {
-        return static::$_db->select('gdn_discussion.InsertUserID AS starter_id,gdn_discussion.DiscussionID AS id_forum,gdn_discussion.`Name` AS title,UNIX_TIMESTAMP(gdn_discussion.DateInserted) AS start_date,gdn_user.`Name` AS starter_name,gdn_discussion.CategoryID AS id_topic')
+        return self::$_db->select('gdn_discussion.InsertUserID AS starter_id,gdn_discussion.DiscussionID AS id_forum,gdn_discussion.`Name` AS title,UNIX_TIMESTAMP(gdn_discussion.DateInserted) AS start_date,gdn_user.`Name` AS starter_name,gdn_discussion.CategoryID AS id_topic')
             ->from('gdn_discussion')
             ->join('gdn_user', 'gdn_discussion.InsertUserID = gdn_user.UserID', 'left')
             ->order_by('gdn_discussion.DateInserted', 'DESC')
-            ->limit(static::$_config['forum_per_page'])
+            ->limit(self::$_config['forum_per_page'])
             ->get()
             ->result_array();
     }
 
     private static function forum_vBulletin()
     {
-        return static::$_db->select('forumid as id_topic, dateline AS start_date, postusername AS starter_name, lastposterid AS starter_id, threadid AS id_forum, title')
+        return self::$_db->select('forumid as id_topic, dateline AS start_date, postusername AS starter_name, lastposterid AS starter_id, threadid AS id_forum, title')
             ->from('thread')
             ->order_by('start_date', 'DESC')
-            ->limit(static::$_config['forum_per_page'])
+            ->limit(self::$_config['forum_per_page'])
             ->get()
             ->result_array();
     }
@@ -211,9 +211,9 @@ class Forum_threads
 
     private static function get_forum_link($id_topic, $title, $id_forum)
     {
-        $link = static::clear_link(static::$_config['forum_link']);
+        $link = self::clear_link(self::$_config['forum_link']);
 
-        switch(static::$_config['forum_type'])
+        switch(self::$_config['forum_type'])
         {
             case 'ipb':
                 $link .= 'index.php?/topic/' . $id_topic . '-' . $title . '/';
@@ -237,9 +237,9 @@ class Forum_threads
 
     private static function get_starter_link($user_id, $user_name)
     {
-        $link = static::clear_link(static::$_config['forum_link']);
+        $link = self::clear_link(self::$_config['forum_link']);
 
-        switch(static::$_config['forum_type'])
+        switch(self::$_config['forum_type'])
         {
             case 'ipb':
                 $link .= 'index.php?/user/' . $user_id . '-' . $user_name . '/';

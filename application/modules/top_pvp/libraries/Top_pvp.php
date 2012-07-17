@@ -9,37 +9,37 @@ class Top_pvp
 
     public function __construct()
     {
-        static::$_CI =& get_instance();
+        self::$_CI =& get_instance();
     }
 
     public static function get()
     {
-        if(!static::$_CI->config->item('top_pvp_allow'))
+        if(!self::$_CI->config->item('top_pvp_allow'))
         {
             return lang('Модуль отключён');
         }
 
         // Cache
-        if(!($content = static::$_CI->cache->get('top_pvp')))
+        if(!($content = self::$_CI->cache->get('top_pvp')))
         {
-            static::$_CI->load->add_package_path(APPPATH . 'modules/top_pvp', true);
+            self::$_CI->load->add_package_path(APPPATH . 'modules/top_pvp', true);
 
-            $server_id = static::$_CI->config->item('top_pvp_server_id');
-            $limit     = static::$_CI->config->item('top_pvp_per_page');
+            $server_id = self::$_CI->config->item('top_pvp_server_id');
+            $limit     = self::$_CI->config->item('top_pvp_per_page');
 
-            $content = static::$_CI->lineage->set_id($server_id)->set_type('servers')->get_top_pvp($limit);
+            $content = self::$_CI->lineage->set_id($server_id)->set_type('servers')->get_top_pvp($limit);
 
             $data_view = array(
                 'content' => $content,
             );
 
-            $content = static::$_CI->load->view('top_pvp', $data_view, true);
+            $content = self::$_CI->load->view('top_pvp', $data_view, true);
 
-            static::$_CI->load->remove_package_path(APPPATH . 'modules/top_pvp', true);
+            self::$_CI->load->remove_package_path(APPPATH . 'modules/top_pvp', true);
 
-            if((int) static::$_CI->config->item('top_pvp_cache_time'))
+            if((int) self::$_CI->config->item('top_pvp_cache_time'))
             {
-                static::$_CI->cache->save('top_pvp', $content, static::$_CI->config->item('top_pvp_cache_time') * 60);
+                self::$_CI->cache->save('top_pvp', $content, self::$_CI->config->item('top_pvp_cache_time') * 60);
             }
         }
 
