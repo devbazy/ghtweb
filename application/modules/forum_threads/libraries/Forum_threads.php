@@ -62,7 +62,7 @@ class Forum_threads
             }
             else
             {
-                $content = static::get_error();
+                $content = self::get_error();
             }
 
             $data_view = array(
@@ -76,7 +76,7 @@ class Forum_threads
 
             if((int) self::$_CI->config->item('forum_cache_time'))
             {
-                self::$_CI->cache->save('forum_threads', $content, static::$_CI->config->item('forum_cache_time') * 60);
+                self::$_CI->cache->save('forum_threads', $content, self::$_CI->config->item('forum_cache_time') * 60);
             }
         }
 
