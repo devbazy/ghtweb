@@ -238,7 +238,7 @@ class Users extends Controllers_Backend_Base
                 
                 if($this->input->post('password'))
                 {
-                    $data_db['password'] = password_encode($this->input->post('password', true));
+                    $data_db['password'] = $this->auth->password_encript($this->input->post('password', true));
                 }
                 else
                 {
