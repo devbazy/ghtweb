@@ -166,17 +166,33 @@ if(!function_exists('get_class_name_by_id'))
     function get_class_name_by_id($class_id = 0)
     {
         $class_id = (int) $class_id;
-        
-        if($class_id < 0)
-        {
-            return false;
-        }
-        
+
         $CI =& get_instance();
         
         $class_list = $CI->config->item('class_list', 'lineage');
-        
-        return (isset($class_list[$class_id]) ? $class_list[$class_id] : 'n/a');
+
+        return (isset($class_list[$class_id]['name']) ? $class_list[$class_id]['name'] : 'n/a');
+    }
+}
+
+/**
+ * Возвращает название расы
+ *
+ * @param integer $class_id
+ *
+ * @return string
+ */
+if(!function_exists('get_race_name_by_class_id'))
+{
+    function get_race_name_by_class_id($class_id)
+    {
+        $class_id = (int) $class_id;
+
+        $CI =& get_instance();
+
+        $class_list = $CI->config->item('class_list', 'lineage');
+
+        return (isset($class_list[$class_id]['race']) ? get_class_name_by_id($class_list[$class_id]['race']) : '');
     }
 }
 
