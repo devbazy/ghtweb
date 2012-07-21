@@ -5,3 +5,7 @@ online.txt
 */cache/*
 */cache/!index.html
 captcha/*.jpg
+*/tiny_mce/images/.thumbs/*.jpg
+*/tiny_mce/images/.thumbs/.db
+*/tiny_mce/images/*.jpg
+*/tiny_mce/files/.thumbs/.db

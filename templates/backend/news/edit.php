@@ -95,4 +95,4 @@
 <?php echo form_close() ?>
 
 
-<?php echo nicEdit(array('description', 'text')) ?>
+<?php echo get_wysiwyg($this->config->item('wysiwyg_editor_type'), array('description', 'text')) ?>

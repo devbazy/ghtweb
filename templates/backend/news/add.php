@@ -18,7 +18,7 @@
         <div class="control-group<?php echo (form_error('description') ? ' error' : '') ?>">
             <label for="description" class="control-label">Описание</label>
             <div class="controls">
-                <textarea name="description" id="description" style="width: 778px;" cols="30" rows="7" placeholder="Описание новости"><?php echo set_value('description') ?></textarea>
+                <textarea name="description" id="description" style="width: 780px; height: 300px;" cols="30"><?php echo set_value('description') ?></textarea>
                 <p class="help-block">Короткое описание новости</p>
                 <?php if(form_error('description')) { ?>
                     <p class="help-block"><?php echo form_error('description') ?></p>
@@ -28,7 +28,7 @@
         <div class="control-group<?php echo (form_error('text') ? ' error' : '') ?>">
             <label for="text" class="control-label">Текст</label>
             <div class="controls">
-                <textarea name="text" id="text" style="width: 778px;" cols="30" rows="7" placeholder="Текст новости"><?php echo set_value('text') ?></textarea>
+                <textarea name="text" id="text" style="width: 780px; height: 400px;"><?php echo set_value('text') ?></textarea>
                 <p class="help-block">Полное описание новости</p>
                 <?php if(form_error('text')) { ?>
                     <p class="help-block"><?php echo form_error('text') ?></p>
@@ -95,4 +95,4 @@
 <?php echo form_close() ?>
 
 
-<?php echo nicEdit(array('description', 'text')) ?>
+<?php echo get_wysiwyg($this->config->item('wysiwyg_editor_type'), array('description', 'text')) ?>

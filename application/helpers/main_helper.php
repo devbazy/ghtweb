@@ -148,6 +148,19 @@ if(!function_exists('uri_segment'))
     }
 }
 
+if(!function_exists('get_wysiwyg'))
+{
+    function get_wysiwyg($type, array $textareas = NULL)
+    {
+        if($type == 'nicEdit')
+        {
+            return nicEdit($textareas);
+        }
+
+        return tinymce($textareas);
+    }
+}
+
 if(!function_exists('nicEdit'))
 {
     function nicEdit(array $textareas = NULL)
@@ -193,9 +206,9 @@ if(!function_exists('get_templates'))
     }
 }
 
-if(!function_exists('tiny_mce'))
+if(!function_exists('tinymce'))
 {
-    function tiny_mce(array $textareas = NULL)
+    function tinymce(array $textareas = NULL)
     {
         $ta = '';
         

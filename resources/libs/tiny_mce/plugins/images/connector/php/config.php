@@ -9,11 +9,11 @@ define('DIR_FILES',		'/uploads/tiny_mce/files');
 
 
 //Высота и ширина картинки до которой будет сжато исходное изображение и создана ссылка на полную версию
-define('WIDTH_TO_LINK', 500);
-define('HEIGHT_TO_LINK', 500);
+define('WIDTH_TO_LINK', 600);
+define('HEIGHT_TO_LINK', 600);
 
 //Атрибуты которые будут присвоены ссылке (для скриптов типа lightbox)
-define('CLASS_LINK', 'lightview');
-define('REL_LINK', 'lightbox');
+define('CLASS_LINK', '');
+define('REL_LINK', '');
 
 date_default_timezone_set('Europe/Moscow');

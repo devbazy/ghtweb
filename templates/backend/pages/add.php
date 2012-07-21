@@ -28,7 +28,7 @@
         <div class="control-group<?php echo (form_error('text') ? ' error' : '') ?>">
             <label for="text" class="control-label">Текст</label>
             <div class="controls">
-                <textarea name="text" id="text" style="width: 778px;" cols="30" rows="7" placeholder="Текст новости"><?php echo set_value('text') ?></textarea>
+                <textarea name="text" id="text" style="width: 780px; height: 400px;"><?php echo set_value('text') ?></textarea>
                 <?php if(form_error('text')) { ?>
                     <p class="help-block"><?php echo form_error('text') ?></p>
                 <?php } ?>
@@ -108,4 +108,4 @@
 <?php echo form_close() ?>
 
 
-<?php echo nicEdit(array('text')) ?>
+<?php echo get_wysiwyg($this->config->item('wysiwyg_editor_type'), array('text')) ?>
