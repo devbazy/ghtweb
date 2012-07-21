@@ -19,7 +19,7 @@
     	<td><b>karma:</b> <?php echo $char_data['karma'] ?></td>
     	<td><b>pvpkills:</b> <?php echo $char_data['pvpkills'] ?></td>
     	<td><b>pkkills:</b> <?php echo $char_data['pkkills'] ?></td>
-    	<td><b>classid:</b> <?php echo get_class_name_by_id($char_data['class_id']) ?></td>
+    	<td><b>classid:</b> <?php echo get_class_name_by_id($char_data['base_class']) ?></td>
     </tr>
     <tr>
     	<td><b>title:</b> <?php echo ($char_data['title'] == '' ? 'нет' : $char_data['title']) ?></td>

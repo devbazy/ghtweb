@@ -340,4 +340,4 @@ $config['list_city'] = array(
 $config['password_type'] = array('sha1', 'wirlpool');
 
 // Типы серверов
-$config['types_of_servers'] = array('emurt', 'acis', 'rt', 'lucer', 'altdev', 'l2jserver', 'rebellion_it');
+$config['types_of_servers'] = array('emurt', 'acis', 'rt', 'lucer', 'altdev', 'l2jserver', 'rebellion_it', 'first_team_hf');

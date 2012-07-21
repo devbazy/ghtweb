@@ -129,7 +129,7 @@ class Lineage_l2jserver extends CI_Driver
         }
 
         $this->db->select('characters.account_name,characters.charId AS char_id,characters.char_name,characters.`level`,characters.maxHp,characters.curHp,characters.maxCp,characters.curCp,characters.maxMp,characters.curMp,characters.sex,characters.x,characters.y,
-            characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.title,characters.`online`,characters.onlinetime,
+            characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.base_class,characters.title,characters.`online`,characters.onlinetime,
             clan_data.clan_name,clan_data.clan_level,clan_data.reputation_score,clan_data.hasCastle,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id');
 
         $this->db->join('clan_data', 'characters.clanid = clan_data.clan_id', 'left');
@@ -305,7 +305,7 @@ class Lineage_l2jserver extends CI_Driver
     {
         return $this->db->select('clan_data.clan_id,clan_data.clan_name,clan_data.clan_level,clan_data.reputation_score,clan_data.hasCastle,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,characters.account_name,
             characters.charId AS char_id,characters.char_name,characters.`level`,characters.maxHp,characters.curHp,characters.maxCp,characters.curCp,characters.maxMp,characters.curMp,characters.sex,characters.x,characters.z,characters.y,characters.exp,
-            characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.title,characters.`online`,characters.onlinetime,(SELECT COUNT(0) FROM `characters` WHERE clanid = `clan_data`.`clan_id`) AS ccount')
+            characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.base_class,characters.title,characters.`online`,characters.onlinetime,(SELECT COUNT(0) FROM `characters` WHERE clanid = `clan_data`.`clan_id`) AS ccount')
 
             ->join('characters', 'clan_data.leader_id = characters.' . $this->char_id, 'left')
 
@@ -331,7 +331,7 @@ class Lineage_l2jserver extends CI_Driver
     {
         $this->db->select('characters.account_name,characters.charId AS char_id,characters.char_name,characters.`level`,characters.maxHp,characters.curHp,characters.maxCp,characters.curCp,characters.maxMp,
             characters.curMp,characters.sex,characters.x,characters.y,characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,
-            characters.race,characters.classid AS class_id,characters.title,characters.`online`,characters.onlinetime,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFort,
+            characters.race,characters.classid AS class_id,characters.base_class,characters.title,characters.`online`,characters.onlinetime,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFort,
             clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,clan_data.reputation_score,clan_data.clan_name,SUM(items.count) as adena');
 
         $this->db->order_by('adena', 'desc');

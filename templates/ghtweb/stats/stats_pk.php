@@ -13,7 +13,7 @@
             <?php foreach($content as $row) { ?>
                 <tr>
                     <td><font color="#9D6A1E"><?php echo $row['char_name'] ?></font><img src="/templates/<?php echo $this->config->item('template') ?>/images/<?php echo $row['sex'] ?>.png" alt="" style="margin: -3px 0 0 2px;">
-                        <p class="desc" style="font-size: 11px;"><?php echo get_class_name_by_id($row['class_id']) ?> [<?php echo $row['level'] ?>]</p></td>
+                        <p class="desc" style="font-size: 11px;"><?php echo get_class_name_by_id($row['base_class']) ?> [<?php echo $row['level'] ?>]</p></td>
                     <td><?php echo $row['pkkills'] ?></td>
                     <td><?php
                     $clan_link = $row['clan_name'];

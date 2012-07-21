@@ -1,8 +1,8 @@
 <?php
 
-class Lineage_lucer extends CI_Driver
+class Lineage_first_team_hf extends CI_Driver
 {
-    private $char_id = 'charId'; // characters
+    private $char_id = 'obj_Id'; // characters
 
 
 
@@ -81,7 +81,7 @@ class Lineage_lucer extends CI_Driver
             $this->db->where_in($where_in_field, $where_in);
         }
 
-        $this->db->select('login,password,lastactive as last_active');
+        $this->db->select('login,password,last_access AS last_active');
 
         if($limit == 1)
         {
@@ -128,19 +128,42 @@ class Lineage_lucer extends CI_Driver
             $this->db->where_in($where_in_field, $where_in);
         }
 
-        $this->db->select('characters.account_name,characters.charId AS char_id,characters.char_name,characters.`level`,characters.maxHp,characters.curHp,characters.maxCp,characters.curCp,
-            characters.maxMp,characters.curMp,characters.sex,characters.x,characters.y,characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,
-            characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.base_class,characters.title,characters.`online`,characters.onlinetime,clan_data.clan_name,clan_data.clan_level,
-            clan_data.hasCastle,clan_data.hasFort,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,clan_data.reputation_score');
+        $this->db->select('characters.account_name,characters.obj_Id AS char_id,characters.char_name,character_subclasses.`level`,character_subclasses.curHp,character_subclasses.curMp,character_subclasses.curCp,character_subclasses.maxHp,character_subclasses.maxMp,
+            character_subclasses.maxCp,characters.sex,characters.x,characters.y,characters.z,character_subclasses.exp,character_subclasses.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,character_subclasses.class_id as base_class,
+            characters.title,characters.`online`,characters.onlinetime,clan_subpledges.`name` AS clan_name,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFortress AS hasFort,clan_data.ally_id,ally_data.ally_name,
+            clan_subpledges.leader_id,clan_data.crest AS crest_id,clan_data.largecrest AS crest_large_id,ally_data.crest AS ally_crest_id,clan_data.reputation_score');
 
+        $this->db->join('character_subclasses', 'characters.obj_Id = character_subclasses.char_obj_id', 'left');
         $this->db->join('clan_data', 'characters.clanid = clan_data.clan_id', 'left');
+        $this->db->join('clan_subpledges', 'clan_data.clan_id = clan_subpledges.clan_id', 'left');
+        $this->db->join('ally_data', 'clan_data.ally_id = ally_data.ally_id', 'left');
+
+        $this->db->where('character_subclasses.isBase', 1);
+
+        $result = array();
 
         if($limit == 1)
         {
-            return $this->db->get('characters')->row_array();
+            $row = $this->db->get('characters')->row_array();
+
+            // Вставляю race
+            $row['race'] = get_race_by_class_id($row['base_class']);
+            $result = $row;
+        }
+        else
+        {
+            $res = $this->db->get('characters')->result_array();
+
+            // Вставляю race
+            foreach($res as $key => $row)
+            {
+                $race = get_race_by_class_id($row['base_class']);
+                $row['race'] = $race;
+                $result[$key] = $row;
+            }
         }
 
-        return $this->db->get('characters')->result_array();
+        return $result;
     }
 
     public function get_characters_by_login($login, $limit = NULL, $offset = NULL)
@@ -280,16 +303,49 @@ class Lineage_lucer extends CI_Driver
 
     public function get_count_race_by_id($race_id)
     {
-        return $this->get_count_row(array('race' => $race_id), NULL, 'characters');
+        $characters = $this->get_characters();
+
+        $count = 0;
+
+        foreach($characters as $character)
+        {
+            $race = get_race_by_class_id($character['base_class']);
+
+            if($race == $race_id)
+            {
+                $count++;
+            }
+        }
+
+        return $count;
     }
 
     public function get_count_races_group_race()
     {
-        $this->db->select('race,SUM(characters.`online`) as `online`,COUNT(race) as `count`');
-        $this->db->where_in('race', range(0, 5));
-        $this->db->group_by('race');
-        return $this->db->get('characters')
-            ->result_array();
+        $characters = $this->get_characters();
+
+        $result = array();
+
+        foreach($characters as $character)
+        {
+            $race = get_race_by_class_id($character['base_class']);
+
+            if(isset($result[$race]['count']))
+            {
+                $result[$race]['count']++;
+                $result[$race]['online'] += ($character['online'] == 1 ? 1 : 0);
+            }
+            else
+            {
+                $result[$race] = array(
+                    'count'  => 1,
+                    'online' => ($character['online'] == 1 ? 1 : 0),
+                    'race'   => $race,
+                );
+            }
+        }
+
+        return $result;
     }
 
     public function get_top_pvp($limit = NULL)
@@ -304,20 +360,31 @@ class Lineage_lucer extends CI_Driver
 
     public function get_top_clans($limit = NULL)
     {
-        return $this->db->select('clan_data.clan_id,clan_data.clan_name,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFort,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,
-            clan_data.crest_large_id,clan_data.ally_crest_id,clan_data.reputation_score,characters.account_name,characters.charId AS char_id,characters.char_name,characters.`level`,
-            characters.maxHp,characters.curHp,characters.maxCp,characters.curCp,characters.maxMp,characters.curMp,characters.sex,characters.x,characters.y,characters.z,characters.exp,
-            characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.race,characters.classid AS class_id,characters.base_class,characters.title,characters.`online`,characters.onlinetime,(SELECT COUNT(0) FROM `characters` WHERE clanid = clan_data.clan_id) as ccount')
+        $res = $this->db->select('clan_data.clan_id,clan_subpledges.`name` AS clan_name,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFortress AS hasFort,clan_data.ally_id,ally_data.ally_name,clan_subpledges.leader_id,
+            clan_data.crest AS crest_id,clan_data.largecrest AS crest_large_id,ally_data.crest AS ally_crest_id,clan_data.reputation_score,characters.account_name,characters.char_name,
+            character_subclasses.`level`,character_subclasses.maxHp,character_subclasses.curHp,character_subclasses.maxMp,character_subclasses.curMp,character_subclasses.maxCp,character_subclasses.curCp,
+            characters.sex,characters.x,characters.y,characters.z,character_subclasses.exp,character_subclasses.sp,characters.karma,characters.pvpkills,characters.pkkills,character_subclasses.class_id as base_class,
+            characters.title,characters.`online`,characters.onlinetime,(SELECT COUNT(0) FROM `characters` WHERE clanid = `clan_data`.`clan_id`) AS ccount')
 
-            ->join('characters', 'clan_data.leader_id = characters.' . $this->char_id, 'left')
+            ->join('clan_subpledges', 'clan_data.clan_id = clan_subpledges.clan_id', 'left')
+            ->join('ally_data', 'clan_data.ally_id = ally_data.ally_id', 'left')
+            ->join('characters', 'clan_subpledges.leader_id = characters.' . $this->char_id, 'left')
+            ->join('character_subclasses', 'characters.obj_Id = character_subclasses.char_obj_id', 'left')
 
-            ->group_by('characters.clanid')
+            ->group_by('characters.' . $this->char_id)
             ->order_by('clan_data.clan_level', 'DESC')
             ->order_by('clan_data.reputation_score', 'DESC')
+            ->where('character_subclasses.isBase', 1)
             ->limit($limit)
-
             ->get('clan_data')
             ->result_array();
+
+        foreach($res as $key => $row)
+        {
+            $res[$key]['race'] = get_race_by_class_id($row['base_class']);
+        }
+
+        return $res;
     }
 
     public function get_top_online($limit = 10)
@@ -332,29 +399,45 @@ class Lineage_lucer extends CI_Driver
 
     public function get_top_rich($limit = 10)
     {
-        $this->db->select('characters.account_name,characters.charId AS char_id,characters.char_name,characters.`level`,characters.maxHp,characters.curHp,characters.maxCp,characters.curCp,characters.maxMp,
-            characters.curMp,characters.sex,characters.x,characters.y,characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,
-            characters.race,characters.classid AS class_id,characters.base_class,characters.title,characters.`online`,characters.onlinetime,clan_data.clan_name,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFort,
-            clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,clan_data.reputation_score,SUM(items.count) as adena');
+        $this->db->select('characters.account_name,characters.obj_Id AS char_id,characters.char_name,character_subclasses.`level`,character_subclasses.curHp,character_subclasses.curMp,character_subclasses.curCp,character_subclasses.maxHp,character_subclasses.maxMp,
+            character_subclasses.maxCp,characters.sex,characters.x,characters.y,characters.z,character_subclasses.exp,character_subclasses.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,
+            character_subclasses.class_id AS base_class,characters.title,characters.`online`,characters.onlinetime,clan_subpledges.`name` AS clan_name,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFortress AS hasFort,clan_data.ally_id,
+            ally_data.ally_name,clan_subpledges.leader_id,clan_data.crest AS crest_id,clan_data.largecrest AS crest_large_id,ally_data.crest AS ally_crest_id,clan_data.reputation_score,SUM(items.count) AS adena');
 
         $this->db->order_by('adena', 'desc');
         $this->db->group_by('characters.' . $this->char_id);
         $this->db->where('items.item_id', '57');
 
+        $this->db->join('character_subclasses', 'characters.obj_Id = character_subclasses.char_obj_id', 'left');
         $this->db->join('clan_data', 'characters.clanid = clan_data.clan_id', 'left');
-        $this->db->join('items', 'characters.' . $this->char_id . ' = items.owner_id', 'left');
+        $this->db->join('clan_subpledges', 'clan_data.clan_id = clan_subpledges.clan_id', 'left');
+        $this->db->join('ally_data', 'clan_data.ally_id = ally_data.ally_id', 'left');
+        $this->db->join('items', 'characters.obj_Id = items.owner_id', 'left');
 
-        return $this->db->get('characters', $limit)
+        $res = $this->db->get('characters', $limit)
             ->result_array();
+
+        $result = array();
+
+        foreach($res as $row)
+        {
+            $row['race'] = get_race_by_class_id($row['base_class']);
+            $result[] = $row;
+        }
+
+        return $result;
     }
 
     public function get_castles()
     {
-        $this->db->select('castle.id,castle.`name`,castle.taxPercent,castle.siegeDate,clan_data.clan_id,clan_data.clan_name,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFort,
-            clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,clan_data.reputation_score');
+        $this->db->select('castle.id,castle.`name`,castle.tax_percent AS taxPercent,castle.siege_date AS siegeDate,ally_data.crest AS ally_crest_id,clan_data.crest AS crest_id,clan_data.largecrest AS crest_large_id,clan_data.clan_level,clan_data.hasCastle,
+            clan_data.hasFortress AS hasFort,clan_data.ally_id,clan_data.reputation_score,ally_data.ally_name,clan_data.clan_id,clan_subpledges.`name` AS clan_name,clan_subpledges.leader_id');
 
-        $this->db->join('clan_data', 'clan_data.hasCastle = castle.id', 'left');
-        $this->db->order_by('id');
+        $this->db->join('clan_data', 'castle.id = clan_data.hasCastle', 'left');
+        $this->db->join('ally_data', 'clan_data.ally_id = ally_data.ally_id', 'left');
+        $this->db->join('clan_subpledges', 'clan_data.clan_id = clan_subpledges.clan_id', 'left');
+
+        $this->db->order_by('castle.id');
 
         return $this->db->get('castle')
             ->result_array();
@@ -362,11 +445,14 @@ class Lineage_lucer extends CI_Driver
 
     public function get_siege()
     {
-        $this->db->select('siege_clans.castle_id,siege_clans.clan_id,siege_clans.type,siege_clans.castle_owner,clan_data.clan_id,clan_data.clan_name,clan_data.clan_level,clan_data.hasCastle,
-            clan_data.hasFort,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,clan_data.reputation_score');
+        $this->db->select('siege_clans.residence_id AS castle_id,siege_clans.clan_id,siege_clans.type,IF(siege_clans.type = "attackers",1,2) AS type,clan_subpledges.`name` AS clan_name,clan_data.clan_level,clan_subpledges.leader_id,
+            clan_data.hasCastle,clan_data.hasFortress AS hasFort,clan_data.ally_id,clan_data.crest AS crest_id,clan_data.largecrest AS crest_large_id,ally_data.ally_name,ally_data.crest AS ally_crest_id,clan_data.reputation_score', false);
 
-        $this->db->where_in('castle_id', range(1, 9));
         $this->db->join('clan_data', 'siege_clans.clan_id = clan_data.clan_id', 'left');
+        $this->db->join('clan_subpledges', 'clan_data.clan_id = clan_subpledges.clan_id', 'left');
+        $this->db->join('ally_data', 'clan_data.ally_id = ally_data.ally_id', 'left');
+
+        $this->db->where_in('residence_id', range(1, 9));
 
         return $this->db->get('siege_clans')
             ->result_array();
@@ -374,8 +460,11 @@ class Lineage_lucer extends CI_Driver
 
     public function get_clan_by_id($clan_id)
     {
-        $this->db->select('clan_id,clan_name,clan_level,hasCastle,hasFort,leader_id,crest_id,crest_large_id,reputation_score');
-        $this->db->where('clan_id', $clan_id);
+        $this->db->select('clan_data.clan_id,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFortress AS hasFort,clan_subpledges.`name` AS clan_name,clan_subpledges.leader_id,clan_data.crest AS crest_id,clan_data.largecrest AS crest_large_id,clan_data.reputation_score');
+
+        $this->db->join('clan_subpledges', 'clan_data.clan_id = clan_subpledges.clan_id', 'left');
+
+        $this->db->where('clan_data.clan_id', $clan_id);
 
         return $this->db->get('clan_data')
             ->row_array();

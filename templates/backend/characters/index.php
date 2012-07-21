@@ -41,7 +41,7 @@
             	<td><?php echo $row['char_name'] ?> (<?php echo $row['level'] ?>)</td>
                 <td><a href="/backend/characters/<?php echo $this->_data['server_id'] ?>/characters_in_account/<?php echo $row['account_name'] ?>/" rel="tooltip" title="Посмотреть всех персонажей на аккаунте"><?php echo $row['account_name'] ?></a></td>
             	<td><?php echo ($row['clan_name'] == '' ? 'нет' : $row['clan_name']) ?></td>
-            	<td><?php echo get_class_name_by_id($row['class_id']) ?></td>
+            	<td><?php echo get_class_name_by_id($row['base_class']) ?></td>
                 <td><?php echo online_time($row['onlinetime']) ?></td>
                 <td><?php echo ($row['online'] ? '<span class="green">online</span>' : '<span class="red">offline</span>') ?></td>
                 <td>

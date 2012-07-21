@@ -130,7 +130,7 @@ class Lineage_altdev extends CI_Driver
 
         $this->db->select('characters.account_name,characters.obj_Id as char_id,characters.char_name,character_subclasses.`level`,character_subclasses.maxHp,character_subclasses.curHp,character_subclasses.maxCp,character_subclasses.curCp,character_subclasses.maxMp,
             character_subclasses.curMp,characters.sex,characters.x,characters.y,characters.z,character_subclasses.exp,character_subclasses.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,
-            char_templates.RaceId AS race,character_subclasses.class_id,characters.title,characters.`online`,characters.onlinetime,clan_subpledges.`name` AS clan_name,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFortress AS hasFort,
+            char_templates.RaceId AS race,character_subclasses.class_id as base_class,characters.title,characters.`online`,characters.onlinetime,clan_subpledges.`name` AS clan_name,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFortress AS hasFort,
             clan_data.ally_id,ally_data.ally_name,clan_subpledges.leader_id,clan_data.crest AS crest_id,clan_data.largecrest AS crest_large_id,ally_data.crest AS ally_crest_id,clan_data.reputation_score');
 
         $this->db->join('character_subclasses', 'characters.obj_Id = character_subclasses.char_obj_id', 'left');
@@ -138,6 +138,8 @@ class Lineage_altdev extends CI_Driver
         $this->db->join('clan_data', 'characters.clanid = clan_data.clan_id', 'left');
         $this->db->join('clan_subpledges', 'clan_data.clan_id = clan_subpledges.clan_id', 'left');
         $this->db->join('ally_data', 'clan_data.ally_id = ally_data.ally_id', 'left');
+
+        $this->db->where('character_subclasses.isBase', 1);
 
         if($limit == 1)
         {

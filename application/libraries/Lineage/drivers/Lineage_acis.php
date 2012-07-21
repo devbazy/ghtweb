@@ -129,7 +129,7 @@ class Lineage_acis extends CI_Driver
         }
 
         $this->db->select('characters.account_name,characters.obj_Id AS char_id,characters.char_name,characters.`level`,characters.maxHp,characters.curHp,characters.maxCp,characters.curCp,characters.maxMp,characters.curMp,characters.sex,characters.x,
-            characters.y,characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.title,characters.`online`,
+            characters.y,characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.base_class,characters.title,characters.`online`,
             characters.onlinetime,clan_data.clan_name,clan_data.clan_level,clan_data.reputation_score,clan_data.hasCastle,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id');
 
         $this->db->join('clan_data', 'characters.clanid = clan_data.clan_id', 'left');
@@ -305,7 +305,7 @@ class Lineage_acis extends CI_Driver
     {
         return $this->db->select('clan_data.clan_id,clan_data.clan_name,clan_data.clan_level,clan_data.reputation_score,clan_data.hasCastle,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,
 			characters.account_name,characters.obj_Id AS char_id,characters.char_name,characters.`level`,characters.maxHp,characters.curHp,characters.maxCp,characters.curMp,characters.curCp,characters.maxMp,characters.sex,characters.x,
-			characters.y,characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.race,characters.classid AS class_id,characters.title,characters.`online`,characters.onlinetime,(SELECT COUNT(0) FROM `characters` WHERE clanid = clan_data.clan_id) as ccount')
+			characters.y,characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.race,characters.classid AS class_id,characters.base_class,characters.title,characters.`online`,characters.onlinetime,(SELECT COUNT(0) FROM `characters` WHERE clanid = clan_data.clan_id) as ccount')
 
             ->join('characters', 'clan_data.leader_id = characters.' . $this->char_id, 'left')
 
@@ -331,7 +331,7 @@ class Lineage_acis extends CI_Driver
     public function get_top_rich($limit = 10)
     {
         $this->db->select('characters.account_name,characters.obj_Id AS char_id,characters.char_name,characters.`level`,characters.maxHp,characters.curHp,characters.maxCp,characters.curCp,characters.maxMp,characters.curMp,characters.sex,characters.x,characters.y,
-			characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.title,characters.`online`,characters.onlinetime,
+			characters.z,characters.exp,characters.sp,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,characters.race,characters.classid AS class_id,characters.base_class,characters.title,characters.`online`,characters.onlinetime,
 			clan_data.clan_name,clan_data.clan_level,clan_data.reputation_score,clan_data.hasCastle,clan_data.ally_id,clan_data.ally_name,clan_data.leader_id,clan_data.crest_id,clan_data.crest_large_id,clan_data.ally_crest_id,SUM(items.count) as adena');
 
         $this->db->order_by('adena', 'desc');

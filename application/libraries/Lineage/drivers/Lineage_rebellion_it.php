@@ -130,7 +130,7 @@ class Lineage_rebellion_it extends CI_Driver
 
         $this->db->select('characters.account_name,characters.obj_Id AS char_id,characters.char_name,character_subclasses.`level`,character_subclasses.maxHp,character_subclasses.curHp,character_subclasses.maxCp,character_subclasses.curCp,
             character_subclasses.maxMp,character_subclasses.curMp,characters.sex,characters.x,characters.y,characters.z,character_subclasses.exp,character_subclasses.sp,characters.karma,characters.pvpkills,characters.pkkills,
-            characters.clanid AS clan_id,char_templates.RaceId AS race,character_subclasses.class_id,characters.title,characters.`online`,characters.onlinetime,clan_data.clan_name,clan_data.clan_level,clan_data.hasCastle,
+            characters.clanid AS clan_id,char_templates.RaceId AS race,character_subclasses.class_id as base_class,,characters.title,characters.`online`,characters.onlinetime,clan_data.clan_name,clan_data.clan_level,clan_data.hasCastle,
             clan_data.hasFortress AS hasFort,clan_data.ally_id,ally_data.ally_name,clan_data.leader_id,clan_data.crest AS crest_id,clan_data.largecrest AS crest_large_id,ally_data.crest AS ally_crest_id,clan_data.reputation_score');
 
         $this->db->join('character_subclasses', 'characters.obj_Id = character_subclasses.char_obj_id', 'left');
@@ -251,18 +251,6 @@ class Lineage_rebellion_it extends CI_Driver
         return $res['online'];
     }
 
-    /*public function get_count_characters_online_group_race()
-    {
-        return $this->db->select('char_templates.RaceId AS race,SUM(characters.`online`) as `online`,COUNT(char_templates.RaceId) as `count`', false)
-            ->join('character_subclasses', 'characters.obj_Id = character_subclasses.char_obj_id', 'left')
-            ->join('char_templates', 'character_subclasses.class_id = char_templates.ClassId', 'left')
-            ->where_in('char_templates.RaceId', range(0, 5))
-            ->where('online', '1')
-            ->group_by('char_templates.RaceId')
-            ->get('characters')
-            ->result_array();
-    }*/
-
     public function get_count_online()
     {
         return $this->get_count_row(array('online' => '1'), NULL, 'characters');
@@ -355,7 +343,7 @@ class Lineage_rebellion_it extends CI_Driver
 
     public function get_top_rich($limit = 10)
     {
-        $this->db->select('characters.account_name,characters.obj_Id AS char_id,characters.char_name,character_subclasses.class_id,char_templates.RaceId AS race,character_subclasses.`level`,character_subclasses.exp,character_subclasses.sp,
+        $this->db->select('characters.account_name,characters.obj_Id AS char_id,characters.char_name,character_subclasses.class_id as base_class,char_templates.RaceId AS race,character_subclasses.`level`,character_subclasses.exp,character_subclasses.sp,
             character_subclasses.curHp,character_subclasses.curMp,character_subclasses.curCp,character_subclasses.maxHp,character_subclasses.maxMp,character_subclasses.maxCp,characters.sex,characters.x,characters.y,
             characters.z,characters.karma,characters.pvpkills,characters.pkkills,characters.clanid AS clan_id,characters.title,characters.`online`,characters.onlinetime,clan_data.clan_name,clan_data.clan_level,clan_data.hasCastle,
             clan_data.hasFortress AS hasFort,clan_data.ally_id,clan_data.leader_id,clan_data.crest AS crest_id,clan_data.largecrest AS crest_large_id,clan_data.reputation_score,ally_data.ally_name,ally_data.crest AS ally_crest_id,Sum(items.count) AS adena');

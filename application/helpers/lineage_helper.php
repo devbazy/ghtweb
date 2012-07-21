@@ -182,9 +182,9 @@ if(!function_exists('get_class_name_by_id'))
  *
  * @return string
  */
-if(!function_exists('get_race_name_by_class_id'))
+if(!function_exists('get_race_by_class_id'))
 {
-    function get_race_name_by_class_id($class_id)
+    function get_race_by_class_id($class_id, $return_name = false)
     {
         $class_id = (int) $class_id;
 
@@ -192,7 +192,7 @@ if(!function_exists('get_race_name_by_class_id'))
 
         $class_list = $CI->config->item('class_list', 'lineage');
 
-        return (isset($class_list[$class_id]['race']) ? get_class_name_by_id($class_list[$class_id]['race']) : '');
+        return (isset($class_list[$class_id]['race']) ? ($return_name ? get_class_name_by_id($class_list[$class_id]['race']) : $class_list[$class_id]['race']) : '');
     }
 }
 
