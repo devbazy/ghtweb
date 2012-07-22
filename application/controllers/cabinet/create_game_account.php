@@ -38,8 +38,13 @@ class Create_Game_Account extends Controllers_Cabinet_Base
                         $server_id = (int) ($this->input->post('server_id') ? $this->input->post('server_id') : $server_id);
                     }
 
+                    // Префикс для логина
+                    $this->load->helper('string');
+
+                    $prefix = random_string($this->config->item('game_account_prefix_type'), $this->config->item('game_account_prefix_length'));
+
                     $config   = $this->_l2_settings['servers'][$server_id];
-                    $login    = $this->input->post('login', true);
+                    $login    = $prefix . $this->config->item('game_account_prefix_separator') . $this->input->post('login', true);
                     $password = $this->input->post('password', true);
 
 
@@ -63,7 +68,9 @@ class Create_Game_Account extends Controllers_Cabinet_Base
 
                         $this->users_on_server_model->add($data_db);
 
-                        $this->_data['message'] = Message::true('Игровой аккаунт создан');
+                        $this->_data['message'] = Message::true('Игровой аккаунт :account создан', array(
+                            ':account' => $login,
+                        ));
                     }
                     else
                     {
